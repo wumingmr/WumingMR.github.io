@@ -4,6 +4,71 @@
   
   
   <entry>
+    <title>搜索cf验证</title>
+    <link href="/2024/12/10/%E6%90%9C%E7%B4%A2cf%E9%AA%8C%E8%AF%81/"/>
+    <url>/2024/12/10/%E6%90%9C%E7%B4%A2cf%E9%AA%8C%E8%AF%81/</url>
+    
+    <content type="html"><![CDATA[<p>搜索地址</p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@js:</span><br>java.<span class="hljs-built_in">put</span>(<span class="hljs-string">&quot;url&quot;</span>,<span class="hljs-built_in">String</span>(source.bookSourceUrl+<span class="hljs-string">&quot;/search.html?searchkey=&quot;</span>+key+<span class="hljs-string">&quot;,&quot;</span>+JSON.<span class="hljs-built_in">stringify</span>(&#123;<br><span class="hljs-string">&quot;headers&quot;</span>:&#123;<br>  <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Linux; Android 14; 2312DRAABC) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36&quot;</span>,<br>  <span class="hljs-string">&quot;webView&quot;</span>: true<br>&#125;&#125;)))<br></code></pre></td></tr></table></figure><p>书籍列表规则</p><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs applescript">&lt;js&gt;<br><span class="hljs-keyword">if</span>(<span class="hljs-literal">result</span>.match(/Just a moment/))&#123;<br>cookie.removeCookie(source.bookSourceUrl)<br>var x=java.<span class="hljs-keyword">get</span>(<span class="hljs-string">&quot;url&quot;</span>)<br>java.startBrowserAwait(x,<span class="hljs-string">&quot;xxx.com&quot;</span>)<br><span class="hljs-literal">result</span>=java.ajax(x)<br>&#125;<br><span class="hljs-literal">result</span><br>&lt;/js&gt;<br><span class="hljs-built_in">class</span>.pt-card pt-card<span class="hljs-number">-2</span>@li%%<span class="hljs-built_in">class</span>.baseinfo<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>js</tag>
+      
+      <tag>cf验证</tag>
+      
+      <tag>搜索</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>繁体转简体</title>
+    <link href="/2024/12/10/%E7%B9%81%E4%BD%93%E8%BD%AC%E7%AE%80%E4%BD%93/"/>
+    <url>/2024/12/10/%E7%B9%81%E4%BD%93%E8%BD%AC%E7%AE%80%E4%BD%93/</url>
+    
+    <content type="html"><![CDATA[<p><em>正文繁体直接转简体</em></p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@js:</span>java.<span class="hljs-built_in">t2s</span>(result)<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>繁体</tag>
+      
+      <tag>js</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ownText</title>
+    <link href="/2024/12/10/ownText/"/>
+    <url>/2024/12/10/ownText/</url>
+    
+    <content type="html"><![CDATA[<p>只获取元素自身的文本内容，不包含子元素文本</p><p>如</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;infos&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>租借娇妻：第九种爱情<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;date&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><br>            作者：<br>            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/savilletailor/author/%EF%BD%88%EF%BD%8F%EF%BD%8E%EF%BD%87%EF%BD%98%EF%BD%95%EF%BD%85%EF%BD%98%EF%BD%98%EF%BD%98/&quot;</span>&gt;</span>ｈｏｎｇｘｕｅｘｘｘ<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>        12小时前 <br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tags&quot;</span>&gt;</span><br>标签: <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;booktips&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/savilletailor/3144/42565.html&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;readnow&quot;</span>&gt;</span>在线阅读<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>     克?吐温说过：“有时候真实比小说更加荒诞”，如今我已深刻地体会到这句话了。 当我和妻子姜姝妍走进餐厅时，正撞见王贤朱被一位傲娇千金用水泼了一脸的狼狈模样。 那时我心里对王贤朱是嘲笑又怜悯，嘲笑的是他这种又矮又胖加猥琐好色的衰样估计这辈子都不会女人缘了，怜悯的是作为朋友我很同情他。 然而我绝对没有想到，仅仅4小时后我会把心爱的美丽妻子借给他，成为他的“租借女友”，还出谋划策帮他学习如何和我妻子谈恋爱 <br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure><p>使用.infos@ownText</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><br>克<span class="hljs-string">?吐</span>温说过：“有时候真实比小说更加荒诞”，如今我已深刻地体会到这句话了。 当我和妻子姜姝妍走进餐厅时，正撞见王贤朱被一位傲娇千金用水泼了一脸的狼狈模样。 那时我心里对王贤朱是嘲笑又怜悯，嘲笑的是他这种又矮又胖加猥琐好色的衰样估计这辈子都不会女人缘了，怜悯的是作为朋友我很同情他。 然而我绝对没有想到，仅仅<span class="hljs-number">4</span>小时后我会把心爱的美丽妻子借给他，成为他的“租借女友”，还出谋划策帮他学习如何和我妻子谈恋爱 <br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>书源制作笔记</tag>
+      
+      <tag>ownText</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2024/12/09/hello-world/"/>
     <url>/2024/12/09/hello-world/</url>
