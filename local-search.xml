@@ -4,97 +4,19 @@
   
   
   <entry>
-    <title>一月的无声.</title>
-    <link href="/2025/01/18/%E4%B8%80%E6%9C%88%E7%9A%84%E6%97%A0%E5%A3%B0/"/>
-    <url>/2025/01/18/%E4%B8%80%E6%9C%88%E7%9A%84%E6%97%A0%E5%A3%B0/</url>
+    <title>四月的谎言</title>
+    <link href="/2025/04/21/%E5%9B%9B%E6%9C%88%E7%9A%84%E8%B0%8E%E8%A8%80/"/>
+    <url>/2025/04/21/%E5%9B%9B%E6%9C%88%E7%9A%84%E8%B0%8E%E8%A8%80/</url>
     
-    <content type="html"><![CDATA[<p>无非是一月罢了</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>日常</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>搜索cf验证</title>
-    <link href="/2024/12/10/%E6%90%9C%E7%B4%A2cf%E9%AA%8C%E8%AF%81/"/>
-    <url>/2024/12/10/%E6%90%9C%E7%B4%A2cf%E9%AA%8C%E8%AF%81/</url>
-    
-    <content type="html"><![CDATA[<p>搜索地址</p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@js:</span><br>java.<span class="hljs-built_in">put</span>(<span class="hljs-string">&quot;url&quot;</span>,<span class="hljs-built_in">String</span>(source.bookSourceUrl+<span class="hljs-string">&quot;/search.html?searchkey=&quot;</span>+key+<span class="hljs-string">&quot;,&quot;</span>+JSON.<span class="hljs-built_in">stringify</span>(&#123;<br><span class="hljs-string">&quot;headers&quot;</span>:&#123;<br>  <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Linux; Android 14; 2312DRAABC) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36&quot;</span>,<br>  <span class="hljs-string">&quot;webView&quot;</span>: true<br>&#125;&#125;)))<br></code></pre></td></tr></table></figure><p>书籍列表规则</p><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs applescript">&lt;js&gt;<br><span class="hljs-keyword">if</span>(<span class="hljs-literal">result</span>.match(/Just a moment/))&#123;<br>cookie.removeCookie(source.bookSourceUrl)<br>var x=java.<span class="hljs-keyword">get</span>(<span class="hljs-string">&quot;url&quot;</span>)<br>java.startBrowserAwait(x,<span class="hljs-string">&quot;xxx.com&quot;</span>)<br><span class="hljs-literal">result</span>=java.ajax(x)<br>&#125;<br><span class="hljs-literal">result</span><br>&lt;/js&gt;<br><span class="hljs-built_in">class</span>.pt-card pt-card<span class="hljs-number">-2</span>@li%%<span class="hljs-built_in">class</span>.baseinfo<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>四月，春风轻拂，百花盛开，一切都显得那么生机勃勃。然而，在这个明媚的季节里，却隐藏着一段温柔而又残酷的谎言。</p><p>小雅是一个普通的女孩，性格内向，总是默默地观察着周围的一切。她喜欢四月，因为那是樱花盛开的季节，粉色的花瓣随风飘落，仿佛在诉说着某种不可言说的情感。小雅有一个秘密—she暗恋着同班的林然，那个总是带着阳光般笑容的男孩。</p><p>林然是班里的风云人物，成绩优异，性格开朗，身边总是围满了朋友。小雅从未想过自己能和他有任何交集，只能远远地注视着他，将这份感情深埋心底。然而，四月的一个午后，命运似乎开了一个玩笑。</p><p>那天，小雅在操场边看书，林然 неожиданно走了过来，笑着对她说：“嘿，小雅，听说你很擅长画画，能不能帮我画一幅樱花树的素描？我想送给我妹妹。”小雅愣住了，心跳加速，几乎不敢相信自己的耳朵。她点点头，声音低得几乎听不见：“好……好的。”</p><p>接下来的几天，小雅和林然因为这幅画而有了更多的接触。林然会主动找她讨论画的细节，甚至在课间陪她去校园里观察樱花树。小雅感到自己像是被春风包裹，幸福得几乎要飘起来。她开始幻想，也许林然对她也有那么一点点特别的感觉。</p><p>四月末，画终于完成了。那是一幅细腻的素描，樱花树下，风吹花落，美得令人心动。林然接过画，眼中满是惊喜，他笑着说：“小雅，你真的太棒了！谢谢你！我妹妹一定会喜欢的。”小雅鼓起勇气，小声问道：“林然……你为什么会找我帮忙呢？”</p><p>林然愣了一下，随即露出一个温和的笑容：“因为我知道你很用心，而且……我觉得你是个很特别的人。”这句话像一颗种子，瞬间在小雅心中生根发芽。她红着脸，低头不敢看他，心中却满是甜蜜。</p><p>然而，五月来临，樱花落尽，真相也随之揭开。偶然间，小雅听到林然和朋友的对话：“哈哈，其实我妹妹根本不喜欢画画，我只是看小雅平时太孤单，想找个理由跟她聊聊，帮她融入一下。”朋友笑着打趣：“你还真是好心啊，编出这么个谎言。”林然耸耸肩：“四月的谎言嘛，不伤人，只是让她开心一下。”</p><p>小雅站在角落，手中紧握着画笔，心像是被刺了一下。她明白，林然对她的“特别”，只是出于善意的怜悯。那一刻，甜蜜的幻想如樱花般飘落，只剩下一片空荡荡的寂寞。</p><p>四月的谎言，像春风一样温柔，却也像春雨一样冰冷。小雅没有责怪林然，她只是默默收起那份感情，将它埋在心底最深处。她开始试着和同学交流，试着走出自己的小世界。或许，林然的谎言，虽然残酷，却也让她学会了如何面对真实的自己。</p><p>四月过去了，樱花散尽，但小雅知道，有些谎言，终会成为成长的痕迹，留在记忆中，永远芬芳。</p>]]></content>
     
     
     
     <tags>
       
-      <tag>cf验证</tag>
-      
-      <tag>js</tag>
-      
-      <tag>搜索</tag>
+      <tag>野草</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>繁体转简体</title>
-    <link href="/2024/12/10/%E7%B9%81%E4%BD%93%E8%BD%AC%E7%AE%80%E4%BD%93/"/>
-    <url>/2024/12/10/%E7%B9%81%E4%BD%93%E8%BD%AC%E7%AE%80%E4%BD%93/</url>
-    
-    <content type="html"><![CDATA[<p><em>正文繁体直接转简体</em></p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@js:</span>java.<span class="hljs-built_in">t2s</span>(result)<br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>js</tag>
-      
-      <tag>繁体</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>ownText</title>
-    <link href="/2024/12/10/ownText/"/>
-    <url>/2024/12/10/ownText/</url>
-    
-    <content type="html"><![CDATA[<p>只获取元素自身的文本内容，不包含子元素文本</p><p>如</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;infos&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>租借娇妻：第九种爱情<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;date&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><br>            作者：<br>            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/savilletailor/author/%EF%BD%88%EF%BD%8F%EF%BD%8E%EF%BD%87%EF%BD%98%EF%BD%95%EF%BD%85%EF%BD%98%EF%BD%98%EF%BD%98/&quot;</span>&gt;</span>ｈｏｎｇｘｕｅｘｘｘ<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>        12小时前 <br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tags&quot;</span>&gt;</span><br>标签: <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;booktips&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/savilletailor/3144/42565.html&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;readnow&quot;</span>&gt;</span>在线阅读<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>     克?吐温说过：“有时候真实比小说更加荒诞”，如今我已深刻地体会到这句话了。 当我和妻子姜姝妍走进餐厅时，正撞见王贤朱被一位傲娇千金用水泼了一脸的狼狈模样。 那时我心里对王贤朱是嘲笑又怜悯，嘲笑的是他这种又矮又胖加猥琐好色的衰样估计这辈子都不会女人缘了，怜悯的是作为朋友我很同情他。 然而我绝对没有想到，仅仅4小时后我会把心爱的美丽妻子借给他，成为他的“租借女友”，还出谋划策帮他学习如何和我妻子谈恋爱 <br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure><p>使用.infos@ownText</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><br>克<span class="hljs-string">?吐</span>温说过：“有时候真实比小说更加荒诞”，如今我已深刻地体会到这句话了。 当我和妻子姜姝妍走进餐厅时，正撞见王贤朱被一位傲娇千金用水泼了一脸的狼狈模样。 那时我心里对王贤朱是嘲笑又怜悯，嘲笑的是他这种又矮又胖加猥琐好色的衰样估计这辈子都不会女人缘了，怜悯的是作为朋友我很同情他。 然而我绝对没有想到，仅仅<span class="hljs-number">4</span>小时后我会把心爱的美丽妻子借给他，成为他的“租借女友”，还出谋划策帮他学习如何和我妻子谈恋爱 <br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>书源制作笔记</tag>
-      
-      <tag>ownText</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2024/12/09/hello-world/"/>
-    <url>/2024/12/09/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
     
   </entry>
   
