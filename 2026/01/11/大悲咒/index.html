@@ -19,22 +19,22 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.安装 Cronie 和 Termux ServicesTermux 使用 cronie 作为 cron 的实现，并且推荐使用 termux-services 来管理后台服务（如 cron 守护进程 crond）。在 Termux 中运行以下命令来安装它们：    123pkg updatepkg upgradepkg install cronie termux-services2.确保脚本存在">
+    <meta name="description" content="往昔所造诸恶业 皆由无始贪嗔痴 从身语意之所生 今对佛前求忏悔 南无大悲观世音菩萨（*3） 南无大悲观世音愿我速知一切法 南无大悲观世音愿我早得智慧眼 南无大悲观世音愿我速度一切众 南无大悲观世音愿我早得善方便 南无大悲观世音愿我速乘般若船 南无大悲观世音愿我早得越苦海 南无大悲观世音愿我速得戒定道 南无大悲观世音愿我早登涅槃山 南无大悲观世音愿我速会无为舍 南无大悲观世音愿我早同法性身 我若向刀">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Termux定时任务">
-<meta property="og:url" content="http://wumingmr.github.io/2026/01/08/Termux%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/index.html">
+<meta property="og:title" content="大悲咒">
+<meta property="og:url" content="http://wumingmr.github.io/2026/01/11/%E5%A4%A7%E6%82%B2%E5%92%92/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="1.安装 Cronie 和 Termux ServicesTermux 使用 cronie 作为 cron 的实现，并且推荐使用 termux-services 来管理后台服务（如 cron 守护进程 crond）。在 Termux 中运行以下命令来安装它们：    123pkg updatepkg upgradepkg install cronie termux-services2.确保脚本存在">
+<meta property="og:description" content="往昔所造诸恶业 皆由无始贪嗔痴 从身语意之所生 今对佛前求忏悔 南无大悲观世音菩萨（*3） 南无大悲观世音愿我速知一切法 南无大悲观世音愿我早得智慧眼 南无大悲观世音愿我速度一切众 南无大悲观世音愿我早得善方便 南无大悲观世音愿我速乘般若船 南无大悲观世音愿我早得越苦海 南无大悲观世音愿我速得戒定道 南无大悲观世音愿我早登涅槃山 南无大悲观世音愿我速会无为舍 南无大悲观世音愿我早同法性身 我若向刀">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-01-07T18:12:33.000Z">
-<meta property="article:modified_time" content="2026-01-08T12:28:40.620Z">
+<meta property="article:published_time" content="2026-01-10T20:56:29.000Z">
+<meta property="article:modified_time" content="2026-01-10T20:57:03.457Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="termux">
+<meta property="article:tag" content="大悲咒">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Termux定时任务 - 无名小站</title>
+  <title>大悲咒 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Termux定时任务"></span>
+            <span id="subtitle" data-typed-text="大悲咒"></span>
           
         </div>
 
@@ -211,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-08 02:12" pubdate>
-          2026年1月8日 凌晨
+        <time datetime="2026-01-11 04:56" pubdate>
+          2026年1月11日 凌晨
         </time>
       </span>
     
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          795 字
+          1.2k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          7 分钟
+          10 分钟
         
       </span>
     
@@ -271,47 +271,206 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Termux定时任务</h1>
+            <h1 id="seo-header">大悲咒</h1>
             
             
               <div class="markdown-body">
                 
-                <p>1.安装 Cronie 和 Termux Services<br>Termux 使用 cronie 作为 cron 的实现，并且推荐使用 termux-services 来管理后台服务（如 cron 守护进程 crond）。<br>在 Termux 中运行以下命令来安装它们：<br>    <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pkg update<br>pkg upgrade<br>pkg <span class="hljs-keyword">install</span> cronie termux-services<br></code></pre></td></tr></table></figure><br>2.确保脚本存在且有执行权限</p>
-<ul>
-<li>给脚本添加可执行权限：<br>示例:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x ~/.termux/tasker/test.sh<br></code></pre></td></tr></table></figure></li>
-<li>建议： 在你的脚本文件的第一行，最好加上指定用哪个解释器执行，例如：  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br></code></pre></td></tr></table></figure></li>
-</ul>
-<p>3.启用并启动 Cron 服务<br>使用 termux-services 来启用并立即启动 crond 服务：<br>    <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">sv</span>-enable crond<br><span class="hljs-keyword">sv</span> <span class="hljs-keyword">up</span> crond<br></code></pre></td></tr></table></figure><br>你可以使用：sv status crond 来检查服务是否正在运行（应该显示 run: crond…）。<br>    <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">sv status crond</span><br></code></pre></td></tr></table></figure></p>
-<p>4.编辑 Crontab 添加定时任务</p>
-<ul>
-<li>运行 crontab -e 命令来编辑当前用户的 crontab 文件。第一次运行时，它可能会让你选择一个编辑器（如 nano 或 vim），选择你熟悉的即可（nano 对新手通常更友好）。  <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">crontab -e</span><br></code></pre></td></tr></table></figure></li>
-<li>示例在打开的编辑器中，添加任务：<ul>
-<li>*&#x2F;20: 代表“每隔 20 分钟”（在每小时的第 0, 20, 40 分钟执行）。</li>
-<li>* * * *: 代表“每小时、每天、每月、每周的每一天”。</li>
-<li>bash: 指定使用 bash 来执行脚本（即使脚本内部有解释器，显式指定通常更可靠）。</li>
-<li>$HOME&#x2F;.termux&#x2F;tasker&#x2F;test.sh: 要执行的脚本路径。在 crontab 中使用 $HOME 通常比 ~ 更可靠，它会被正确扩展为你的主目录。<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">*<span class="hljs-regexp">/20 * * * * bash $HOME/</span>.termux<span class="hljs-regexp">/tasker/</span>test.sh<br></code></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li>（推荐）添加日志记录： 为了方便调试，最好将脚本的输出重定向到一个日志文件。修改上面的行如下：<br>示例：<ul>
-<li>将脚本的标准输出 (stdout) 追加到 test.log 文件。</li>
-<li>2&gt;&amp;1: 将标准错误输出 (stderr) 也重定向到标准输出，这样错误信息也会被记录到同一个日志文件中。<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">*<span class="hljs-regexp">/20 * * * * bash $HOME/</span>.termux<span class="hljs-regexp">/tasker/</span>test.sh &gt;&gt; <span class="hljs-variable">$HOME</span><span class="hljs-regexp">/.termux/</span>tasker/test.log <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
-<li>保存并退出编辑器：<ul>
-<li>如果是 nano：按 Ctrl + X，然后按 Y 确认保存，最后按 Enter 确认文件名。</li>
-<li>如果是 vim：按 Esc 键，然后输入 :wq 并按 Enter。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>5.验证 Crontab<br>  你可以使用 crontab -l 命令来查看当前已保存的定时任务列表，确保你添加的行是正确的。<br>    <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">crontab -l</span><br></code></pre></td></tr></table></figure><br>6.重要提示：保持 Termux 在后台运行</p>
-<ul>
-<li>Cron 任务需要 crond 守护进程持续运行。而 crond 又依赖于 Termux 本身在后台运行。Android 系统的电池优化可能会强制关闭后台的 Termux 进程，导致定时任务无法执行。</li>
-<li>解决方法：<ul>
-<li>获取 Wake Lock： 在你准备让 Termux 在后台运行定时任务之前，在 Termux 中运行 termux-wake-lock 命令。这会持有一个唤醒锁，阻止设备在 Termux 运行时进入深度睡眠，并减少被系统杀死的概率。你需要保持这个持有唤醒锁的 Termux 会话（或者说，至少保持 Termux 应用本身不被完全杀死）。</li>
-<li>禁用电池优化： 在手机的系统设置 -&gt; 应用管理 -&gt; Termux -&gt; 电池用量（或类似名称）中，将电池优化设置为“不受限制”或“允许后台活动”。具体路径因 Android 版本和厂商而异。</li>
-</ul>
-</li>
-</ul>
+                <p>往昔所造诸恶业 皆由无始贪嗔痴</p>
+<p>从身语意之所生 今对佛前求忏悔</p>
+<p>南无大悲观世音菩萨（*3）</p>
+<p>南无大悲观世音愿我速知一切法</p>
+<p>南无大悲观世音愿我早得智慧眼</p>
+<p>南无大悲观世音愿我速度一切众</p>
+<p>南无大悲观世音愿我早得善方便</p>
+<p>南无大悲观世音愿我速乘般若船</p>
+<p>南无大悲观世音愿我早得越苦海</p>
+<p>南无大悲观世音愿我速得戒定道</p>
+<p>南无大悲观世音愿我早登涅槃山</p>
+<p>南无大悲观世音愿我速会无为舍</p>
+<p>南无大悲观世音愿我早同法性身</p>
+<p>我若向刀山刀山自摧折</p>
+<p>我若向火汤火汤自枯竭</p>
+<p>我若向地狱地狱自消灭</p>
+<p>我若向饿鬼饿鬼自饱满</p>
+<p>我若向修罗恶心自调伏</p>
+<p>我若向畜生自得大智慧</p>
+<p>南无观世音菩萨摩诃萨</p>
+<p>南无阿弥陀佛</p>
+<p>南无·喝啰怛那·哆啰夜耶</p>
+<p>ná mó · hé là dá nā · duō là yà yē</p>
+<p>南无·阿唎耶</p>
+<p>ná mó · ā lì yē</p>
+<p>婆卢羯帝·烁钵啰耶</p>
+<p>pó lú jié dì · shuò bō là yē</p>
+<p>菩提萨埵婆耶</p>
+<p>pú tí sà duǒ pó yē</p>
+<p>摩诃萨埵婆耶</p>
+<p>mó hē sà duǒ pó yē</p>
+<p>摩诃迦卢尼迦耶</p>
+<p>mó hē jiā lú ní jiā yē</p>
+<p>唵</p>
+<p>ōng</p>
+<p>萨皤啰罚曳</p>
+<p>sà pó là fá yì</p>
+<p>数怛那怛写</p>
+<p>shù dá nā dá xià</p>
+<p>南无悉吉利埵·伊蒙阿唎耶</p>
+<p>ná mó xī jí lì duǒ · yī méng ā lì yē</p>
+<p>婆卢吉帝·室佛啰楞驮婆</p>
+<p>pó lú jí dì · shì fó là léng tuó pó</p>
+<p>南无·那啰谨墀</p>
+<p>ná mó · nā là jǐn chí</p>
+<p>醯唎摩诃皤哆沙咩</p>
+<p>xī lì mó hē pó duō shā miē</p>
+<p>萨婆阿他·豆输朋</p>
+<p>sà pó ā tuō · dòu shū péng</p>
+<p>阿逝孕</p>
+<p>ā shì yùn</p>
+<p>萨婆萨哆·那摩婆萨哆·那摩婆伽</p>
+<p>sà pó sà duō · ná mó pó sà duō · ná mó pó qié</p>
+<p>摩罚特豆</p>
+<p>mó fá tè dòu</p>
+<p>怛侄他</p>
+<p>dá zhí tuō</p>
+<p>唵·阿婆卢醯</p>
+<p>ōng · ā pó lú xī</p>
+<p>卢迦帝</p>
+<p>lú jiā dì</p>
+<p>迦罗帝</p>
+<p>jiā luó dì</p>
+<p>夷醯唎</p>
+<p>yí xī lì</p>
+<p>摩诃菩提萨埵</p>
+<p>mó hē pú tí sà duǒ</p>
+<p>萨婆萨婆</p>
+<p>sà pó sà pó</p>
+<p>摩啰摩啰</p>
+<p>mó là mó là</p>
+<p>摩醯摩醯·唎驮孕</p>
+<p>mó xī mó xī · lì tuó yùn</p>
+<p>俱卢俱卢·羯蒙</p>
+<p>jù lú jù lú · jié méng</p>
+<p>度卢度卢·罚阇耶帝</p>
+<p>dù lú dù lú · fá shé yē dì</p>
+<p>摩诃罚阇耶帝</p>
+<p>mó hē fá shé yē dì</p>
+<p>陀啰陀啰</p>
+<p>tuó là tuó là</p>
+<p>地唎尼</p>
+<p>dì lì ní</p>
+<p>室佛啰耶</p>
+<p>shì fó là yē</p>
+<p>遮啰遮啰</p>
+<p>zhē là zhē là</p>
+<p>么么·罚摩啰</p>
+<p>mó mó · fá mó là</p>
+<p>穆帝隶</p>
+<p>mù dì lì</p>
+<p>伊醯伊醯</p>
+<p>yī xī yī xī</p>
+<p>室那室那</p>
+<p>shì nā shì nā</p>
+<p>阿啰嘇·佛啰舍利</p>
+<p>ā là shēn · fó là shě lì</p>
+<p>罚沙罚嘇</p>
+<p>fá shā fá shēn</p>
+<p>佛啰舍耶</p>
+<p>fó là shě yē</p>
+<p>呼卢呼卢摩啰</p>
+<p>hū lú hū lú mó là</p>
+<p>呼卢呼卢醯利</p>
+<p>hū lú hū lú xī lì</p>
+<p>娑啰娑啰</p>
+<p>suō là suō là</p>
+<p>悉唎悉唎</p>
+<p>xī lì xī lì</p>
+<p>苏嚧苏嚧</p>
+<p>sū lú sū lú</p>
+<p>菩提夜·菩提夜</p>
+<p>pú tí yè · pú tí yè</p>
+<p>菩驮夜·菩驮夜</p>
+<p>pú tuó yè · pú tuó yè</p>
+<p>弥帝利夜</p>
+<p>mí dì lì yè</p>
+<p>那啰谨墀</p>
+<p>nā là jǐn chí</p>
+<p>地利瑟尼那</p>
+<p>dì lì sè ní nà</p>
+<p>婆夜摩那</p>
+<p>pó yè mó nà</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>悉陀夜</p>
+<p>xī tuó yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>摩诃悉陀夜</p>
+<p>mó hē xī tuó yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>悉陀喻艺</p>
+<p>xī tuó yù yì</p>
+<p>室皤啰耶</p>
+<p>shì pó là yē</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>那啰谨墀</p>
+<p>nā là jǐn chí</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>摩啰那啰</p>
+<p>mó là nā là</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>悉啰僧·阿穆佉耶</p>
+<p>xī là sēng · ā mù qié yē</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>娑婆摩诃·阿悉陀夜</p>
+<p>suō pó mó hē · ā xī tuó yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>者吉啰·阿悉陀夜</p>
+<p>zhě jí là · ā xī tuó yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>波陀摩·羯悉陀夜</p>
+<p>bō tuó mó · jié xī tuó yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>那啰谨墀·皤伽啰耶</p>
+<p>nā là jǐn chí · pó qié là yē</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>摩婆利·胜羯啰夜</p>
+<p>mó pó lì · shèng jié là yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>南无喝啰怛那·哆啰夜耶</p>
+<p>ná mó hé là dá nā · duō là yè yē</p>
+<p>南无阿利耶</p>
+<p>ná mó ā lì yē</p>
+<p>婆嚧吉帝</p>
+<p>pó lú jí dì</p>
+<p>烁皤啰夜</p>
+<p>shuò pó là yè</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>唵·悉殿都</p>
+<p>ōng · xī diàn dū</p>
+<p>漫多啰</p>
+<p>màn duō là</p>
+<p>跋陀耶</p>
+<p>bá tuó yě</p>
+<p>娑婆诃</p>
+<p>suō pó hē</p>
+<p>愿以此功德 庄严佛净土 上报四重恩 下济三途苦</p>
+<p>若有见闻者 悉发菩提心 尽此一报身 同生极乐国</p>
+<p>十方三世一切佛 一切菩萨摩诃萨 摩诃般若波罗蜜</p>
+<p>自皈依佛，当愿众生体解大道，发无上心</p>
+<p>自皈依法，当愿众生深入经藏，智慧如海</p>
+<p>自皈依僧，当愿众生统理大众，一切无碍</p>
 
                 
               </div>
@@ -330,7 +489,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/termux/" class="category-chain-item">termux</a>
+  <a href="/categories/%E4%BD%9B%E6%95%99/" class="category-chain-item">佛教</a>
   
   
 
@@ -345,7 +504,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/termux/" class="print-no-link">#termux</a>
+        <a href="/tags/%E5%A4%A7%E6%82%B2%E5%92%92/" class="print-no-link">#大悲咒</a>
       
     </div>
   
@@ -357,8 +516,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Termux定时任务</div>
-      <div>http://wumingmr.github.io/2026/01/08/Termux定时任务/</div>
+      <div>大悲咒</div>
+      <div>http://wumingmr.github.io/2026/01/11/大悲咒/</div>
     </div>
     <div class="license-meta">
       
@@ -370,7 +529,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年1月8日</div>
+          <div>2026年1月11日</div>
         </div>
       
       
@@ -402,18 +561,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/11/%E5%BF%83%E7%BB%8F/" title="心经">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">心经</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/04/27/%E3%80%8A%E7%A9%BA%E5%AF%82%E3%80%8B/" title="《空寂》">
-                        <span class="hidden-mobile">《空寂》</span>
+                      <a href="/2026/01/11/%E5%BF%83%E7%BB%8F/" title="心经">
+                        <span class="hidden-mobile">心经</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
