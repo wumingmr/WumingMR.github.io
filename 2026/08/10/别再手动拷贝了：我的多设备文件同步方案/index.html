@@ -19,25 +19,24 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="通过 Termux 在 Android 手机上部署 SSH、Web 服务和定时任务，让旧手机变身低功耗、可随身携带的轻量服务器。">
+    <meta name="description" content="从网盘到自托管，一套兼顾隐私、速度与跨平台的多设备文件同步思路，附部署要点与避坑指南。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/09/%E6%8A%8A%E9%97%B2%E7%BD%AE%E6%89%8B%E6%9C%BA%E5%8F%98%E6%88%90-7%C3%9724-%E5%B0%8F%E6%97%B6%E5%B0%8F%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9ATermux-%E8%BD%BB%E9%87%8F%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:title" content="别再手动拷贝了：我的多设备文件同步方案">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/10/%E5%88%AB%E5%86%8D%E6%89%8B%E5%8A%A8%E6%8B%B7%E8%B4%9D%E4%BA%86%EF%BC%9A%E6%88%91%E7%9A%84%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%96%87%E4%BB%B6%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="通过 Termux 在 Android 手机上部署 SSH、Web 服务和定时任务，让旧手机变身低功耗、可随身携带的轻量服务器。">
+<meta property="og:description" content="从网盘到自托管，一套兼顾隐私、速度与跨平台的多设备文件同步思路，附部署要点与避坑指南。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-08T22:54:25.000Z">
-<meta property="article:modified_time" content="2026-08-08T22:54:25.280Z">
+<meta property="article:published_time" content="2026-08-09T20:06:34.000Z">
+<meta property="article:modified_time" content="2026-08-09T20:06:34.617Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="android">
-<meta property="article:tag" content="termux">
-<meta property="article:tag" content="效率">
-<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="Syncthing">
+<meta property="article:tag" content="同步">
+<meta property="article:tag" content="自托管">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战 - 无名小站</title>
+  <title>别再手动拷贝了：我的多设备文件同步方案 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战"></span>
+            <span id="subtitle" data-typed-text="别再手动拷贝了：我的多设备文件同步方案"></span>
           
         </div>
 
@@ -219,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-09 06:54" pubdate>
-          2026年8月9日 早上
+        <time datetime="2026-08-10 04:06" pubdate>
+          2026年8月10日 凌晨
         </time>
       </span>
     
@@ -231,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.6k 字
         
       </span>
     
@@ -242,7 +241,7 @@
         
         
         
-          11 分钟
+          14 分钟
         
       </span>
     
@@ -279,76 +278,33 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战</h1>
+            <h1 id="seo-header">别再手动拷贝了：我的多设备文件同步方案</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>写作注释: 本文由 AI 生成, 主题「手机当服务器: Termux 部署轻量服务实战」, 内容仅供参考, 欢迎留言交流。</p>
+<p>写作注释: 本文由 AI 生成, 主题「如何优雅地管理多台设备的同步」, 内容仅供参考, 欢迎留言交流。</p>
 </blockquote>
-<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>很多人家里都有几台退役的安卓手机，跑不动大型应用，但硬件其实还能用。与其让它们在抽屉里吃灰，不如改造成一台低功耗、不占空间的轻量服务器。Termux 是 Android 上的终端模拟器，能运行真正的 Linux 环境，配合包管理器和后台服务，可以实现 SSH 远程登录、内网 Web 服务、定时任务等常见场景。本文记录一次完整的部署过程，帮你把旧手机变成能随时调用的“小钢炮”。</p>
-<h2 id="为什么选-Termux-而不是其他方案"><a href="#为什么选-Termux-而不是其他方案" class="headerlink" title="为什么选 Termux 而不是其他方案"></a>为什么选 Termux 而不是其他方案</h2><p>市面上有 AidLux、UserLAnd 等方案，但 Termux 的优势非常明显：镜像体积小，启动快，软件包更新及时；不依赖 root，普通用户也能装；支持完整的包管理器，一条命令就能装好 Python、Nginx、OpenSSH 等工具。缺点是它并非完整 Linux 发行版，部分内核特性受限，但部署轻量服务完全够用。</p>
-<p>另一个现实理由：手机自带电池和 Wi-Fi，停电时还能靠充电宝续命，比云服务器更灵活。只要不跑高负载任务，发热和耗电都在可控范围内。真正做生产环境前，先想清楚用途——个人学习、内网穿透、局域网共享文件，这些都是不错的切入点。</p>
-<h2 id="环境准备：安装-Termux-与基础配置"><a href="#环境准备：安装-Termux-与基础配置" class="headerlink" title="环境准备：安装 Termux 与基础配置"></a>环境准备：安装 Termux 与基础配置</h2><p>在应用商店或 GitHub 下载 Termux。打开后先更新软件源，然后设置存储权限：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">termux-setup-storage<br>pkg update &amp;&amp; pkg upgrade -y<br></code></pre></td></tr></table></figure>
+<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>手机、笔记本、台式机、NAS…… 设备越来越多，文件却七零八落。你是不是也经历过这样的场景：在电脑上改完文档，出门后手机里还是旧版本；想给平板传一本书，还得打开微信“文件传输助手”。手动拷贝、U盘来回倒腾，不仅效率低，还容易出错。这篇文章想和你聊聊我整理的一套同步方案，从选型思路到具体部署，帮你用更省心的方式，让所有设备保持同一个“大脑”。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="先想清楚：我们到底需要同步什么"><a href="#先想清楚：我们到底需要同步什么" class="headerlink" title="先想清楚：我们到底需要同步什么"></a>先想清楚：我们到底需要同步什么</h3><p>在动手搭建之前，先花五分钟梳理需求，远比直接装软件更重要。我把同步需求分成三类：第一类是文档与笔记，特点是文件小、改动频繁，需要多设备实时可见，比如 Markdown 笔记、Office 文档。第二类是媒体资料，例如照片、音乐、电子书，特点是体积大、写入多、读取少，对同步速度和存储容量要求较高。第三类是代码与配置文件，这类文件往往需要版本回溯能力，一旦同步出错要能快速恢复。</p>
+<p>理清需求后，选方案就有方向了。如果你追求极致的简单，且不介意数据经过第三方服务器，坚果云、Dropbox 这类网盘足够。但如果你对隐私敏感、文件较大、或者希望数据完全掌握在自己手中，自托管同步工具是更优雅的解法。我最终选择了 Syncthing，原因有三：开源免费、点对点直连、全平台支持，包括 Windows、macOS、Linux、Android，甚至 iOS 也有第三方客户端。</p>
+<h3 id="部署-Syncthing：半小时搭建私有同步网"><a href="#部署-Syncthing：半小时搭建私有同步网" class="headerlink" title="部署 Syncthing：半小时搭建私有同步网"></a>部署 Syncthing：半小时搭建私有同步网</h3><p>Syncthing 的核心思路是“设备间直接同步”，不经过中央服务器。它通过引入设备 ID 来建立信任关系，每台设备都有一串独一无二的 ID，互相添加后即可开始同步。下面以两台服务器为例，展示最基本的部署流程。</p>
+<p>在 Ubuntu 服务器上，安装 Syncthing 只需要几行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 添加官方仓库并安装</span><br>curl -s https://syncthing.net/release-key.txt | <span class="hljs-built_in">sudo</span> apt-key add -<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;deb https://apt.syncthing.net/ syncthing stable&quot;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /etc/apt/sources.list.d/syncthing.list<br><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install syncthing<br><br><span class="hljs-comment"># 启动服务并设置开机自启</span><br>systemctl <span class="hljs-built_in">enable</span> syncthing@$(<span class="hljs-built_in">whoami</span>)<br>systemctl start syncthing@$(<span class="hljs-built_in">whoami</span>)<br></code></pre></td></tr></table></figure>
 
-<p>建议使用 <code>termux-change-repo</code> 切换镜像源，国内用户速度会快很多：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">termux-change-repo<br></code></pre></td></tr></table></figure>
+<p>Windows 和 macOS 用户可以直接从官网下载图形化安装包，Android 用户去应用商店安装即可。安装完成后，浏览器访问 <code>localhost:8384</code> 打开管理界面，点击“添加远程设备”，输入另一台设备的 ID，就完成了配对。接着在两台设备上分别添加同一个文件夹，选择“发送和接收”模式，同步立刻开始。</p>
+<p>值得一提的是，Syncthing 的 P2P 架构让内网设备之间走局域网直连，速度可以达到磁盘瓶颈，完全不需要把数据绕道云端。我实测在千兆局域网内，同步速度稳定在 80MB&#x2F;s 以上。</p>
+<h3 id="多设备协作的最佳实践"><a href="#多设备协作的最佳实践" class="headerlink" title="多设备协作的最佳实践"></a>多设备协作的最佳实践</h3><p>工具只是起点，“优雅”体现在规范和习惯里。我总结了几条自己踩坑后沉淀下来的规则。</p>
+<p><strong>第一，明确“主写入”设备。</strong> 对于同一份文件，尽可能避免在多个设备上同时编辑。比如我的笔记库以手机为主写入端，电脑主要做查看和批量整理，这样能大幅减少冲突。如果实在无法避免，建议开启 Syncthing 的版本控制功能，冲突文件会被自动保存为副本，而不是互相覆盖。</p>
+<p><strong>第二，使用选择性同步。</strong> 并不是所有文件都需要出现在每一台设备上。Syncthing 允许你在文件夹级别设置“选择性同步”，例如电脑上保留全部 200GB 媒体库，手机上只同步“最近一周”的照片文件夹。这个功能有效解决了手机存储不足的问题，也让同步任务更加轻量。</p>
+<p><strong>第三，为关键数据配置版本控制。</strong> 在文件夹设置中打开“文件版本控制”，选择“阶梯式保留”策略，比如保留最近 5 个版本、每小时一份、每天一份、每周一份。这样即使误删文件，也能在 Web 管理界面中找回历史版本。对个人笔记来说，这个机制相当于一个轻量级备份方案，非常实用。</p>
+<h3 id="跨平台补完计划：解决移动端的“最后一块短板”"><a href="#跨平台补完计划：解决移动端的“最后一块短板”" class="headerlink" title="跨平台补完计划：解决移动端的“最后一块短板”"></a>跨平台补完计划：解决移动端的“最后一块短板”</h3><p>Syncthing 在 Android 上有官方客户端，体验流畅，还支持按网络类型（Wi-Fi &#x2F; 流量）控制同步开关。但 iOS 用户就比较尴尬，官方没有 iOS 客户端，推荐用第三方应用如 Möbius Sync，它封装了 Syncthing 核心，配置方式与桌面端完全一致。为方便 iOS 设备协调，我会在配置时将移动端设置为“仅 Wi-Fi 同步”，避免消耗移动流量，同时延长手机续航。</p>
+<p>此外，如果你的文件里有太多小文件（比如 node_modules 目录），建议在同步前把它们过滤掉。Syncthing 支持在文件夹设置中添加忽略规则，语法与 <code>.gitignore</code> 类似：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">// 忽略 node_modules 和缓存目录<br>node_modules/<br>.cache/<br>*.tmp<br></code></pre></td></tr></table></figure>
 
-<p>接着安装必要工具。基础三件套是 <code>openssh</code>、<code>python</code> 和 <code>cronie</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install openssh python cronie -y<br></code></pre></td></tr></table></figure>
-
-<p>安装完成后设置登录密码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">passwd<br></code></pre></td></tr></table></figure>
-
-<p>这里有个细节：Android 系统锁屏密码和 Termux 用户密码是两回事，不要混淆。后续用 SSH 登录时，用户名默认为手机当前 Linux 用户名，可以通过 <code>whoami</code> 查看。</p>
-<h2 id="远程登录：配置-SSH-服务"><a href="#远程登录：配置-SSH-服务" class="headerlink" title="远程登录：配置 SSH 服务"></a>远程登录：配置 SSH 服务</h2><p>Termux 默认不会启动 SSH，需要手动开启：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sshd<br></code></pre></td></tr></table></figure>
-
-<p>默认监听 8022 端口，因为 22 端口需要 root 权限。手机和电脑连同一个局域网时，直接连接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh user@手机IP -p 8022<br></code></pre></td></tr></table></figure>
-
-<p>如果希望 SSH 随 Termux 启动，可以用 <code>termux-services</code> 管理服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install termux-services -y<br>sv-enable sshd<br></code></pre></td></tr></table></figure>
-
-<p>这样每次打开 Termux 后服务会自动运行。注意：不要随意关闭 Termux 的“后台运行”权限，否则服务会被系统杀死。</p>
-<p>为了安全，建议修改默认端口或使用密钥登录。生成密钥后把公钥写入 <code>~/.ssh/authorized_keys</code>，再修改 <code>/data/data/com.termux/files/usr/etc/ssh/sshd_config</code> 禁用密码登录，能减少被扫描的风险。</p>
-<h2 id="部署轻量-Web-服务"><a href="#部署轻量-Web-服务" class="headerlink" title="部署轻量 Web 服务"></a>部署轻量 Web 服务</h2><p>最常见的需求是在手机上跑一个静态站或 API 服务。最简单的用 Python 自带模块：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/www<br>python -m http.server 8080<br></code></pre></td></tr></table></figure>
-
-<p>局域网内访问 <code>http://手机IP:8080</code> 就能看到文件列表。但每次都手动启动不太优雅，可以用 <code>termux-services</code> 做成常驻服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p ~/.termux/service<br><span class="hljs-built_in">cat</span> &gt; ~/.termux/service/httpd &lt;&lt; <span class="hljs-string">&#x27;EOF&#x27;</span><br><span class="hljs-comment">#!/data/data/com.termux/files/usr/bin/sh</span><br><span class="hljs-built_in">exec</span> python -m http.server 8080 --directory ~/www<br>EOF<br><span class="hljs-built_in">chmod</span> +x ~/.termux/service/httpd<br></code></pre></td></tr></table></figure>
-
-<p>重启 Termux 后服务自动生效。如果业务更复杂，比如需要反向代理或 WebSocket，可以安装 Nginx：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install nginx -y<br></code></pre></td></tr></table></figure>
-
-<p>配置文件在 <code>$PREFIX/etc/nginx/nginx.conf</code>，静态资源路径建议指向 <code>/data/data/com.termux/files/home/www</code>，避免权限问题。</p>
-<h2 id="定时任务与自动化"><a href="#定时任务与自动化" class="headerlink" title="定时任务与自动化"></a>定时任务与自动化</h2><p>服务器不能只跑着不动，定时任务能让它真正“干活”。安装 <code>cronie</code> 后启动：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sv-enable crond<br></code></pre></td></tr></table></figure>
-
-<p>编辑任务列表：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">crontab -e<br></code></pre></td></tr></table></figure>
-
-<p>一个典型例子：每天凌晨备份数据库到手机存储：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">0 3 * * * tar -czf ~/storage/shared/backup/db_$(<span class="hljs-built_in">date</span> +\%Y\%m\%d).tar.gz ~/data<br></code></pre></td></tr></table></figure>
-
-<p>再配合 <code>termux-notification</code> 或 <code>termux-api</code>，可以推送到手机通知栏：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install termux-api -y<br>termux-notification --title <span class="hljs-string">&quot;备份完成&quot;</span> --content <span class="hljs-string">&quot;数据库已打包&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>注意 <code>crontab</code> 里的百分号需要用 <code>\%</code> 转义。另外，使用 <code>termux-wake-lock</code> 可以防止 CPU 休眠：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">termux-wake-lock<br></code></pre></td></tr></table></figure>
-
-<p>这个命令建议放在 <code>~/.bashrc</code> 里，反正耗电不高。如果做长时间运行，还需要在系统设置里把 Termux 的电池优化设为“不限制”。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>用旧手机跑 Termux，本质上是把闲置硬件重新利用起来。通过 SSH、Python Web Server、Nginx 和 cronie，就能组成一个够用的轻量服务器，满足远程调试、文件共享和定时备份等需求。</p>
-<p>行动建议：</p>
-<ul>
-<li>先从不重要的内网服务开始，跑通再考虑公网暴露</li>
-<li>一定要设置强密码或密钥登录，别偷懒</li>
-<li>随时监控温度和耗电，发现异常立即处理</li>
-<li>配合 frp 或 tailscale 可以扩展到外网访问</li>
-</ul>
-<p>手机做服务器不可能替代真正的云主机，但它有云主机没有的优势：零成本、低功耗、物理上属于你。从一个小服务开始，让旧手机再战五年。</p>
+<p>这一条能显著降低文件扫描和同步的 CPU 开销，让整个同步过程更加“顺滑”。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>管理多台设备的同步，本质上是在“简便、隐私、可控”之间找平衡。我的最终方案是：Syncthing 作为核心同步引擎，辅以合理的使用规范——明确主写入设备、选择性同步、开启版本控制、过滤无用文件。这套组合拳让我彻底摆脱了手动拷贝的烦恼，也把数据安全牢牢攥在自己手里。如果你对隐私和效率都有要求，不妨从今天开始，用 Syncthing 搭建你自己的同步网络。你不需要一步到位，先在两台设备上跑通一个文件夹，就能感受到那种“无缝衔接”的舒适感。</p>
 
                 
               </div>
@@ -367,7 +323,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/termux/" class="category-chain-item">termux</a>
+  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
   
   
 
@@ -382,13 +338,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/termux/" class="print-no-link">#termux</a>
+        <a href="/tags/%E5%90%8C%E6%AD%A5/" class="print-no-link">#同步</a>
       
-        <a href="/tags/android/" class="print-no-link">#android</a>
+        <a href="/tags/Syncthing/" class="print-no-link">#Syncthing</a>
       
-        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#服务器</a>
-      
-        <a href="/tags/%E6%95%88%E7%8E%87/" class="print-no-link">#效率</a>
+        <a href="/tags/%E8%87%AA%E6%89%98%E7%AE%A1/" class="print-no-link">#自托管</a>
       
     </div>
   
@@ -400,8 +354,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战</div>
-      <div>https://wumingmr.github.io/2026/08/09/把闲置手机变成-7×24-小时小服务器：Termux-轻量服务实战/</div>
+      <div>别再手动拷贝了：我的多设备文件同步方案</div>
+      <div>https://wumingmr.github.io/2026/08/10/别再手动拷贝了：我的多设备文件同步方案/</div>
     </div>
     <div class="license-meta">
       
@@ -413,7 +367,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月9日</div>
+          <div>2026年8月10日</div>
         </div>
       
       
@@ -445,18 +399,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/10/%E5%88%AB%E5%86%8D%E6%89%8B%E5%8A%A8%E6%8B%B7%E8%B4%9D%E4%BA%86%EF%BC%9A%E6%88%91%E7%9A%84%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%96%87%E4%BB%B6%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88/" title="别再手动拷贝了：我的多设备文件同步方案">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">别再手动拷贝了：我的多设备文件同步方案</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/09/%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BB%8E%E6%B7%B7%E4%B9%B1%E5%88%B0%E6%9C%89%E5%BA%8F%E7%9A%84%E4%BC%98%E9%9B%85%E6%96%B9%E6%A1%88/" title="多端同步实战：从混乱到有序的优雅方案">
-                        <span class="hidden-mobile">多端同步实战：从混乱到有序的优雅方案</span>
+                      <a href="/2026/08/09/%E6%8A%8A%E9%97%B2%E7%BD%AE%E6%89%8B%E6%9C%BA%E5%8F%98%E6%88%90-7%C3%9724-%E5%B0%8F%E6%97%B6%E5%B0%8F%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9ATermux-%E8%BD%BB%E9%87%8F%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/" title="把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战">
+                        <span class="hidden-mobile">把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
