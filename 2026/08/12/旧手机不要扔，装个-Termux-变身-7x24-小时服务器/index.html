@@ -19,25 +19,24 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="深入解析日志输出规范的重要性与 logrotate 轮转清理机制，提供可落地的配置示例与最佳实践，助你告别日志管理混乱。">
+    <meta name="description" content="用 Termux 将旧手机打造成轻量级服务器，涵盖 SSH 远程管理、内网穿透与定时任务，帮你省下云服务器钱。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一文理清日志输出与轮转清理：从规范到实践">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/12/%E4%B8%80%E6%96%87%E7%90%86%E6%B8%85%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%EF%BC%9A%E4%BB%8E%E8%A7%84%E8%8C%83%E5%88%B0%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:title" content="旧手机不要扔，装个 Termux 变身 7x24 小时服务器">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/12/%E6%97%A7%E6%89%8B%E6%9C%BA%E4%B8%8D%E8%A6%81%E6%89%94%EF%BC%8C%E8%A3%85%E4%B8%AA-Termux-%E5%8F%98%E8%BA%AB-7x24-%E5%B0%8F%E6%97%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="深入解析日志输出规范的重要性与 logrotate 轮转清理机制，提供可落地的配置示例与最佳实践，助你告别日志管理混乱。">
+<meta property="og:description" content="用 Termux 将旧手机打造成轻量级服务器，涵盖 SSH 远程管理、内网穿透与定时任务，帮你省下云服务器钱。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-11T19:35:14.000Z">
-<meta property="article:modified_time" content="2026-08-11T19:35:14.705Z">
+<meta property="article:published_time" content="2026-08-11T19:42:14.000Z">
+<meta property="article:modified_time" content="2026-08-11T19:42:14.069Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="可观测性">
-<meta property="article:tag" content="日志">
-<meta property="article:tag" content="运维">
+<meta property="article:tag" content="android">
+<meta property="article:tag" content="termux">
+<meta property="article:tag" content="折腾">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>一文理清日志输出与轮转清理：从规范到实践 - 无名小站</title>
+  <title>旧手机不要扔，装个 Termux 变身 7x24 小时服务器 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="一文理清日志输出与轮转清理：从规范到实践"></span>
+            <span id="subtitle" data-typed-text="旧手机不要扔，装个 Termux 变身 7x24 小时服务器"></span>
           
         </div>
 
@@ -219,7 +218,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-12 03:35" pubdate>
+        <time datetime="2026-08-12 03:42" pubdate>
           2026年8月12日 凌晨
         </time>
       </span>
@@ -231,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          1.5k 字
         
       </span>
     
@@ -242,7 +241,7 @@
         
         
         
-          16 分钟
+          13 分钟
         
       </span>
     
@@ -279,36 +278,62 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">一文理清日志输出与轮转清理：从规范到实践</h1>
+            <h1 id="seo-header">旧手机不要扔，装个 Termux 变身 7x24 小时服务器</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>写作注释: 本文由 AI 生成, 主题「浅谈日志: 输出规范与轮转清理」, 内容仅供参考, 欢迎留言交流。</p>
+<p>写作注释: 本文由 AI 生成, 主题「手机当服务器: Termux 部署轻量服务实战」, 内容仅供参考, 欢迎留言交流。</p>
 </blockquote>
-<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>日志是软件系统的“黑匣子”，也是排查线上故障的第一手资料。然而在实际开发中，日志往往呈现两个极端：要么惜字如金，出问题时无迹可寻；要么啰嗦冗余，磁盘被几天撑爆。这篇文章想和你聊聊日志这件事——前半部分聚焦输出规范，聊一聊什么样的日志是好日志；后半部分聚焦轮转清理，重点解析 logrotate 的配置与常见坑。希望能帮你建立一套可落地的日志管理思路。</p>
-<h2 id="日志输出规范的三个核心原则"><a href="#日志输出规范的三个核心原则" class="headerlink" title="日志输出规范的三个核心原则"></a>日志输出规范的三个核心原则</h2><p>好的日志输出不是靠自觉，而是靠规范。首先第一条原则是 <strong>“面向读者，而非面向作者”</strong>。日志的读者可能是未来的你、值班的同事，甚至是一段自动化告警脚本。因此，每条日志都应包含时间戳、日志级别、业务标识（如订单号、设备 ID）以及清晰的描述信息，不要使用诸如 “something wrong” 之类的模糊描述。</p>
-<p>第二条原则是 <strong>“分级要克制”</strong>。Info 和 Error 是最常用的两个级别，但很多人会把 Warning 当作“另一种颜色”的 Info 来用。我建议采用简单的分级策略：Error 表示需要人工介入的异常，Warning 表示可自动恢复的非预期状态，Info 记录关键业务节点。Debug 只允许在本地开发环境开启，严禁在生产环境打印循环内的调试信息。</p>
-<p>第三条原则是 <strong>“别打敏感信息”</strong>。明文密码、完整手机号、支付密钥等严禁入库，更严禁写进日志。如果确实需要追踪链路，可以使用脱敏后的短 ID。这条原则往往被忽视，一旦被审计或造成用户隐私泄漏，后果非常严重。</p>
-<h2 id="输出格式与代码最佳实践"><a href="#输出格式与代码最佳实践" class="headerlink" title="输出格式与代码最佳实践"></a>输出格式与代码最佳实践</h2><p>日志输出格式应当由团队统一制定，避免各写各的。默认推荐使用 JSON 格式，因为它天生适合被 Elasticsearch 或 Loki 解析和检索。一个典型的 JSON 日志行大致长这样：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-01-04T10:00:00.123Z&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;level&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ERROR&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;traceId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;a3f2b9c0d1e2&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;service&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;order-service&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Failed to charge user&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;u_1024&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>家里躺着一台退役的旧手机，屏幕碎了懒得修，卖二手又不值钱。其实，它完全可以变废为宝——当作一台 7x24 小时运行的 Linux 服务器。Termux 是 Android 上的终端模拟器，能提供完整的 Linux 环境，配合 SSH、Nginx、Python 等工具，足以支撑博客、定时脚本、下载任务、内网穿透等轻量服务。本文不聊理论，直接上实操，带你从零开始完成部署，并处理掉最常见的几个坑（比如 Termux 被系统杀后台的问题）。</p>
+<h2 id="为什么要用手机当服务器"><a href="#为什么要用手机当服务器" class="headerlink" title="为什么要用手机当服务器"></a>为什么要用手机当服务器</h2><p>手机当服务器的核心优势是低成本。你不需要额外购置树莓派或云主机，一块旧电池加上 Wi-Fi 就能跑起来。性能方面，如今千元机的 CPU 和内存其实远超十年前的 PC，跑 Nginx 和 Python 脚本绰绰有余。缺点是持久性和稳定性不如专业服务器，但通过下文介绍的 Termux 保活技巧，可以实现连续运行数周不宕机。</p>
+<p>对于个人项目来说，用手机做服务器还有一个好处：数据完全掌握在自己手里。不用担心云服务商跑路或审查，也不用为 1 核 2G 的小主机每年支付几百元。接下来，我们直接进入部署环节。</p>
+<h2 id="安装-Termux-与基础环境"><a href="#安装-Termux-与基础环境" class="headerlink" title="安装 Termux 与基础环境"></a>安装 Termux 与基础环境</h2><p>Termux 在 Google Play 上已经停止更新，推荐从 F-Droid 或 GitHub Releases 下载最新版本。安装后打开终端，第一件事是更换软件源，因为默认源在国内几乎无法访问：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">termux-change-repo<br></code></pre></td></tr></table></figure>
 
-<p>如果团队尚无统一框架，Python 项目中可以使用标准库 <code>logging</code> 搭配自定义的 JSON Formatter 快速实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> logging<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">JsonFormatter</span>(logging.Formatter):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">format</span>(<span class="hljs-params">self, record</span>):<br>        base = &#123;<br>            <span class="hljs-string">&quot;time&quot;</span>: datetime.utcnow().isoformat() + <span class="hljs-string">&quot;Z&quot;</span>,<br>            <span class="hljs-string">&quot;level&quot;</span>: record.levelname,<br>            <span class="hljs-string">&quot;message&quot;</span>: record.getMessage(),<br>            <span class="hljs-string">&quot;logger&quot;</span>: record.name,<br>        &#125;<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(record, <span class="hljs-string">&quot;trace_id&quot;</span>):<br>            base[<span class="hljs-string">&quot;trace_id&quot;</span>] = record.trace_id<br>        <span class="hljs-keyword">return</span> json.dumps(base, ensure_ascii=<span class="hljs-literal">False</span>)<br><br>logger = logging.getLogger(<span class="hljs-string">&quot;my-app&quot;</span>)<br>handler = logging.StreamHandler()<br>handler.setFormatter(JsonFormatter())<br>logger.addHandler(handler)<br></code></pre></td></tr></table></figure>
+<p>选择 <code>mirrors.tuna.tsinghua.edu.cn</code> 或中科大源，然后执行更新：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg update &amp;&amp; pkg upgrade -y<br></code></pre></td></tr></table></figure>
 
-<p>在实际输出时，务必避免在一个循环里重复拼字符串，也不要将大对象整体序列化后塞进日志。应当把底层异常 <code>e</code> 作为 <code>exc_info=True</code> 传入 logger，既保留堆栈，又不会导致代码里堆出大片 <code>str(e)</code> 拼接逻辑。</p>
-<h2 id="日志文件的切割策略"><a href="#日志文件的切割策略" class="headerlink" title="日志文件的切割策略"></a>日志文件的切割策略</h2><p>日志文件如果不做切割，会一直膨胀下去，最终拖垮磁盘和 IO。所谓切割，就是按时间或按大小将日志拆分到多个文件。时间型切割按小时、天或周滚动，例如 <code>app-2025-01-04.log</code>；大小型切割则是在文件达到指定阈值时触发滚动，例如 100MB。</p>
-<p>实际生产环境中，两者往往结合使用。建议按天切割，同时设置单文件大小上限作为兜底。比如某高并发服务如果一天产生 5GB 日志，又用默认的 <code>RotatingFileHandler</code>，那单个文件体积会大到文本编辑器都打不开——此时必须设置单文件 200MB 就滚动，并保留最近 7 天的旧文件。</p>
-<p>实现上，Linux 环境最常用的方案是 <strong>logrotate</strong>，它不需要你修改任何业务代码，只需在 <code>/etc/logrotate.d/</code> 下新建一个配置文件即可。这也是下面我要重点展开的部分。</p>
-<h2 id="用好-logrotate-进行轮转清理"><a href="#用好-logrotate-进行轮转清理" class="headerlink" title="用好 logrotate 进行轮转清理"></a>用好 logrotate 进行轮转清理</h2><p>logrotate 的策略配置非常直观，一个最简洁的示例是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">/path/to/your/app/logs/*.<span class="hljs-built_in">log</span> &#123;<br>    daily<br>    rotate 14<br>    compress<br>    delaycompress<br>    missingok<br>    notifempty<br>    copytruncate<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>接下来安装基础工具包。为了后续部署方便，建议一次性装齐：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install -y openssh nginx python nodejs-lts git vim curl wget<br></code></pre></td></tr></table></figure>
 
-<p>各指令的含义：<code>daily</code> 表示每天轮转一次；<code>rotate 14</code> 表示保留最近 14 份归档日志，稍早的会自动删除；<code>compress</code> 使用 gzip 压缩归档文件（对 .log 文件非常有效）；<code>delaycompress</code> 则保证最近生成的归档文件先不压缩，以便排查脚本仍能读取昨天的日志；<code>missingok</code> 避免日志文件缺失时报错；<code>notifempty</code> 表示空文件不轮转；<code>copytruncate</code> 是业务进程无法接收信号重开日志文件时的折中方案，它会先复制再清空，代价是可能丢失极少量的落盘数据。</p>
-<p>再顺带一提，有时候你配置了 <code>daily</code>，但发现 logrotate 每天只跑一次且是在凌晨 3 点左右，这是因为系统自带的 cron 定时任务在统一调度它。若需要更高频的轮转，则需要自己额外配置 <code>hourly</code> 的 crontab，这里不展开细说。配置完成后，可通过 <code>sudo logrotate -vf /etc/logrotate.d/your_app</code> 手动强制验证效果，输出会明确显示每条规则是否被正确执行。常见的坑包括忘写 <code>create</code> 指令、日志文件权限被修改、以及 CentOS 与 Ubuntu 的 logrotate 路径差异，这些都需要在落地时仔细比对自己的发行版环境。</p>
-<h2 id="日志采集与检索的延伸思考"><a href="#日志采集与检索的延伸思考" class="headerlink" title="日志采集与检索的延伸思考"></a>日志采集与检索的延伸思考</h2><p>轮转清理只是日志管理的中间环节，更完整的链路还包括采集与检索。日志被切割后，如果只存放在本地，仍然是信息孤岛。生产环境通常再引入 Filebeat 或 Promtail 将日志文件增量发送到 ES 或 Loki，并配套 Grafana 看板做告警。引入采集器时，要注意日志文件的压缩格式需与采集器兼容，例如某些采集器不支持读取 <code>.gz</code> 压缩包中的增量内容。</p>
-<p>同时，也要建立日志归档与冷存储策略：热日志保留最近 7 天，归档日志保存 30 天，超过 30 天的进行冷备至对象存储或直接删除，这样可以显著降低成本。还需要注意的是，容器时代的日志最佳实践是将日志输出到 stdout，由容器运行时统一收集，这样可以规避 Pod 重建后日志丢失的隐患。但无论平台怎么变，良好的日志规范和分级思想永远适用。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>日志管理看似微不足道，却直接关系到线上问题的定位效率。我们聊了三个要点：一是规范输出格式与级别，统一结构、透出 traceId、杜绝敏感信息；二是按时间和大小切割文件，避免单个日志无限膨胀；三是熟练使用 logrotate 的轮转与清理策略，并适时引入采集检索链路。建议你现在就检查一遍生产环境的日志配置，确认是否有日志文件正在无限增长、是否有信息裸奔在磁盘上。记住，制定规范比事后弥补要便宜得多——下一次凌晨三点被告警吵醒的时候，你会感谢定下这些规则的自己。</p>
+<p>安装完成后，启动 SSH 服务并设置密码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sshd<br>passwd<br></code></pre></td></tr></table></figure>
+
+<p>现在可以在电脑上用 SSH 连接手机了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh 手机IP -p 8022<br></code></pre></td></tr></table></figure>
+
+<p>注意 Termux 的 SSH 默认端口是 8022 不是 22。另外，在 Termux 中按音量键 + C 可以中断命令，音量键 + D 可以退出当前会话。</p>
+<h2 id="部署轻量-Web-服务"><a href="#部署轻量-Web-服务" class="headerlink" title="部署轻量 Web 服务"></a>部署轻量 Web 服务</h2><p>以 Nginx 为例，先配置一个简单的静态站点。Termux 安装的 Nginx 配置文件在 <code>$PREFIX/etc/nginx/nginx.conf</code>，默认网页目录在 <code>$PREFIX/share/nginx/html</code>。运行 <code>nginx</code> 命令启动服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nginx<br></code></pre></td></tr></table></figure>
+
+<p>此时用手机浏览器访问 <code>http://127.0.0.1:8080</code>，看到 Nginx 欢迎页就说明服务已经正常跑起来了。如果想把服务绑定到 80 端口，需要借助 <code>iptables</code> 做端口转发，因为 Android 的 SELinux 机制会阻止普通进程绑定 1024 以下的端口。在 Termux 中执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install -y iptables<br>iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDIRECT --to-port 8080<br></code></pre></td></tr></table></figure>
+
+<p>这样局域网内的设备就可以直接通过 <code>http://手机IP</code> 访问了。用手机当服务器最大的坑就是后台被系统杀掉，建议在系统设置中关闭 Termux 的电池优化，同时在应用详情里打开「允许自启动」。</p>
+<h2 id="用-Python-快速写一个接口服务"><a href="#用-Python-快速写一个接口服务" class="headerlink" title="用 Python 快速写一个接口服务"></a>用 Python 快速写一个接口服务</h2><p>除了 Nginx，Python 也是 Termux 上常用的服务端工具。这里演示用 Flask 写一个 JSON 接口，可以作为 API 服务器使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># app.py</span><br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, jsonify<br><br>app = Flask(__name__)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&quot;/api/ping&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">ping</span>():<br>    <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;pong&quot;</span>, <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;ok&quot;</span>&#125;)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    app.run(host=<span class="hljs-string">&quot;0.0.0.0&quot;</span>, port=<span class="hljs-number">5000</span>, debug=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+
+<p>安装依赖后启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install flask<br>python app.py<br></code></pre></td></tr></table></figure>
+
+<p>注意 Termux 官方仓库默认使用的是 <code>python</code> 命令而不是 <code>python3</code>。另外，如果需要持久化运行，推荐使用 <code>tmux</code> 在后台启动服务。<code>tmux</code> 的好处是可以让程序在手机息屏后继续运行，也可以随时找回终端界面：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install -y tmux<br>tmux new -s myapi<br>python app.py<br></code></pre></td></tr></table></figure>
+
+<p>按 <code>Ctrl+B</code> 再按 <code>D</code> 可以脱离会话，使用 <code>tmux attach -t myapi</code> 重新进入。</p>
+<h2 id="外网访问：内网穿透"><a href="#外网访问：内网穿透" class="headerlink" title="外网访问：内网穿透"></a>外网访问：内网穿透</h2><p>局域网内能访问只是一个基础功能，真正的实用价值在于外网访问。手机没有公网 IP，需要通过内网穿透工具将服务暴露到公网。这里介绍两种方案：轻量的 <code>ngrok</code> 和自托管方案 <code>frp</code>。</p>
+<p>在 Termux 中，直接下载 ngrok 的 ARM64 版本二进制文件即可，不用 root：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz<br>tar xzf ngrok-v3-stable-linux-arm64.tgz<br>./ngrok config add-authtoken 你的token<br>./ngrok http 8080<br></code></pre></td></tr></table></figure>
+
+<p>ngrok 会分配一个随机域名，公网用户可以通过该域名访问你的服务。缺点是免费版域名不稳定，且每次重启会变化。</p>
+<p>如果自己有云服务器，用 frp 方案会更稳定。在手机端只需要下载 <code>frpc</code> 并配置：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs toml"><span class="hljs-comment"># frpc.toml</span><br><span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;你的云服务器IP&quot;</span><br><span class="hljs-attr">serverPort</span> = <span class="hljs-number">7000</span><br><br><span class="hljs-section">[[proxies]]</span><br><span class="hljs-attr">name</span> = <span class="hljs-string">&quot;termux-web&quot;</span><br><span class="hljs-attr">type</span> = <span class="hljs-string">&quot;tcp&quot;</span><br><span class="hljs-attr">localIP</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span><br><span class="hljs-attr">localPort</span> = <span class="hljs-number">8080</span><br><span class="hljs-attr">remotePort</span> = <span class="hljs-number">8080</span><br></code></pre></td></tr></table></figure>
+
+<p>运行 <code>./frpc -c frpc.toml</code>，之后通过云服务器的 8080 端口即可访问手机上的服务。需要加密传输的话，可以在配置文件里加上 <code>transport.tls.enable = true</code>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>到此，一台旧手机已经成功变成了一台能对外提供服务的轻量服务器。我们完成了 Termux 的安装与源配置、SSH 远程管理、Nginx&#x2F;Python 服务部署、以及通过内网穿透实现公网访问。整个过程不依赖任何付费工具，也不需要对手机进行 root。</p>
+<p>想进一步加固稳定性，建议开启 Termux 的 <code>termux-services</code> 来管理脚本的自动重启，在 <code>~/.bashrc</code> 中添加启动命令，并给手机设置一个固定 Wi-Fi 和充电周期，防止电池耗尽导致服务中断。也可以考虑安装 <code>rsync</code> 做定时备份，避免存储损坏丢失数据。</p>
+<p>总之一句话：与其让旧手机吃灰，不如让它继续发光发热。遇到问题欢迎在评论区留言，我会一一回复。</p>
 
                 
               </div>
@@ -327,7 +352,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">工程化</a>
+  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
   
   
 
@@ -342,13 +367,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%97%A5%E5%BF%97/" class="print-no-link">#日志</a>
+        <a href="/tags/termux/" class="print-no-link">#termux</a>
       
-        <a href="/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
+        <a href="/tags/android/" class="print-no-link">#android</a>
       
-        <a href="/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/" class="print-no-link">#可观测性</a>
-      
-        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+        <a href="/tags/%E6%8A%98%E8%85%BE/" class="print-no-link">#折腾</a>
       
     </div>
   
@@ -360,8 +383,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>一文理清日志输出与轮转清理：从规范到实践</div>
-      <div>https://wumingmr.github.io/2026/08/12/一文理清日志输出与轮转清理：从规范到实践/</div>
+      <div>旧手机不要扔，装个 Termux 变身 7x24 小时服务器</div>
+      <div>https://wumingmr.github.io/2026/08/12/旧手机不要扔，装个-Termux-变身-7x24-小时服务器/</div>
     </div>
     <div class="license-meta">
       
@@ -405,18 +428,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/12/%E6%97%A7%E6%89%8B%E6%9C%BA%E4%B8%8D%E8%A6%81%E6%89%94%EF%BC%8C%E8%A3%85%E4%B8%AA-Termux-%E5%8F%98%E8%BA%AB-7x24-%E5%B0%8F%E6%97%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="旧手机不要扔，装个 Termux 变身 7x24 小时服务器">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">旧手机不要扔，装个 Termux 变身 7x24 小时服务器</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/11/GitHub-Actions-%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BB%8E-0-%E5%88%B0-1-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线">
-                        <span class="hidden-mobile">GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线</span>
+                      <a href="/2026/08/12/%E4%B8%80%E6%96%87%E7%90%86%E6%B8%85%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%EF%BC%9A%E4%BB%8E%E8%A7%84%E8%8C%83%E5%88%B0%E5%AE%9E%E8%B7%B5/" title="一文理清日志输出与轮转清理：从规范到实践">
+                        <span class="hidden-mobile">一文理清日志输出与轮转清理：从规范到实践</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
