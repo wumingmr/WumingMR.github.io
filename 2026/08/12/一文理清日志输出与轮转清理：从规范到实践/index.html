@@ -19,25 +19,25 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="手把手教你用 GitHub Actions 搭建免费自动化流水线，从核心概念到定时抓数据，边看边写，一个 commit 后全自动运行。">
+    <meta name="description" content="深入解析日志输出规范的重要性与 logrotate 轮转清理机制，提供可落地的配置示例与最佳实践，助你告别日志管理混乱。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/11/GitHub-Actions-%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BB%8E-0-%E5%88%B0-1-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%81%E6%B0%B4%E7%BA%BF/index.html">
+<meta property="og:title" content="一文理清日志输出与轮转清理：从规范到实践">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/12/%E4%B8%80%E6%96%87%E7%90%86%E6%B8%85%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%EF%BC%9A%E4%BB%8E%E8%A7%84%E8%8C%83%E5%88%B0%E5%AE%9E%E8%B7%B5/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="手把手教你用 GitHub Actions 搭建免费自动化流水线，从核心概念到定时抓数据，边看边写，一个 commit 后全自动运行。">
+<meta property="og:description" content="深入解析日志输出规范的重要性与 logrotate 轮转清理机制，提供可落地的配置示例与最佳实践，助你告别日志管理混乱。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-11T13:48:48.000Z">
-<meta property="article:modified_time" content="2026-08-11T13:48:48.476Z">
+<meta property="article:published_time" content="2026-08-11T19:35:14.000Z">
+<meta property="article:modified_time" content="2026-08-11T19:35:14.705Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="CI&#x2F;CD">
-<meta property="article:tag" content="GitHub Actions">
-<meta property="article:tag" content="效率工具">
-<meta property="article:tag" content="自动化">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="可观测性">
+<meta property="article:tag" content="日志">
+<meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线 - 无名小站</title>
+  <title>一文理清日志输出与轮转清理：从规范到实践 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线"></span>
+            <span id="subtitle" data-typed-text="一文理清日志输出与轮转清理：从规范到实践"></span>
           
         </div>
 
@@ -219,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-11 21:48" pubdate>
-          2026年8月11日 晚上
+        <time datetime="2026-08-12 03:35" pubdate>
+          2026年8月12日 凌晨
         </time>
       </span>
     
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.9k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          11 分钟
+          16 分钟
         
       </span>
     
@@ -279,53 +279,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线</h1>
+            <h1 id="seo-header">一文理清日志输出与轮转清理：从规范到实践</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>写作注释: 本文由 AI 生成, 主题「从零开始用 GitHub Actions 做自动化」, 内容仅供参考, 欢迎留言交流。</p>
+<p>写作注释: 本文由 AI 生成, 主题「浅谈日志: 输出规范与轮转清理」, 内容仅供参考, 欢迎留言交流。</p>
 </blockquote>
-<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>我手头有不少琐碎任务，比如定时抓取数据、自动编译博客、每隔几小时拉取一次接口。过去全靠服务器上的 crontab，配置繁琐且不易查看日志。直到我认真用了 GitHub Actions，才发现原来自动化可以这么简单：它免费、零运维、只需要一个 YAML 文件，而且每条运行记录都清晰可查。</p>
-<p>这篇文章会从零开始，不讲复杂理论，直接带你写出第一个能跑的工作流。全程只需要一个 GitHub 账号和一次 commit，之后，你的自动化就交给 GitHub 托管，真正实现“一劳永逸”。</p>
-<h2 id="GitHub-Actions-是什么？为什么值得学？"><a href="#GitHub-Actions-是什么？为什么值得学？" class="headerlink" title="GitHub Actions 是什么？为什么值得学？"></a>GitHub Actions 是什么？为什么值得学？</h2><p>GitHub Actions 是 GitHub 提供的持续集成与持续部署（CI&#x2F;CD）服务。它的核心运作方式是：当仓库发生某个事件时（push、PR、定时、手动触发），GitHub 会自动创建一个虚拟机环境，按你写好的步骤执行命令。</p>
-<p>选择它的理由很直接：</p>
-<ul>
-<li>免费额度充足：Public 仓库完全免费，私有仓库每月也有 2000 分钟免费额度；</li>
-<li>无需运维机器：虚拟机由 GitHub 托管，支持 Ubuntu、Windows、macOS；</li>
-<li>生态强大：Marketplace 里有大量现成 Action 可以复用，不必什么都自己写。</li>
-</ul>
-<p>简单理解：GitHub Actions 就是一个“云端定时运行的脚本箱”，你在 <code>.github/workflows/</code> 目录下放一个 YAML 文件，剩下的都交给 GitHub。</p>
-<h2 id="核心概念：Workflow-Job-Step-Event"><a href="#核心概念：Workflow-Job-Step-Event" class="headerlink" title="核心概念：Workflow &#x2F; Job &#x2F; Step &#x2F; Event"></a>核心概念：Workflow &#x2F; Job &#x2F; Step &#x2F; Event</h2><p>动手写之前，先理清四个关键概念。</p>
-<ul>
-<li><strong>Workflow（工作流）</strong>：一次自动化的完整流程定义，对应一个 YAML 文件。</li>
-<li><strong>Job（任务）</strong>：工作流中的一个执行单元，可以包含多个 Step。</li>
-<li><strong>Step（步骤）</strong>：Job 内具体的命令或 Action，按顺序从上到下执行。</li>
-<li><strong>Event（事件）</strong>：触发工作流的条件，比如 <code>push</code>、<code>pull_request</code>、<code>schedule</code>（定时）、<code>workflow_dispatch</code>（手动）。</li>
-</ul>
-<p>下面是最小可运行的工作流：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">My</span> <span class="hljs-string">First</span> <span class="hljs-string">Workflow</span><br><br><span class="hljs-attr">on:</span> [<span class="hljs-string">push</span>]<br><br><span class="hljs-attr">jobs:</span><br>  <span class="hljs-attr">hello:</span><br>    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span><br>    <span class="hljs-attr">steps:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">echo</span> <span class="hljs-string">hello</span><br>        <span class="hljs-attr">run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Hello from GitHub Actions&quot;</span><br></code></pre></td></tr></table></figure>
+<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>日志是软件系统的“黑匣子”，也是排查线上故障的第一手资料。然而在实际开发中，日志往往呈现两个极端：要么惜字如金，出问题时无迹可寻；要么啰嗦冗余，磁盘被几天撑爆。这篇文章想和你聊聊日志这件事——前半部分聚焦输出规范，聊一聊什么样的日志是好日志；后半部分聚焦轮转清理，重点解析 logrotate 的配置与常见坑。希望能帮你建立一套可落地的日志管理思路。</p>
+<h2 id="日志输出规范的三个核心原则"><a href="#日志输出规范的三个核心原则" class="headerlink" title="日志输出规范的三个核心原则"></a>日志输出规范的三个核心原则</h2><p>好的日志输出不是靠自觉，而是靠规范。首先第一条原则是 <strong>“面向读者，而非面向作者”</strong>。日志的读者可能是未来的你、值班的同事，甚至是一段自动化告警脚本。因此，每条日志都应包含时间戳、日志级别、业务标识（如订单号、设备 ID）以及清晰的描述信息，不要使用诸如 “something wrong” 之类的模糊描述。</p>
+<p>第二条原则是 <strong>“分级要克制”</strong>。Info 和 Error 是最常用的两个级别，但很多人会把 Warning 当作“另一种颜色”的 Info 来用。我建议采用简单的分级策略：Error 表示需要人工介入的异常，Warning 表示可自动恢复的非预期状态，Info 记录关键业务节点。Debug 只允许在本地开发环境开启，严禁在生产环境打印循环内的调试信息。</p>
+<p>第三条原则是 <strong>“别打敏感信息”</strong>。明文密码、完整手机号、支付密钥等严禁入库，更严禁写进日志。如果确实需要追踪链路，可以使用脱敏后的短 ID。这条原则往往被忽视，一旦被审计或造成用户隐私泄漏，后果非常严重。</p>
+<h2 id="输出格式与代码最佳实践"><a href="#输出格式与代码最佳实践" class="headerlink" title="输出格式与代码最佳实践"></a>输出格式与代码最佳实践</h2><p>日志输出格式应当由团队统一制定，避免各写各的。默认推荐使用 JSON 格式，因为它天生适合被 Elasticsearch 或 Loki 解析和检索。一个典型的 JSON 日志行大致长这样：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-01-04T10:00:00.123Z&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;level&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ERROR&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;traceId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;a3f2b9c0d1e2&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;service&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;order-service&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Failed to charge user&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;u_1024&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>把这个文件保存为 <code>.github/workflows/first.yml</code> 并 push 到仓库，片刻后就能在仓库的 Actions 标签页看到运行记录，每次提交都会自动跑一遍。</p>
-<h2 id="实战：写一个定时抓数据的自动化"><a href="#实战：写一个定时抓数据的自动化" class="headerlink" title="实战：写一个定时抓数据的自动化"></a>实战：写一个定时抓数据的自动化</h2><p>接下来写一个真正有用的场景：每天 UTC 时间 23:00（即北京时间早上 7 点）自动用 Python 抓取接口数据，并把结果提交回仓库。工作流如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Daily</span> <span class="hljs-string">Crawler</span><br><br><span class="hljs-attr">on:</span><br>  <span class="hljs-attr">schedule:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">cron:</span> <span class="hljs-string">&quot;0 23 * * *&quot;</span>   <span class="hljs-comment"># UTC 时间，注意换算时区</span><br>  <span class="hljs-attr">workflow_dispatch:</span>        <span class="hljs-comment"># 支持手动触发，方便测试</span><br><br><span class="hljs-attr">jobs:</span><br>  <span class="hljs-attr">fetch:</span><br>    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span><br>    <span class="hljs-attr">steps:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-python@v5</span><br>        <span class="hljs-attr">with:</span><br>          <span class="hljs-attr">python-version:</span> <span class="hljs-string">&quot;3.11&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Run</span> <span class="hljs-string">script</span><br>        <span class="hljs-attr">run:</span> <span class="hljs-string">python</span> <span class="hljs-string">scripts/fetch.py</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Commit</span> <span class="hljs-string">changes</span><br>        <span class="hljs-attr">run:</span> <span class="hljs-string">|</span><br><span class="hljs-string">          git config user.name &quot;github-actions[bot]&quot;</span><br><span class="hljs-string">          git config user.email &quot;github-actions[bot]@users.noreply.github.com&quot;</span><br><span class="hljs-string">          git add .</span><br><span class="hljs-string">          git commit -m &quot;chore: update data $(date)&quot; || echo &quot;No changes&quot;</span><br><span class="hljs-string">          git push</span><br></code></pre></td></tr></table></figure>
+<p>如果团队尚无统一框架，Python 项目中可以使用标准库 <code>logging</code> 搭配自定义的 JSON Formatter 快速实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> logging<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">JsonFormatter</span>(logging.Formatter):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">format</span>(<span class="hljs-params">self, record</span>):<br>        base = &#123;<br>            <span class="hljs-string">&quot;time&quot;</span>: datetime.utcnow().isoformat() + <span class="hljs-string">&quot;Z&quot;</span>,<br>            <span class="hljs-string">&quot;level&quot;</span>: record.levelname,<br>            <span class="hljs-string">&quot;message&quot;</span>: record.getMessage(),<br>            <span class="hljs-string">&quot;logger&quot;</span>: record.name,<br>        &#125;<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(record, <span class="hljs-string">&quot;trace_id&quot;</span>):<br>            base[<span class="hljs-string">&quot;trace_id&quot;</span>] = record.trace_id<br>        <span class="hljs-keyword">return</span> json.dumps(base, ensure_ascii=<span class="hljs-literal">False</span>)<br><br>logger = logging.getLogger(<span class="hljs-string">&quot;my-app&quot;</span>)<br>handler = logging.StreamHandler()<br>handler.setFormatter(JsonFormatter())<br>logger.addHandler(handler)<br></code></pre></td></tr></table></figure>
 
-<p>对应的 Python 脚本 <code>scripts/fetch.py</code>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> pathlib<br><br>data = requests.get(<span class="hljs-string">&quot;https://api.example.com/today&quot;</span>).json()<br>pathlib.Path(<span class="hljs-string">&quot;data.json&quot;</span>).write_text(json.dumps(data))<br></code></pre></td></tr></table></figure>
+<p>在实际输出时，务必避免在一个循环里重复拼字符串，也不要将大对象整体序列化后塞进日志。应当把底层异常 <code>e</code> 作为 <code>exc_info=True</code> 传入 logger，既保留堆栈，又不会导致代码里堆出大片 <code>str(e)</code> 拼接逻辑。</p>
+<h2 id="日志文件的切割策略"><a href="#日志文件的切割策略" class="headerlink" title="日志文件的切割策略"></a>日志文件的切割策略</h2><p>日志文件如果不做切割，会一直膨胀下去，最终拖垮磁盘和 IO。所谓切割，就是按时间或按大小将日志拆分到多个文件。时间型切割按小时、天或周滚动，例如 <code>app-2025-01-04.log</code>；大小型切割则是在文件达到指定阈值时触发滚动，例如 100MB。</p>
+<p>实际生产环境中，两者往往结合使用。建议按天切割，同时设置单文件大小上限作为兜底。比如某高并发服务如果一天产生 5GB 日志，又用默认的 <code>RotatingFileHandler</code>，那单个文件体积会大到文本编辑器都打不开——此时必须设置单文件 200MB 就滚动，并保留最近 7 天的旧文件。</p>
+<p>实现上，Linux 环境最常用的方案是 <strong>logrotate</strong>，它不需要你修改任何业务代码，只需在 <code>/etc/logrotate.d/</code> 下新建一个配置文件即可。这也是下面我要重点展开的部分。</p>
+<h2 id="用好-logrotate-进行轮转清理"><a href="#用好-logrotate-进行轮转清理" class="headerlink" title="用好 logrotate 进行轮转清理"></a>用好 logrotate 进行轮转清理</h2><p>logrotate 的策略配置非常直观，一个最简洁的示例是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">/path/to/your/app/logs/*.<span class="hljs-built_in">log</span> &#123;<br>    daily<br>    rotate 14<br>    compress<br>    delaycompress<br>    missingok<br>    notifempty<br>    copytruncate<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>工作流里其实做了三件事：拉取最新代码、运行抓取脚本、把生成的文件提交回仓库。这几个步骤组合起来，你的仓库就变成了一个自动更新的数据存档，全程无需人工介入。注意，<code>schedule</code> 使用的 <code>cron</code> 表达式默认是 UTC 时间，中国用户记得自行换算，比如 <code>&quot;0 15 * * *&quot;</code> 对应北京时间 23:00。</p>
-<h2 id="进阶技巧：Secrets、缓存与排错"><a href="#进阶技巧：Secrets、缓存与排错" class="headerlink" title="进阶技巧：Secrets、缓存与排错"></a>进阶技巧：Secrets、缓存与排错</h2><p><strong>1. 敏感信息一律放入 Secrets</strong>。不要把 API Key 直接写在 YAML 或脚本中。请前往仓库 Settings → Secrets and variables → Actions 添加密钥，然后在 YAML 中引用：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">env:</span><br>  <span class="hljs-attr">API_KEY:</span> <span class="hljs-string">$&#123;&#123;</span> <span class="hljs-string">secrets.API_KEY</span> <span class="hljs-string">&#125;&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>2. 使用缓存加速依赖安装</strong>。如果每次执行都要 <code>pip install</code>，可以开启 setup-python 自带的 pip 缓存：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-python@v5</span><br>  <span class="hljs-attr">with:</span><br>    <span class="hljs-attr">python-version:</span> <span class="hljs-string">&quot;3.11&quot;</span><br>    <span class="hljs-attr">cache:</span> <span class="hljs-string">&quot;pip&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>3. 排查失败任务</strong>。Actions 页面点击失败的任务，即可看到每个 Step 的完整日志。常用技巧有：在脚本开头加 <code>set -x</code> 打印详细执行过程；或者临时在 YAML 中加一步 <code>run: env</code> 查看环境变量，快速定位问题。</p>
-<p><strong>4. 区分定时任务与手动触发</strong>。<code>schedule</code> 只会在指定时间自动运行，而 <code>workflow_dispatch</code> 允许你在网页端手动点击“Run workflow”，两种事件可以同时配置，互不冲突。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章从“为什么选 GitHub Actions”讲起，带你认识了 Workflow、Job、Step、Event 四个核心概念，并完成了一个定时抓取数据的自动化工作流，最后补充了 Secrets、缓存与排错技巧。</p>
-<p>我的建议是：不要停留在示例，而是从自己的真实需求出发去改造它。比如每天自动更新博客的 RSS 参考、每周备份数据库并推送到私有仓库、每次 push 自动构建并部署到服务器。</p>
-<p>这些场景的套路完全一致：定义触发事件 → 写好要执行的命令 → 推送到 <code>.github/workflows/</code> 目录。一次 commit，之后世界开始自动运转。尝试一下，你也会上瘾。</p>
+<p>各指令的含义：<code>daily</code> 表示每天轮转一次；<code>rotate 14</code> 表示保留最近 14 份归档日志，稍早的会自动删除；<code>compress</code> 使用 gzip 压缩归档文件（对 .log 文件非常有效）；<code>delaycompress</code> 则保证最近生成的归档文件先不压缩，以便排查脚本仍能读取昨天的日志；<code>missingok</code> 避免日志文件缺失时报错；<code>notifempty</code> 表示空文件不轮转；<code>copytruncate</code> 是业务进程无法接收信号重开日志文件时的折中方案，它会先复制再清空，代价是可能丢失极少量的落盘数据。</p>
+<p>再顺带一提，有时候你配置了 <code>daily</code>，但发现 logrotate 每天只跑一次且是在凌晨 3 点左右，这是因为系统自带的 cron 定时任务在统一调度它。若需要更高频的轮转，则需要自己额外配置 <code>hourly</code> 的 crontab，这里不展开细说。配置完成后，可通过 <code>sudo logrotate -vf /etc/logrotate.d/your_app</code> 手动强制验证效果，输出会明确显示每条规则是否被正确执行。常见的坑包括忘写 <code>create</code> 指令、日志文件权限被修改、以及 CentOS 与 Ubuntu 的 logrotate 路径差异，这些都需要在落地时仔细比对自己的发行版环境。</p>
+<h2 id="日志采集与检索的延伸思考"><a href="#日志采集与检索的延伸思考" class="headerlink" title="日志采集与检索的延伸思考"></a>日志采集与检索的延伸思考</h2><p>轮转清理只是日志管理的中间环节，更完整的链路还包括采集与检索。日志被切割后，如果只存放在本地，仍然是信息孤岛。生产环境通常再引入 Filebeat 或 Promtail 将日志文件增量发送到 ES 或 Loki，并配套 Grafana 看板做告警。引入采集器时，要注意日志文件的压缩格式需与采集器兼容，例如某些采集器不支持读取 <code>.gz</code> 压缩包中的增量内容。</p>
+<p>同时，也要建立日志归档与冷存储策略：热日志保留最近 7 天，归档日志保存 30 天，超过 30 天的进行冷备至对象存储或直接删除，这样可以显著降低成本。还需要注意的是，容器时代的日志最佳实践是将日志输出到 stdout，由容器运行时统一收集，这样可以规避 Pod 重建后日志丢失的隐患。但无论平台怎么变，良好的日志规范和分级思想永远适用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>日志管理看似微不足道，却直接关系到线上问题的定位效率。我们聊了三个要点：一是规范输出格式与级别，统一结构、透出 traceId、杜绝敏感信息；二是按时间和大小切割文件，避免单个日志无限膨胀；三是熟练使用 logrotate 的轮转与清理策略，并适时引入采集检索链路。建议你现在就检查一遍生产环境的日志配置，确认是否有日志文件正在无限增长、是否有信息裸奔在磁盘上。记住，制定规范比事后弥补要便宜得多——下一次凌晨三点被告警吵醒的时候，你会感谢定下这些规则的自己。</p>
 
                 
               </div>
@@ -344,7 +327,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
+  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">工程化</a>
   
   
 
@@ -359,13 +342,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/GitHub-Actions/" class="print-no-link">#GitHub Actions</a>
+        <a href="/tags/%E6%97%A5%E5%BF%97/" class="print-no-link">#日志</a>
       
-        <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" class="print-no-link">#自动化</a>
+        <a href="/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
       
-        <a href="/tags/CI-CD/" class="print-no-link">#CI/CD</a>
+        <a href="/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/" class="print-no-link">#可观测性</a>
       
-        <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" class="print-no-link">#效率工具</a>
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
       
     </div>
   
@@ -377,8 +360,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线</div>
-      <div>https://wumingmr.github.io/2026/08/11/GitHub-Actions-实战：从-0-到-1-搭建个人自动化流水线/</div>
+      <div>一文理清日志输出与轮转清理：从规范到实践</div>
+      <div>https://wumingmr.github.io/2026/08/12/一文理清日志输出与轮转清理：从规范到实践/</div>
     </div>
     <div class="license-meta">
       
@@ -390,7 +373,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月11日</div>
+          <div>2026年8月12日</div>
         </div>
       
       
@@ -422,18 +405,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/12/%E4%B8%80%E6%96%87%E7%90%86%E6%B8%85%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%EF%BC%9A%E4%BB%8E%E8%A7%84%E8%8C%83%E5%88%B0%E5%AE%9E%E8%B7%B5/" title="一文理清日志输出与轮转清理：从规范到实践">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">一文理清日志输出与轮转清理：从规范到实践</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/11/%E5%91%8A%E5%88%AB%E7%AC%94%E8%AE%B0%E7%A2%8E%E7%89%87%E5%8C%96%EF%BC%9A%E7%94%A8-Markdown-%E6%90%AD%E5%BB%BA%E9%95%BF%E6%9C%9F%E5%8F%AF%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93/" title="告别笔记碎片化：用 Markdown 搭建长期可用的知识库">
-                        <span class="hidden-mobile">告别笔记碎片化：用 Markdown 搭建长期可用的知识库</span>
+                      <a href="/2026/08/11/GitHub-Actions-%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BB%8E-0-%E5%88%B0-1-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线">
+                        <span class="hidden-mobile">GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
