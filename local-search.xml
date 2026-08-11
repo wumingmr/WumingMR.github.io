@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>日志的账，早晚要算</title>
+    <link href="/2026/08/12/%E6%97%A5%E5%BF%97%E7%9A%84%E8%B4%A6%E6%97%A9%E6%99%9A%E8%A6%81%E7%AE%97/"/>
+    <url>/2026/08/12/%E6%97%A5%E5%BF%97%E7%9A%84%E8%B4%A6%E6%97%A9%E6%99%9A%E8%A6%81%E7%AE%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="日志的账，早晚要算"><a href="#日志的账，早晚要算" class="headerlink" title="日志的账，早晚要算"></a>日志的账，早晚要算</h1><p>线上服务跑得好好的，磁盘突然就满了。这种报警，干过线上的人多半都撞见过，凌晨两三点把人叫起来，起来一看，日志文件好几个 G，大半是几个月前的旧数据，全写在一个文件里。先删，再加轮转，然后才想起来问一句，日志到底该怎么写。</p><p>问晚了。轮转只能治文件膨胀，治不了日志本身没法看。好多项目里日志是各写各的，有人打一行字符串，有人把整个对象序列化扔进去，密码和手机号也往里面打。出故障那天，一群人蹲在日志前面 grep，谁也拼不出完整的现场。</p><p>先把格式统一了。多数服务建议用 JSON，一行一条，带上时间、级别、业务 ID 和服务的名字。字段少而固定，写起来不费劲，后面接 Elasticsearch 或者 Loki 检索都顺。下面是 Python 里常见的一种写法，标准库 logging 加一个自定义 Formatter。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> logging<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">JsonFormatter</span>(logging.Formatter):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">format</span>(<span class="hljs-params">self, record</span>):<br>        base = &#123;<br>            <span class="hljs-string">&quot;time&quot;</span>: datetime.utcnow().isoformat() + <span class="hljs-string">&quot;Z&quot;</span>,<br>            <span class="hljs-string">&quot;level&quot;</span>: record.levelname,<br>            <span class="hljs-string">&quot;message&quot;</span>: record.getMessage(),<br>            <span class="hljs-string">&quot;logger&quot;</span>: record.name,<br>        &#125;<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(record, <span class="hljs-string">&quot;trace_id&quot;</span>):<br>            base[<span class="hljs-string">&quot;trace_id&quot;</span>] = record.trace_id<br>        <span class="hljs-keyword">return</span> json.dumps(base, ensure_ascii=<span class="hljs-literal">False</span>)<br><br>logger = logging.getLogger(<span class="hljs-string">&quot;my-app&quot;</span>)<br>handler = logging.StreamHandler()<br>handler.setFormatter(JsonFormatter())<br>logger.addHandler(handler)<br></code></pre></td></tr></table></figure><p>格式定了，接着管级别。我的标准很简单，Error 是需要人去看的异常，Warning 是系统自己能恢复的状态，Info 记录关键业务节点，Debug 只留在本地。最容易坏的是 Warning，大家把它当另一种颜色的 Info 用，半年下来全是噪音，真出事反而淹在里面。</p><p>再就是别打敏感信息。明文密码、完整手机号、支付密钥，一行都不能进日志。这条最容易被人忽视，出事也最重。真要追链路，用脱敏过的短 ID。</p><p>文件切割是另一件事。日志不分文件，单文件会一直涨，涨到编辑器都打不开。可以按天切，也可以按大小切。常见做法是按天切，同时设一个单文件上限兜底，比如 200MB 就滚动，保留最近七天。</p><p>Linux 上最省事的办法是 logrotate，不用改业务代码，在 &#x2F;etc&#x2F;logrotate.d&#x2F; 下放一个配置就行。一个最简配置长这样。</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-keyword">/path/</span>to<span class="hljs-keyword">/your/</span>app<span class="hljs-keyword">/logs/</span>*.<span class="hljs-title class_">log</span> <span class="hljs-punctuation">&#123;</span><br>    daily<br>    rotate <span class="hljs-number">14</span><br>    compress<br>    delaycompress<br>    missingok<br>    notifempty<br>    copytruncate<br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p>daily 是每天轮一次，rotate 14 是保留最近十四份，多了自动删。compress 用 gzip 压旧文件，delaycompress 让昨天的文件先不压，排查脚本还能读。missingok 是文件不在也别报错，notifempty 是空文件不轮转。</p><p>copytruncate 值得多说一句。正常轮转会先把文件改名，再让进程重开一个新文件，这要求程序能响应信号。程序接不了信号的时候才用 copytruncate，它先复制一份，再把原文件清空，进程不用重启。代价是复制和清空之间那一瞬写的日志会丢，量很小，但要知道有这个取舍。能响应信号，就别用 copytruncate。</p><p>配完可以手动验一次。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> logrotate -vf /etc/logrotate.d/your_app<br></code></pre></td></tr></table></figure><p>常见的坑有三个。一个是 create 的参数没配对，文件重建出来权限和属主不对，进程写不进去。一个是搞不清 logrotate 什么时候跑，它挂在系统的 cron 上，多数发行版每天凌晨跑一次，具体几点看机器。发行版之间的差别也常坑人，CentOS 和 Ubuntu 的调度方式、默认参数不一样，照抄配置前先看看自己的机器。</p><p>轮转只是中间一环。日志切好以后还是躺在本机，出了问题照样要一台台翻。生产环境一般再上一套采集，Filebeat 或者 Promtail 把日志增量推到 ES 或者 Loki，配上 Grafana 做看板。上采集器的时候注意压缩格式，有些采集器读不了 .gz 里的增量。</p><p>容器里又是一套习惯。日志写到 stdout，由容器运行时统一收集，Pod 重建也不会丢。平台换来换去，输出规范和分级思想一直用得上。</p><p>写到这里，最想说的其实是开头那句。报警来了别先删，先问自己这套日志要是再写半年，还能不能看。规范定在出事之前，比半夜爬起来删文件便宜得多。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>工程化</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>日志</tag>
+      
+      <tag>运维</tag>
+      
+      <tag>logrotate</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>旧手机不要扔，装个 Termux 变身 7x24 小时服务器</title>
     <link href="/2026/08/12/%E6%97%A7%E6%89%8B%E6%9C%BA%E4%B8%8D%E8%A6%81%E6%89%94%EF%BC%8C%E8%A3%85%E4%B8%AA-Termux-%E5%8F%98%E8%BA%AB-7x24-%E5%B0%8F%E6%97%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     <url>/2026/08/12/%E6%97%A7%E6%89%8B%E6%9C%BA%E4%B8%8D%E8%A6%81%E6%89%94%EF%BC%8C%E8%A3%85%E4%B8%AA-Termux-%E5%8F%98%E8%BA%AB-7x24-%E5%B0%8F%E6%97%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
