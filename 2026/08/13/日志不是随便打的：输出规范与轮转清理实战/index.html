@@ -19,24 +19,25 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="从网盘到自托管，一套兼顾隐私、速度与跨平台的多设备文件同步思路，附部署要点与避坑指南。">
+    <meta name="description" content="从日志输出规范到轮转清理，一套让日志不再成为磁盘杀手和排障障碍的实用方案。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="别再手动拷贝了：我的多设备文件同步方案">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/10/%E5%88%AB%E5%86%8D%E6%89%8B%E5%8A%A8%E6%8B%B7%E8%B4%9D%E4%BA%86%EF%BC%9A%E6%88%91%E7%9A%84%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%96%87%E4%BB%B6%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:title" content="日志不是随便打的：输出规范与轮转清理实战">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/13/%E6%97%A5%E5%BF%97%E4%B8%8D%E6%98%AF%E9%9A%8F%E4%BE%BF%E6%89%93%E7%9A%84%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E6%88%98/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="从网盘到自托管，一套兼顾隐私、速度与跨平台的多设备文件同步思路，附部署要点与避坑指南。">
+<meta property="og:description" content="从日志输出规范到轮转清理，一套让日志不再成为磁盘杀手和排障障碍的实用方案。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-09T20:06:34.000Z">
-<meta property="article:modified_time" content="2026-08-09T20:06:34.617Z">
+<meta property="article:published_time" content="2026-08-12T20:21:38.000Z">
+<meta property="article:modified_time" content="2026-08-12T20:21:38.261Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="Syncthing">
-<meta property="article:tag" content="同步">
-<meta property="article:tag" content="自托管">
+<meta property="article:tag" content="Shell">
+<meta property="article:tag" content="日志">
+<meta property="article:tag" content="磁盘清理">
+<meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>别再手动拷贝了：我的多设备文件同步方案 - 无名小站</title>
+  <title>日志不是随便打的：输出规范与轮转清理实战 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="别再手动拷贝了：我的多设备文件同步方案"></span>
+            <span id="subtitle" data-typed-text="日志不是随便打的：输出规范与轮转清理实战"></span>
           
         </div>
 
@@ -218,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-10 04:06" pubdate>
-          2026年8月10日 凌晨
+        <time datetime="2026-08-13 04:21" pubdate>
+          2026年8月13日 凌晨
         </time>
       </span>
     
@@ -230,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          1.1k 字
         
       </span>
     
@@ -241,7 +242,7 @@
         
         
         
-          14 分钟
+          10 分钟
         
       </span>
     
@@ -278,33 +279,31 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">别再手动拷贝了：我的多设备文件同步方案</h1>
+            <h1 id="seo-header">日志不是随便打的：输出规范与轮转清理实战</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>写作注释: 本文由 AI 生成, 主题「如何优雅地管理多台设备的同步」, 内容仅供参考, 欢迎留言交流。</p>
+<p>写作注释：本文由 AI 生成，主题「浅谈日志：输出规范与轮转清理」，内容仅供参考，欢迎留言交流。</p>
 </blockquote>
-<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>手机、笔记本、台式机、NAS…… 设备越来越多，文件却七零八落。你是不是也经历过这样的场景：在电脑上改完文档，出门后手机里还是旧版本；想给平板传一本书，还得打开微信“文件传输助手”。手动拷贝、U盘来回倒腾，不仅效率低，还容易出错。这篇文章想和你聊聊我整理的一套同步方案，从选型思路到具体部署，帮你用更省心的方式，让所有设备保持同一个“大脑”。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="先想清楚：我们到底需要同步什么"><a href="#先想清楚：我们到底需要同步什么" class="headerlink" title="先想清楚：我们到底需要同步什么"></a>先想清楚：我们到底需要同步什么</h3><p>在动手搭建之前，先花五分钟梳理需求，远比直接装软件更重要。我把同步需求分成三类：第一类是文档与笔记，特点是文件小、改动频繁，需要多设备实时可见，比如 Markdown 笔记、Office 文档。第二类是媒体资料，例如照片、音乐、电子书，特点是体积大、写入多、读取少，对同步速度和存储容量要求较高。第三类是代码与配置文件，这类文件往往需要版本回溯能力，一旦同步出错要能快速恢复。</p>
-<p>理清需求后，选方案就有方向了。如果你追求极致的简单，且不介意数据经过第三方服务器，坚果云、Dropbox 这类网盘足够。但如果你对隐私敏感、文件较大、或者希望数据完全掌握在自己手中，自托管同步工具是更优雅的解法。我最终选择了 Syncthing，原因有三：开源免费、点对点直连、全平台支持，包括 Windows、macOS、Linux、Android，甚至 iOS 也有第三方客户端。</p>
-<h3 id="部署-Syncthing：半小时搭建私有同步网"><a href="#部署-Syncthing：半小时搭建私有同步网" class="headerlink" title="部署 Syncthing：半小时搭建私有同步网"></a>部署 Syncthing：半小时搭建私有同步网</h3><p>Syncthing 的核心思路是“设备间直接同步”，不经过中央服务器。它通过引入设备 ID 来建立信任关系，每台设备都有一串独一无二的 ID，互相添加后即可开始同步。下面以两台服务器为例，展示最基本的部署流程。</p>
-<p>在 Ubuntu 服务器上，安装 Syncthing 只需要几行命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 添加官方仓库并安装</span><br>curl -s https://syncthing.net/release-key.txt | <span class="hljs-built_in">sudo</span> apt-key add -<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;deb https://apt.syncthing.net/ syncthing stable&quot;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /etc/apt/sources.list.d/syncthing.list<br><span class="hljs-built_in">sudo</span> apt-get update<br><span class="hljs-built_in">sudo</span> apt-get install syncthing<br><br><span class="hljs-comment"># 启动服务并设置开机自启</span><br>systemctl <span class="hljs-built_in">enable</span> syncthing@$(<span class="hljs-built_in">whoami</span>)<br>systemctl start syncthing@$(<span class="hljs-built_in">whoami</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>日志大概是所有开发者都”又爱又恨”的东西：没有它，出了问题只能干瞪眼；有了它，又常常面临两个更头疼的问题——要么日志格式五花八门，排障时 grep 都不知道搜什么；要么日志无限膨胀，把磁盘撑爆，系统先于业务崩溃。我自己就在手机上跑过几个常驻脚本，半年不管，<code>~/.cache</code> 里躺着几个 G 的日志文件，那滋味谁用谁知道。这篇文章不聊高大上的 ELK 全家桶，就讲一个普通开发者（尤其是 Termux &#x2F; 单机服务器场景）真正需要的：日志该怎么打，以及怎么让它自动清理。</p>
+<h2 id="规范输出：让日志可读、可搜、可统计"><a href="#规范输出：让日志可读、可搜、可统计" class="headerlink" title="规范输出：让日志可读、可搜、可统计"></a>规范输出：让日志可读、可搜、可统计</h2><p>日志的第一原则是<strong>结构化</strong>。同样是记一条错误，<code>出错了</code> 和 <code>[2026-08-13 10:00:00] [ERROR] [job_sync] sync failed: network timeout (retry=2/5)</code> 是两种完全不同的排障体验。推荐的最小格式包含四个字段：时间戳、级别、模块名、消息正文。级别建议统一用 <code>DEBUG / INFO / WARN / ERROR</code> 四级，便于过滤；时间戳用 ISO 8601（<code>%Y-%m-%d %H:%M:%S</code>），排序和检索都方便。</p>
+<p>输出目标也要区分：调试信息写文件，进度信息可以上 stdout，错误一定要单独可定位。很多脚本喜欢把错误悄悄吞掉，这是大忌——哪怕只是 <code>logger.error(...)</code> 一句，也要让失败可见。记住一句话：<strong>日志是写给未来的你（或者未来的运维）看的</strong>，写得含糊，等于没写。</p>
+<h2 id="轮转：让日志文件有”天花板”"><a href="#轮转：让日志文件有”天花板”" class="headerlink" title="轮转：让日志文件有”天花板”"></a>轮转：让日志文件有”天花板”</h2><p>日志不可能无限增长，轮转（log rotation）就是给日志设上限的机制。最常见的两种策略：</p>
+<ul>
+<li><strong>按大小轮转</strong>：文件超过阈值（比如 10MB）就重命名归档，保留最近 N 份，更老的就删掉。Linux 上 <code>logrotate</code> 是标准答案。</li>
+<li><strong>按时间轮转</strong>：每天（或每周）切一个文件，例如 <code>app.log</code> → <code>app-20260813.log</code>，适合需要按天回溯的场景。</li>
+</ul>
+<p>Termux 用户没有 systemd，<code>logrotate</code> 通常也没装，但没关系，几十行 Python 或 Shell 就能实现一个够用的轮转。核心逻辑就三件事：检查大小、改名归档、删除超龄文件。跑在 <code>cron</code> 里或脚本自身启动时检查一次即可。</p>
+<h2 id="一个-20-行的-Python-轮转示例"><a href="#一个-20-行的-Python-轮转示例" class="headerlink" title="一个 20 行的 Python 轮转示例"></a>一个 20 行的 Python 轮转示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os, glob, shutil<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><br>LOG = Path.home() / <span class="hljs-string">&quot;app.log&quot;</span><br>MAX_SIZE = <span class="hljs-number">10</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>   <span class="hljs-comment"># 10MB 触发轮转</span><br>KEEP = <span class="hljs-number">5</span>                      <span class="hljs-comment"># 保留最近 5 份归档</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rotate</span>():<br>    <span class="hljs-keyword">if</span> LOG.stat().st_size &lt; MAX_SIZE:<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(KEEP, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>):            <span class="hljs-comment"># 旧的先挪开</span><br>        old = LOG.with_suffix(<span class="hljs-string">f&quot;.log.<span class="hljs-subst">&#123;i&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">if</span> old.exists():<br>            (LOG.with_suffix(<span class="hljs-string">f&quot;.log.<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>&quot;</span>)).unlink(missing_ok=<span class="hljs-literal">True</span>)<br>            shutil.move(old, LOG.with_suffix(<span class="hljs-string">f&quot;.log.<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>&quot;</span>))<br>    shutil.move(LOG, LOG.with_suffix(<span class="hljs-string">&quot;.log.1&quot;</span>))<br>    LOG.touch()<br></code></pre></td></tr></table></figure>
 
-<p>Windows 和 macOS 用户可以直接从官网下载图形化安装包，Android 用户去应用商店安装即可。安装完成后，浏览器访问 <code>localhost:8384</code> 打开管理界面，点击“添加远程设备”，输入另一台设备的 ID，就完成了配对。接着在两台设备上分别添加同一个文件夹，选择“发送和接收”模式，同步立刻开始。</p>
-<p>值得一提的是，Syncthing 的 P2P 架构让内网设备之间走局域网直连，速度可以达到磁盘瓶颈，完全不需要把数据绕道云端。我实测在千兆局域网内，同步速度稳定在 80MB&#x2F;s 以上。</p>
-<h3 id="多设备协作的最佳实践"><a href="#多设备协作的最佳实践" class="headerlink" title="多设备协作的最佳实践"></a>多设备协作的最佳实践</h3><p>工具只是起点，“优雅”体现在规范和习惯里。我总结了几条自己踩坑后沉淀下来的规则。</p>
-<p><strong>第一，明确“主写入”设备。</strong> 对于同一份文件，尽可能避免在多个设备上同时编辑。比如我的笔记库以手机为主写入端，电脑主要做查看和批量整理，这样能大幅减少冲突。如果实在无法避免，建议开启 Syncthing 的版本控制功能，冲突文件会被自动保存为副本，而不是互相覆盖。</p>
-<p><strong>第二，使用选择性同步。</strong> 并不是所有文件都需要出现在每一台设备上。Syncthing 允许你在文件夹级别设置“选择性同步”，例如电脑上保留全部 200GB 媒体库，手机上只同步“最近一周”的照片文件夹。这个功能有效解决了手机存储不足的问题，也让同步任务更加轻量。</p>
-<p><strong>第三，为关键数据配置版本控制。</strong> 在文件夹设置中打开“文件版本控制”，选择“阶梯式保留”策略，比如保留最近 5 个版本、每小时一份、每天一份、每周一份。这样即使误删文件，也能在 Web 管理界面中找回历史版本。对个人笔记来说，这个机制相当于一个轻量级备份方案，非常实用。</p>
-<h3 id="跨平台补完计划：解决移动端的“最后一块短板”"><a href="#跨平台补完计划：解决移动端的“最后一块短板”" class="headerlink" title="跨平台补完计划：解决移动端的“最后一块短板”"></a>跨平台补完计划：解决移动端的“最后一块短板”</h3><p>Syncthing 在 Android 上有官方客户端，体验流畅，还支持按网络类型（Wi-Fi &#x2F; 流量）控制同步开关。但 iOS 用户就比较尴尬，官方没有 iOS 客户端，推荐用第三方应用如 Möbius Sync，它封装了 Syncthing 核心，配置方式与桌面端完全一致。为方便 iOS 设备协调，我会在配置时将移动端设置为“仅 Wi-Fi 同步”，避免消耗移动流量，同时延长手机续航。</p>
-<p>此外，如果你的文件里有太多小文件（比如 node_modules 目录），建议在同步前把它们过滤掉。Syncthing 支持在文件夹设置中添加忽略规则，语法与 <code>.gitignore</code> 类似：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">// 忽略 node_modules 和缓存目录<br>node_modules/<br>.cache/<br>*.tmp<br></code></pre></td></tr></table></figure>
+<p>够用就好。生产环境当然优先用 <code>logrotate</code>，它的配置更健壮，还支持压缩（<code>compress</code> 选项能把历史日志压成 <code>.gz</code>，磁盘占用立减 90%）。</p>
+<h2 id="清理与监控：别忘了”最后一道闸”"><a href="#清理与监控：别忘了”最后一道闸”" class="headerlink" title="清理与监控：别忘了”最后一道闸”"></a>清理与监控：别忘了”最后一道闸”</h2><p>轮转解决”单文件无限涨”，但归档本身也会积累。所以还需要<strong>保留策略</strong>：归档只留 N 份或 N 天，超出即删。这条规则可以和轮转放在同一个脚本里，用 <code>find</code> 一行搞定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find ~/logs -name <span class="hljs-string">&quot;*.log.*&quot;</span> -mtime +30 -delete<br></code></pre></td></tr></table></figure>
 
-<p>这一条能显著降低文件扫描和同步的 CPU 开销，让整个同步过程更加“顺滑”。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>管理多台设备的同步，本质上是在“简便、隐私、可控”之间找平衡。我的最终方案是：Syncthing 作为核心同步引擎，辅以合理的使用规范——明确主写入设备、选择性同步、开启版本控制、过滤无用文件。这套组合拳让我彻底摆脱了手动拷贝的烦恼，也把数据安全牢牢攥在自己手里。如果你对隐私和效率都有要求，不妨从今天开始，用 Syncthing 搭建你自己的同步网络。你不需要一步到位，先在两台设备上跑通一个文件夹，就能感受到那种“无缝衔接”的舒适感。</p>
+<p>另一个容易被忽略的点是<strong>主动监控</strong>：磁盘告警阈值（比如超过 80% 就告警）应该独立于日志本身，因为轮转失效时（比如脚本没跑）总要有人知道。我自己习惯给关键任务加一条 <code>du -sh</code> 的周报，几秒钟的事，能提前发现很多隐患。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>日志管理其实就三件事：<strong>打得规范</strong>（结构化、分级、可搜索）、<strong>转得及时</strong>（按大小或时间轮转，设上限）、<strong>清得干净</strong>（保留策略 + 监控兜底）。别等磁盘满了才想起日志，花半小时把输出规范和轮转脚本写好，之后就能一劳永逸。行动建议：先检查你机器上最大的三个日志文件，然后从今天开始，给每个新脚本加上日志轮转——相信我，半年后的你会感谢现在的自己。</p>
 
                 
               </div>
@@ -338,11 +337,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%90%8C%E6%AD%A5/" class="print-no-link">#同步</a>
+        <a href="/tags/%E6%97%A5%E5%BF%97/" class="print-no-link">#日志</a>
       
-        <a href="/tags/Syncthing/" class="print-no-link">#Syncthing</a>
+        <a href="/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
       
-        <a href="/tags/%E8%87%AA%E6%89%98%E7%AE%A1/" class="print-no-link">#自托管</a>
+        <a href="/tags/Shell/" class="print-no-link">#Shell</a>
+      
+        <a href="/tags/%E7%A3%81%E7%9B%98%E6%B8%85%E7%90%86/" class="print-no-link">#磁盘清理</a>
       
     </div>
   
@@ -354,8 +355,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>别再手动拷贝了：我的多设备文件同步方案</div>
-      <div>https://wumingmr.github.io/2026/08/10/别再手动拷贝了：我的多设备文件同步方案/</div>
+      <div>日志不是随便打的：输出规范与轮转清理实战</div>
+      <div>https://wumingmr.github.io/2026/08/13/日志不是随便打的：输出规范与轮转清理实战/</div>
     </div>
     <div class="license-meta">
       
@@ -367,7 +368,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月10日</div>
+          <div>2026年8月13日</div>
         </div>
       
       
@@ -399,18 +400,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/11/%E5%91%8A%E5%88%AB%E7%AC%94%E8%AE%B0%E7%A2%8E%E7%89%87%E5%8C%96%EF%BC%9A%E7%94%A8-Markdown-%E6%90%AD%E5%BB%BA%E9%95%BF%E6%9C%9F%E5%8F%AF%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93/" title="告别笔记碎片化：用 Markdown 搭建长期可用的知识库">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">告别笔记碎片化：用 Markdown 搭建长期可用的知识库</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/09/%E6%8A%8A%E9%97%B2%E7%BD%AE%E6%89%8B%E6%9C%BA%E5%8F%98%E6%88%90-7%C3%9724-%E5%B0%8F%E6%97%B6%E5%B0%8F%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9ATermux-%E8%BD%BB%E9%87%8F%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/" title="把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战">
-                        <span class="hidden-mobile">把闲置手机变成 7×24 小时小服务器：Termux 轻量服务实战</span>
+                      <a href="/2026/08/13/%E6%97%A2%E8%A6%81%E5%90%8E%E5%8F%B0%E5%B8%B8%E9%A9%BB%E5%8F%88%E8%A6%81%E7%9C%81%E7%94%B5%EF%BC%9FAndroid-%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1%E7%9A%84%E2%80%9C%E9%A9%AF%E6%9C%8D%E2%80%9D%E6%8C%87%E5%8D%97/" title="既要后台常驻又要省电？Android 后台任务的“驯服”指南">
+                        <span class="hidden-mobile">既要后台常驻又要省电？Android 后台任务的“驯服”指南</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
