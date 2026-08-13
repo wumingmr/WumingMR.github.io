@@ -19,25 +19,25 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="从日志输出规范到轮转清理，一套让日志不再成为磁盘杀手和排障障碍的实用方案。">
+    <meta name="description" content="一台手机能顶多少生产力工具？这是我踩坑一年后留下的最终清单，从输入到自动化全覆盖。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日志不是随便打的：输出规范与轮转清理实战">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/13/%E6%97%A5%E5%BF%97%E4%B8%8D%E6%98%AF%E9%9A%8F%E4%BE%BF%E6%89%93%E7%9A%84%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:title" content="口袋里的工作站：我的手机生产力工具清单">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/14/%E5%8F%A3%E8%A2%8B%E9%87%8C%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%AB%99%EF%BC%9A%E6%88%91%E7%9A%84%E6%89%8B%E6%9C%BA%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="从日志输出规范到轮转清理，一套让日志不再成为磁盘杀手和排障障碍的实用方案。">
+<meta property="og:description" content="一台手机能顶多少生产力工具？这是我踩坑一年后留下的最终清单，从输入到自动化全覆盖。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-12T20:21:38.000Z">
-<meta property="article:modified_time" content="2026-08-12T20:21:38.261Z">
+<meta property="article:published_time" content="2026-08-13T21:29:57.000Z">
+<meta property="article:modified_time" content="2026-08-13T21:29:57.195Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="Shell">
-<meta property="article:tag" content="日志">
-<meta property="article:tag" content="磁盘清理">
-<meta property="article:tag" content="运维">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Termux">
+<meta property="article:tag" content="效率工具">
+<meta property="article:tag" content="生产力">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>日志不是随便打的：输出规范与轮转清理实战 - 无名小站</title>
+  <title>口袋里的工作站：我的手机生产力工具清单 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="日志不是随便打的：输出规范与轮转清理实战"></span>
+            <span id="subtitle" data-typed-text="口袋里的工作站：我的手机生产力工具清单"></span>
           
         </div>
 
@@ -219,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-13 04:21" pubdate>
-          2026年8月13日 凌晨
+        <time datetime="2026-08-14 05:29" pubdate>
+          2026年8月14日 凌晨
         </time>
       </span>
     
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          10 分钟
+          9 分钟
         
       </span>
     
@@ -279,31 +279,29 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">日志不是随便打的：输出规范与轮转清理实战</h1>
+            <h1 id="seo-header">口袋里的工作站：我的手机生产力工具清单</h1>
             
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>写作注释：本文由 AI 生成，主题「浅谈日志：输出规范与轮转清理」，内容仅供参考，欢迎留言交流。</p>
-</blockquote>
-<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>日志大概是所有开发者都”又爱又恨”的东西：没有它，出了问题只能干瞪眼；有了它，又常常面临两个更头疼的问题——要么日志格式五花八门，排障时 grep 都不知道搜什么；要么日志无限膨胀，把磁盘撑爆，系统先于业务崩溃。我自己就在手机上跑过几个常驻脚本，半年不管，<code>~/.cache</code> 里躺着几个 G 的日志文件，那滋味谁用谁知道。这篇文章不聊高大上的 ELK 全家桶，就讲一个普通开发者（尤其是 Termux &#x2F; 单机服务器场景）真正需要的：日志该怎么打，以及怎么让它自动清理。</p>
-<h2 id="规范输出：让日志可读、可搜、可统计"><a href="#规范输出：让日志可读、可搜、可统计" class="headerlink" title="规范输出：让日志可读、可搜、可统计"></a>规范输出：让日志可读、可搜、可统计</h2><p>日志的第一原则是<strong>结构化</strong>。同样是记一条错误，<code>出错了</code> 和 <code>[2026-08-13 10:00:00] [ERROR] [job_sync] sync failed: network timeout (retry=2/5)</code> 是两种完全不同的排障体验。推荐的最小格式包含四个字段：时间戳、级别、模块名、消息正文。级别建议统一用 <code>DEBUG / INFO / WARN / ERROR</code> 四级，便于过滤；时间戳用 ISO 8601（<code>%Y-%m-%d %H:%M:%S</code>），排序和检索都方便。</p>
-<p>输出目标也要区分：调试信息写文件，进度信息可以上 stdout，错误一定要单独可定位。很多脚本喜欢把错误悄悄吞掉，这是大忌——哪怕只是 <code>logger.error(...)</code> 一句，也要让失败可见。记住一句话：<strong>日志是写给未来的你（或者未来的运维）看的</strong>，写得含糊，等于没写。</p>
-<h2 id="轮转：让日志文件有”天花板”"><a href="#轮转：让日志文件有”天花板”" class="headerlink" title="轮转：让日志文件有”天花板”"></a>轮转：让日志文件有”天花板”</h2><p>日志不可能无限增长，轮转（log rotation）就是给日志设上限的机制。最常见的两种策略：</p>
+                <p>手机常被当成”消费设备”，刷视频、回消息、拍照。但当我开始认真用它干活，发现一台 Android 手机加一双手，几乎能覆盖我日常工作流的八成。这篇文章是我长期筛选后留下的生产力工具清单，不求大而全，只讲真正每天都在用的东西。</p>
+<h2 id="输入：一切效率的起点"><a href="#输入：一切效率的起点" class="headerlink" title="输入：一切效率的起点"></a>输入：一切效率的起点</h2><p>手机生产力的瓶颈从来不是性能，而是输入。我花了不少冤枉钱买键盘，最后留下的方案很朴素：蓝牙机械键盘 + 输入法自定义词库。</p>
+<p>键盘选的是矮轴 60% 配列，够轻够小，放进包里没有存在感；配合 Termux 里的 vim 写文档、写脚本，效率跟台式机没有本质区别。输入法方面，我深度使用了自定义符号短语，把高频片段（邮箱、命令前缀、常用地址）做成快捷键，省掉大量重复输入。</p>
+<p>另一个容易被忽略的输入工具是剪贴板管理器。手机上复制一段话再切到别处粘贴，来回切换的成本很高。装上剪贴板历史工具后，复制过的内容随时可查，长文本拼接也变成复制粘贴两下的事。</p>
+<h2 id="终端：把手机变成工作站"><a href="#终端：把手机变成工作站" class="headerlink" title="终端：把手机变成工作站"></a>终端：把手机变成工作站</h2><p>如果说输入是入口，Termux 就是整个生产力体系的发动机。我在 Termux 里装了三样东西，几乎能处理所有日常事务：</p>
 <ul>
-<li><strong>按大小轮转</strong>：文件超过阈值（比如 10MB）就重命名归档，保留最近 N 份，更老的就删掉。Linux 上 <code>logrotate</code> 是标准答案。</li>
-<li><strong>按时间轮转</strong>：每天（或每周）切一个文件，例如 <code>app.log</code> → <code>app-20260813.log</code>，适合需要按天回溯的场景。</li>
+<li><strong>终端复用与编辑器</strong>：tmux + vim，多会话保持、远程断线不丢任务；</li>
+<li><strong>语言与脚本环境</strong>：Python 和 Node.js，写自动化脚本、处理数据都靠它们；</li>
+<li><strong>包管理</strong>：pkg 一键安装，需要什么工具随时补上。</li>
 </ul>
-<p>Termux 用户没有 systemd，<code>logrotate</code> 通常也没装，但没关系，几十行 Python 或 Shell 就能实现一个够用的轮转。核心逻辑就三件事：检查大小、改名归档、删除超龄文件。跑在 <code>cron</code> 里或脚本自身启动时检查一次即可。</p>
-<h2 id="一个-20-行的-Python-轮转示例"><a href="#一个-20-行的-Python-轮转示例" class="headerlink" title="一个 20 行的 Python 轮转示例"></a>一个 20 行的 Python 轮转示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os, glob, shutil<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><br>LOG = Path.home() / <span class="hljs-string">&quot;app.log&quot;</span><br>MAX_SIZE = <span class="hljs-number">10</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>   <span class="hljs-comment"># 10MB 触发轮转</span><br>KEEP = <span class="hljs-number">5</span>                      <span class="hljs-comment"># 保留最近 5 份归档</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rotate</span>():<br>    <span class="hljs-keyword">if</span> LOG.stat().st_size &lt; MAX_SIZE:<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(KEEP, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>):            <span class="hljs-comment"># 旧的先挪开</span><br>        old = LOG.with_suffix(<span class="hljs-string">f&quot;.log.<span class="hljs-subst">&#123;i&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">if</span> old.exists():<br>            (LOG.with_suffix(<span class="hljs-string">f&quot;.log.<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>&quot;</span>)).unlink(missing_ok=<span class="hljs-literal">True</span>)<br>            shutil.move(old, LOG.with_suffix(<span class="hljs-string">f&quot;.log.<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>&quot;</span>))<br>    shutil.move(LOG, LOG.with_suffix(<span class="hljs-string">&quot;.log.1&quot;</span>))<br>    LOG.touch()<br></code></pre></td></tr></table></figure>
-
-<p>够用就好。生产环境当然优先用 <code>logrotate</code>，它的配置更健壮，还支持压缩（<code>compress</code> 选项能把历史日志压成 <code>.gz</code>，磁盘占用立减 90%）。</p>
-<h2 id="清理与监控：别忘了”最后一道闸”"><a href="#清理与监控：别忘了”最后一道闸”" class="headerlink" title="清理与监控：别忘了”最后一道闸”"></a>清理与监控：别忘了”最后一道闸”</h2><p>轮转解决”单文件无限涨”，但归档本身也会积累。所以还需要<strong>保留策略</strong>：归档只留 N 份或 N 天，超出即删。这条规则可以和轮转放在同一个脚本里，用 <code>find</code> 一行搞定：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find ~/logs -name <span class="hljs-string">&quot;*.log.*&quot;</span> -mtime +30 -delete<br></code></pre></td></tr></table></figure>
-
-<p>另一个容易被忽略的点是<strong>主动监控</strong>：磁盘告警阈值（比如超过 80% 就告警）应该独立于日志本身，因为轮转失效时（比如脚本没跑）总要有人知道。我自己习惯给关键任务加一条 <code>du -sh</code> 的周报，几秒钟的事，能提前发现很多隐患。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>日志管理其实就三件事：<strong>打得规范</strong>（结构化、分级、可搜索）、<strong>转得及时</strong>（按大小或时间轮转，设上限）、<strong>清得干净</strong>（保留策略 + 监控兜底）。别等磁盘满了才想起日志，花半小时把输出规范和轮转脚本写好，之后就能一劳永逸。行动建议：先检查你机器上最大的三个日志文件，然后从今天开始，给每个新脚本加上日志轮转——相信我，半年后的你会感谢现在的自己。</p>
+<p>配合 Shizuku 授权，还能在终端里执行一些系统级操作，比如批量管理文件、调用系统 API，把”手机管手机”变成了现实。键盘、终端、脚本三件套齐了之后，手机就不再是娱乐设备，而是一台随身 Linux 小主机。</p>
+<h2 id="自动化：让重复的事自己跑"><a href="#自动化：让重复的事自己跑" class="headerlink" title="自动化：让重复的事自己跑"></a>自动化：让重复的事自己跑</h2><p>工具清单里最值钱的一项，是自动化。我手机上的自动化脚本分两类：一类挂在系统定时任务里，比如每天固定时间备份照片、整理下载目录；另一类是”触发式”的，比如收到特定通知就执行对应动作，或者连上家里 Wi-Fi 自动切换工作模式。</p>
+<p>写自动化有个经验：<strong>先从最痛的点开始</strong>。别一上来就设计宏大的自动化体系，挑一个每周都会做、且机械重复的操作，花半小时写成脚本，立刻就有正反馈。跑顺一个，再扩展到下一个。半年下来，你会发现手机帮你省掉的时间远超想象。</p>
+<p>数据这块我坚持 3-2-1 备份原则：重要文件本地一份、外置一份、云端一份。自动化脚本本身放在 git 仓库里，改坏了随时回滚，重装系统一键拉回。</p>
+<h2 id="记录：知识不落地等于没记"><a href="#记录：知识不落地等于没记" class="headerlink" title="记录：知识不落地等于没记"></a>记录：知识不落地等于没记</h2><p>生产力不止是”做”，还包括”记得”。我用 Markdown 建了一个个人知识库，所有笔记、灵感、踩坑记录都按主题归档，配合全文搜索，查找几乎零成本。</p>
+<p>这里的关键是降低记录门槛：想到什么随手记，不追求格式完美，先存下来再说。每周花十分钟整理一次，把零散条目合并、打标签。坚持下来，这个知识库会变成你最有价值的数字资产，比任何付费笔记软件都靠谱。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这份清单没有一样东西是昂贵的，核心就三句话：<strong>把输入配好，把终端用好，把重复的事自动化</strong>。工具永远在迭代，但方法论是稳定的——手机生产力的本质，是让随手可得的设备承担起原本需要专门工具才能完成的工作。</p>
+<p>如果你也在折腾手机生产力，欢迎分享你的工具清单，互相抄作业。</p>
 
                 
               </div>
@@ -322,7 +320,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
+  <a href="/categories/%E6%95%88/" class="category-chain-item">效</a>
   
   
 
@@ -337,13 +335,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%97%A5%E5%BF%97/" class="print-no-link">#日志</a>
+        <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" class="print-no-link">#效率工具</a>
       
-        <a href="/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
+        <a href="/tags/Android/" class="print-no-link">#Android</a>
       
-        <a href="/tags/Shell/" class="print-no-link">#Shell</a>
+        <a href="/tags/Termux/" class="print-no-link">#Termux</a>
       
-        <a href="/tags/%E7%A3%81%E7%9B%98%E6%B8%85%E7%90%86/" class="print-no-link">#磁盘清理</a>
+        <a href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B/" class="print-no-link">#生产力</a>
       
     </div>
   
@@ -355,8 +353,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>日志不是随便打的：输出规范与轮转清理实战</div>
-      <div>https://wumingmr.github.io/2026/08/13/日志不是随便打的：输出规范与轮转清理实战/</div>
+      <div>口袋里的工作站：我的手机生产力工具清单</div>
+      <div>https://wumingmr.github.io/2026/08/14/口袋里的工作站：我的手机生产力工具清单/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +366,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月13日</div>
+          <div>2026年8月14日</div>
         </div>
       
       
@@ -400,18 +398,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/14/%E5%8F%A3%E8%A2%8B%E9%87%8C%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%AB%99%EF%BC%9A%E6%88%91%E7%9A%84%E6%89%8B%E6%9C%BA%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95/" title="口袋里的工作站：我的手机生产力工具清单">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">口袋里的工作站：我的手机生产力工具清单</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/13/%E6%97%A2%E8%A6%81%E5%90%8E%E5%8F%B0%E5%B8%B8%E9%A9%BB%E5%8F%88%E8%A6%81%E7%9C%81%E7%94%B5%EF%BC%9FAndroid-%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1%E7%9A%84%E2%80%9C%E9%A9%AF%E6%9C%8D%E2%80%9D%E6%8C%87%E5%8D%97/" title="既要后台常驻又要省电？Android 后台任务的“驯服”指南">
-                        <span class="hidden-mobile">既要后台常驻又要省电？Android 后台任务的“驯服”指南</span>
+                      <a href="/2026/08/13/%E6%97%A5%E5%BF%97%E4%B8%8D%E6%98%AF%E9%9A%8F%E4%BE%BF%E6%89%93%E7%9A%84%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E6%88%98/" title="日志不是随便打的：输出规范与轮转清理实战">
+                        <span class="hidden-mobile">日志不是随便打的：输出规范与轮转清理实战</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
