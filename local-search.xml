@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>把大脑外置：我用 Markdown 搭了一座个人知识库</title>
+    <link href="/2026/08/17/%E6%8A%8A%E5%A4%A7%E8%84%91%E5%A4%96%E7%BD%AE%EF%BC%9A%E6%88%91%E7%94%A8-Markdown-%E6%90%AD%E4%BA%86%E4%B8%80%E5%BA%A7%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/"/>
+    <url>/2026/08/17/%E6%8A%8A%E5%A4%A7%E8%84%91%E5%A4%96%E7%BD%AE%EF%BC%9A%E6%88%91%E7%94%A8-Markdown-%E6%90%AD%E4%BA%86%E4%B8%80%E5%BA%A7%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/</url>
+    
+    <content type="html"><![CDATA[<p>你有没有过这样的经历：收藏夹里躺了几百篇文章，却从没再打开过；读了一本书，三个月后连核心观点都想不起来；写过的代码、踩过的坑，第二次遇到时又要重新查一遍。问题不在于信息不够多，而在于我们没有把信息变成自己的知识。这两年我把知识管理彻底迁移到了 Markdown 上，用最朴素的方式搭了一座”个人知识库”，今天把完整思路分享给你。</p><h2 id="为什么是-Markdown"><a href="#为什么是-Markdown" class="headerlink" title="为什么是 Markdown"></a>为什么是 Markdown</h2><p>知识管理的工具有很多：Notion、印象笔记、Roam、语雀……它们各有优点，但对我来说有三个绕不开的痛点：一是数据不自由，笔记存在别人的服务器上，导出格式五花八门；二是编辑器臃肿，打开就要等半天，写个想法反而被工具绑架；三是组织方式死板，文件夹、标签、数据库结构定死之后，想改都难。</p><p>Markdown 完美绕开了这些问题。它本质就是纯文本，一个 <code>.md</code> 文件在任何设备上都能打开，用记事本也行；Git 可以管理历史版本，写错了随时回退；语法简单到十分钟就能学会，<code>#</code> 是标题，<code>-</code> 是列表，<code>`</code> 是代码。更重要的是，<strong>纯文本永远不会过时</strong>——十年后你依然能读，而任何软件都可能在十年内停止维护。</p><h2 id="目录结构：先搭骨架"><a href="#目录结构：先搭骨架" class="headerlink" title="目录结构：先搭骨架"></a>目录结构：先搭骨架</h2><p>知识库的目录我建议按”领域 + 类型”两层来组织，不要分得太细，否则维护成本会杀死这个习惯：</p><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">notes<span class="hljs-symbol">/</span>                 <span class="hljs-comment"># 知识库根目录</span><br>├── inbox<span class="hljs-symbol">/</span>             <span class="hljs-comment"># 收件箱：临时想法、待整理的摘录</span><br>├── area<span class="hljs-symbol">/</span>              <span class="hljs-comment"># 领域：按主题划分的长期笔记</span><br>│   ├── termux.md<br>│   ├── python.md<br>│   └── android.md<br>├── project<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 项目：进行中的任务、复盘</span><br>├── resource<span class="hljs-symbol">/</span>          <span class="hljs-comment"># 资料：书摘、文章、工具清单</span><br>└── archive<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 归档：已经过时但不想删除的内容</span><br></code></pre></td></tr></table></figure><p>核心原则只有一条：<strong>新想法先进 inbox，整理后才进入具体目录</strong>。收件箱是缓冲带，避免你在记录的同时还要纠结放哪里——那种纠结是笔记习惯夭折的头号杀手。</p><h2 id="笔记的写法：少摘抄，多转述"><a href="#笔记的写法：少摘抄，多转述" class="headerlink" title="笔记的写法：少摘抄，多转述"></a>笔记的写法：少摘抄，多转述</h2><p>很多人记笔记就是把原文复制粘贴，这其实是在”搬砖”而不是在”学习”。真正有效的笔记应该经过自己的加工，我的模板是这样的：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 笔记标题</span><br><br><span class="hljs-section">## 一句话总结</span><br>用你自己的话，把这篇内容压缩成一句话。<br><br><span class="hljs-section">## 核心要点</span><br><span class="hljs-bullet">-</span> 要点一（用自己的话复述）<br><span class="hljs-bullet">-</span> 要点二<br><br><span class="hljs-section">## 我联想到的</span><br><span class="hljs-bullet">-</span> 和已有的哪篇笔记相关？<br><span class="hljs-bullet">-</span> 可以应用到哪些场景？<br><br><span class="hljs-section">## 行动项</span><br><span class="hljs-bullet">-</span> [ ] 下一步做什么<br></code></pre></td></tr></table></figure><p>关键在于”<strong>我联想到的</strong>“和”<strong>行动项</strong>“两个小节。前者建立笔记之间的连接，让知识从孤立点连成网；后者推动行动，让知识真正改变你的行为。哪怕只写两三行，效果也远胜于复制一大段原文。</p><h2 id="双向链接：让笔记连成网"><a href="#双向链接：让笔记连成网" class="headerlink" title="双向链接：让笔记连成网"></a>双向链接：让笔记连成网</h2><p>单一的知识库如果只有一堆文件，和散落的便签没有区别。要发挥威力，得让笔记之间互相引用。Markdown 里用 <code>[[双链]]</code> 语法（Obsidian、Logseq 等工具原生支持），或者最简单的方式——在”相关笔记”小节里放相对路径链接：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">## 相关笔记</span><br><span class="hljs-bullet">-</span> [[Termux 自动化任务完全指南]]<br><span class="hljs-bullet">-</span> [[用 Python 给手机写一个文件批量重命名工具]]<br></code></pre></td></tr></table></figure><p>这样做的好处是：当你打开某篇笔记，侧边栏会显示所有引用过它的笔记，你顺着链接走，很容易发现自己从未意识到的知识关联。知识库就这样从”文件夹”变成了”知识图谱”。如果不用 Obsidian 这类工具，退而求其次，用一个 <code>index.md</code> 总索引文件手动维护链接也可以，成本低但依然有效。</p><h2 id="同步与备份：知识不能丢"><a href="#同步与备份：知识不能丢" class="headerlink" title="同步与备份：知识不能丢"></a>同步与备份：知识不能丢</h2><p>知识库是多年积累，丢了损失巨大，所以同步和备份是底线。我的方案是三步走：Git 管理历史版本、云盘做异地同步、定期全量备份。在 Termux 上建一个自动化脚本，每天自动提交：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br><span class="hljs-built_in">cd</span> ~/notes<br>git add -A<br>git commit -m <span class="hljs-string">&quot;daily backup <span class="hljs-subst">$(date &#x27;+%Y-%m-%d %H:%M&#x27;)</span>&quot;</span> &gt;/dev/null 2&gt;&amp;1 || <span class="hljs-literal">true</span><br>git push origin master<br></code></pre></td></tr></table></figure><p>配合 <code>cron</code> 或者 <code>termux-job-scheduler</code> 定时执行，知识库就实现了”无感备份”。手机上随手记，电脑上写长文，Markdown 文件让这一切无缝衔接——没有哪款笔记软件能做到如此自由。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>搭建知识库不需要复杂的工具，一个文件夹、一堆 Markdown 文件、一个顺手的编辑器，再加一条 Git 备份命令，就足够了。真正的门槛从来不是工具，而是”持续记录”这个习惯。从今天起，把新想法丢进 inbox，每周整理一次，用两个月时间回头看看——你会惊讶于这座知识库悄悄长成了什么样子。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>效</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>markdown</tag>
+      
+      <tag>知识管理</tag>
+      
+      <tag>obsidian</tag>
+      
+      <tag>效率</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>口袋里的工作站：我的手机生产力工具清单</title>
     <link href="/2026/08/14/%E5%8F%A3%E8%A2%8B%E9%87%8C%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%AB%99%EF%BC%9A%E6%88%91%E7%9A%84%E6%89%8B%E6%9C%BA%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95/"/>
     <url>/2026/08/14/%E5%8F%A3%E8%A2%8B%E9%87%8C%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%AB%99%EF%BC%9A%E6%88%91%E7%9A%84%E6%89%8B%E6%9C%BA%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95/</url>
@@ -235,11 +266,11 @@
       
       <tag>效率工具</tag>
       
+      <tag>知识管理</tag>
+      
       <tag>Markdown</tag>
       
       <tag>Obsidian</tag>
-      
-      <tag>知识管理</tag>
       
     </tags>
     
@@ -297,9 +328,9 @@
       
       <tag>android</tag>
       
-      <tag>服务器</tag>
-      
       <tag>效率</tag>
+      
+      <tag>服务器</tag>
       
     </tags>
     
