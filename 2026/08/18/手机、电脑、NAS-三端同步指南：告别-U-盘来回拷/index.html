@@ -19,25 +19,24 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="不用复杂工具，一个文件夹 + Markdown 文件，就能搭建属于自己的知识库。分享我的目录结构与工作流。">
+    <meta name="description" content="手机电脑 NAS 之间文件怎么同步最优雅？本文对比 Syncthing、坚果云、git 仓库三种方案，给出按场景选型的实用建议。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="把大脑外置：我用 Markdown 搭了一座个人知识库">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/17/%E6%8A%8A%E5%A4%A7%E8%84%91%E5%A4%96%E7%BD%AE%EF%BC%9A%E6%88%91%E7%94%A8-Markdown-%E6%90%AD%E4%BA%86%E4%B8%80%E5%BA%A7%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/index.html">
+<meta property="og:title" content="手机、电脑、NAS 三端同步指南：告别 U 盘来回拷">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="不用复杂工具，一个文件夹 + Markdown 文件，就能搭建属于自己的知识库。分享我的目录结构与工作流。">
+<meta property="og:description" content="手机电脑 NAS 之间文件怎么同步最优雅？本文对比 Syncthing、坚果云、git 仓库三种方案，给出按场景选型的实用建议。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-17T06:40:28.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:40:28.836Z">
+<meta property="article:published_time" content="2026-08-17T22:37:29.000Z">
+<meta property="article:modified_time" content="2026-08-17T22:37:29.620Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="markdown">
-<meta property="article:tag" content="obsidian">
-<meta property="article:tag" content="效率">
-<meta property="article:tag" content="知识管理">
+<meta property="article:tag" content="同步">
+<meta property="article:tag" content="效率工具">
+<meta property="article:tag" content="数据管理">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>把大脑外置：我用 Markdown 搭了一座个人知识库 - 无名小站</title>
+  <title>手机、电脑、NAS 三端同步指南：告别 U 盘来回拷 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="把大脑外置：我用 Markdown 搭了一座个人知识库"></span>
+            <span id="subtitle" data-typed-text="手机、电脑、NAS 三端同步指南：告别 U 盘来回拷"></span>
           
         </div>
 
@@ -219,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-17 14:40" pubdate>
-          2026年8月17日 下午
+        <time datetime="2026-08-18 06:37" pubdate>
+          2026年8月18日 早上
         </time>
       </span>
     
@@ -231,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.2k 字
         
       </span>
     
@@ -242,7 +241,7 @@
         
         
         
-          11 分钟
+          10 分钟
         
       </span>
     
@@ -279,31 +278,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">把大脑外置：我用 Markdown 搭了一座个人知识库</h1>
+            <h1 id="seo-header">手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</h1>
             
             
               <div class="markdown-body">
                 
-                <p>你有没有过这样的经历：收藏夹里躺了几百篇文章，却从没再打开过；读了一本书，三个月后连核心观点都想不起来；写过的代码、踩过的坑，第二次遇到时又要重新查一遍。问题不在于信息不够多，而在于我们没有把信息变成自己的知识。这两年我把知识管理彻底迁移到了 Markdown 上，用最朴素的方式搭了一座”个人知识库”，今天把完整思路分享给你。</p>
-<h2 id="为什么是-Markdown"><a href="#为什么是-Markdown" class="headerlink" title="为什么是 Markdown"></a>为什么是 Markdown</h2><p>知识管理的工具有很多：Notion、印象笔记、Roam、语雀……它们各有优点，但对我来说有三个绕不开的痛点：一是数据不自由，笔记存在别人的服务器上，导出格式五花八门；二是编辑器臃肿，打开就要等半天，写个想法反而被工具绑架；三是组织方式死板，文件夹、标签、数据库结构定死之后，想改都难。</p>
-<p>Markdown 完美绕开了这些问题。它本质就是纯文本，一个 <code>.md</code> 文件在任何设备上都能打开，用记事本也行；Git 可以管理历史版本，写错了随时回退；语法简单到十分钟就能学会，<code>#</code> 是标题，<code>-</code> 是列表，<code>`</code> 是代码。更重要的是，<strong>纯文本永远不会过时</strong>——十年后你依然能读，而任何软件都可能在十年内停止维护。</p>
-<h2 id="目录结构：先搭骨架"><a href="#目录结构：先搭骨架" class="headerlink" title="目录结构：先搭骨架"></a>目录结构：先搭骨架</h2><p>知识库的目录我建议按”领域 + 类型”两层来组织，不要分得太细，否则维护成本会杀死这个习惯：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">notes<span class="hljs-symbol">/</span>                 <span class="hljs-comment"># 知识库根目录</span><br>├── inbox<span class="hljs-symbol">/</span>             <span class="hljs-comment"># 收件箱：临时想法、待整理的摘录</span><br>├── area<span class="hljs-symbol">/</span>              <span class="hljs-comment"># 领域：按主题划分的长期笔记</span><br>│   ├── termux.md<br>│   ├── python.md<br>│   └── android.md<br>├── project<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 项目：进行中的任务、复盘</span><br>├── resource<span class="hljs-symbol">/</span>          <span class="hljs-comment"># 资料：书摘、文章、工具清单</span><br>└── archive<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 归档：已经过时但不想删除的内容</span><br></code></pre></td></tr></table></figure>
-
-<p>核心原则只有一条：<strong>新想法先进 inbox，整理后才进入具体目录</strong>。收件箱是缓冲带，避免你在记录的同时还要纠结放哪里——那种纠结是笔记习惯夭折的头号杀手。</p>
-<h2 id="笔记的写法：少摘抄，多转述"><a href="#笔记的写法：少摘抄，多转述" class="headerlink" title="笔记的写法：少摘抄，多转述"></a>笔记的写法：少摘抄，多转述</h2><p>很多人记笔记就是把原文复制粘贴，这其实是在”搬砖”而不是在”学习”。真正有效的笔记应该经过自己的加工，我的模板是这样的：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 笔记标题</span><br><br><span class="hljs-section">## 一句话总结</span><br>用你自己的话，把这篇内容压缩成一句话。<br><br><span class="hljs-section">## 核心要点</span><br><span class="hljs-bullet">-</span> 要点一（用自己的话复述）<br><span class="hljs-bullet">-</span> 要点二<br><br><span class="hljs-section">## 我联想到的</span><br><span class="hljs-bullet">-</span> 和已有的哪篇笔记相关？<br><span class="hljs-bullet">-</span> 可以应用到哪些场景？<br><br><span class="hljs-section">## 行动项</span><br><span class="hljs-bullet">-</span> [ ] 下一步做什么<br></code></pre></td></tr></table></figure>
-
-<p>关键在于”<strong>我联想到的</strong>“和”<strong>行动项</strong>“两个小节。前者建立笔记之间的连接，让知识从孤立点连成网；后者推动行动，让知识真正改变你的行为。哪怕只写两三行，效果也远胜于复制一大段原文。</p>
-<h2 id="双向链接：让笔记连成网"><a href="#双向链接：让笔记连成网" class="headerlink" title="双向链接：让笔记连成网"></a>双向链接：让笔记连成网</h2><p>单一的知识库如果只有一堆文件，和散落的便签没有区别。要发挥威力，得让笔记之间互相引用。Markdown 里用 <code>[[双链]]</code> 语法（Obsidian、Logseq 等工具原生支持），或者最简单的方式——在”相关笔记”小节里放相对路径链接：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">## 相关笔记</span><br><span class="hljs-bullet">-</span> [[Termux 自动化任务完全指南]]<br><span class="hljs-bullet">-</span> [[用 Python 给手机写一个文件批量重命名工具]]<br></code></pre></td></tr></table></figure>
-
-<p>这样做的好处是：当你打开某篇笔记，侧边栏会显示所有引用过它的笔记，你顺着链接走，很容易发现自己从未意识到的知识关联。知识库就这样从”文件夹”变成了”知识图谱”。如果不用 Obsidian 这类工具，退而求其次，用一个 <code>index.md</code> 总索引文件手动维护链接也可以，成本低但依然有效。</p>
-<h2 id="同步与备份：知识不能丢"><a href="#同步与备份：知识不能丢" class="headerlink" title="同步与备份：知识不能丢"></a>同步与备份：知识不能丢</h2><p>知识库是多年积累，丢了损失巨大，所以同步和备份是底线。我的方案是三步走：Git 管理历史版本、云盘做异地同步、定期全量备份。在 Termux 上建一个自动化脚本，每天自动提交：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br><span class="hljs-built_in">cd</span> ~/notes<br>git add -A<br>git commit -m <span class="hljs-string">&quot;daily backup <span class="hljs-subst">$(date &#x27;+%Y-%m-%d %H:%M&#x27;)</span>&quot;</span> &gt;/dev/null 2&gt;&amp;1 || <span class="hljs-literal">true</span><br>git push origin master<br></code></pre></td></tr></table></figure>
-
-<p>配合 <code>cron</code> 或者 <code>termux-job-scheduler</code> 定时执行，知识库就实现了”无感备份”。手机上随手记，电脑上写长文，Markdown 文件让这一切无缝衔接——没有哪款笔记软件能做到如此自由。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>搭建知识库不需要复杂的工具，一个文件夹、一堆 Markdown 文件、一个顺手的编辑器，再加一条 Git 备份命令，就足够了。真正的门槛从来不是工具，而是”持续记录”这个习惯。从今天起，把新想法丢进 inbox，每周整理一次，用两个月时间回头看看——你会惊讶于这座知识库悄悄长成了什么样子。</p>
+                <p>手上设备一多，文件同步就成了绕不开的麻烦。手机拍的照片想传到电脑，电脑写了一半的文档想在地铁上继续改，NAS 里下载的资源想在平板上看……曾经我的做法是微信文件传输助手加 U 盘来回倒腾，直到某天发现自己同时维护着三个版本的「最终版」文档，才下定决心把同步这件事认真做一次。</p>
+<p>这篇文章不是要安利某个具体软件，而是把我折腾一圈后的选型思路整理出来：什么场景用工具，什么场景用脚本，什么场景干脆什么都别用。</p>
+<h2 id="同步的本质：先想清楚你要同步什么"><a href="#同步的本质：先想清楚你要同步什么" class="headerlink" title="同步的本质：先想清楚你要同步什么"></a>同步的本质：先想清楚你要同步什么</h2><p>动手之前，先回答三个问题，答案直接决定方案：</p>
+<ol>
+<li><strong>同步方向</strong>：是单向备份，还是双向实时同步？照片导出是单向，文档协作是双向。</li>
+<li><strong>冲突频率</strong>：同一个文件会不会在多个设备上同时被修改？会，就必须有冲突处理机制。</li>
+<li><strong>隐私等级</strong>：数据愿不愿意经过第三方服务器？私密文件最好走点对点方案。</li>
+</ol>
+<p>把这三点写在纸上，再去看工具，你会发现选择瞬间清晰了很多。</p>
+<h2 id="场景一：文件双向同步，选-Syncthing"><a href="#场景一：文件双向同步，选-Syncthing" class="headerlink" title="场景一：文件双向同步，选 Syncthing"></a>场景一：文件双向同步，选 Syncthing</h2><p>Syncthing 是我用得最久的一个。它开源、点对点、不经过任何服务器，设备之间直连加密传输，隐私这块让人放心。手机装 App、电脑装客户端，两端扫同一个二维码就完成配对，之后指定文件夹会自动保持同步，改动几乎是实时的。</p>
+<p>它在 Termux 里也能跑，<code>pkg install syncthing</code> 装好，<code>syncthing serve</code> 启动，配合开机脚本就能把手机变成一个常驻同步节点。我的笔记文件夹和照片目录就挂在上面，手机拍完照，电脑上几秒内就能看到。缺点是需要设备同时在线（或至少一端在线），而且公网环境下的穿透配置对新手有点门槛，但局域网内使用体验已经足够好。</p>
+<h2 id="场景二：跨平台-云端兜底，用坚果云这类网盘"><a href="#场景二：跨平台-云端兜底，用坚果云这类网盘" class="headerlink" title="场景二：跨平台 + 云端兜底，用坚果云这类网盘"></a>场景二：跨平台 + 云端兜底，用坚果云这类网盘</h2><p>如果你需要 Windows、macOS、手机全平台覆盖，又不想折腾穿透，WebDAV 网盘类服务更省心。坚果云支持 WebDAV 协议，这意味着任何支持 WebDAV 的 App 都能直接读写云端文件——笔记软件、文件管理器、甚至脚本都能用 <code>curl</code> 操作。</p>
+<p>一个很实用的玩法：把密码库、配置文件这类小体积但重要的数据，通过 WebDAV 挂在各端，改动自动上传，等于多了一份异地备份。缺点也很明显：免费流量有限，不适合大文件，而且数据经过第三方，敏感内容要提前加密。</p>
+<h2 id="场景三：代码和文档，交给-git"><a href="#场景三：代码和文档，交给-git" class="headerlink" title="场景三：代码和文档，交给 git"></a>场景三：代码和文档，交给 git</h2><p>很多人忽略的一点是：git 本身就是最优雅的同步工具之一。它自带版本历史、冲突提示和回滚能力，文档类、代码类、甚至 Markdown 笔记库，用 git 同步比任何网盘都靠谱。</p>
+<p>我的博客源码就是这个思路：手机 Termux 里编辑，<code>git push</code> 到 GitHub，Actions 自动构建部署。换设备？<code>git clone</code> 一下，几分钟就恢复全部环境。笔记库同理，Obsidian 或纯 Markdown 目录用 git 管理，配合 GitHub 私有仓库，历史版本随便翻。</p>
+<h2 id="场景四：不该同步的东西，用脚本归档"><a href="#场景四：不该同步的东西，用脚本归档" class="headerlink" title="场景四：不该同步的东西，用脚本归档"></a>场景四：不该同步的东西，用脚本归档</h2><p>最后一个经验：<strong>不是所有东西都值得同步</strong>。下载的安装包、临时文件、缓存，同步它们纯属浪费流量和磁盘。我的做法是写个小脚本，定期把手机里需要归档的内容按日期打包，rsync 到 NAS，同步任务里只保留真正活跃的目录。</p>
+<p>这类「归档式同步」不需要实时性，跑在 cron 里每天一次就够了，失败也不心疼，下次重跑即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>回顾下来，多设备同步没有银弹，但有一个清晰的决策路径：<strong>高频双向改动的文件用 Syncthing，需要全平台云兜底的小文件用 WebDAV 网盘，代码和文档交给 git，低频归档数据用脚本打包 rsync</strong>。四者组合使用，基本能覆盖日常所有场景。</p>
+<p>关键不是工具本身，而是想清楚每个目录的性质再决定它该走哪条路。同步方案落地之后，最大的感受是：终于不用再问自己「最新版本到底在哪个设备上了」。</p>
 
                 
               </div>
@@ -337,13 +335,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" class="print-no-link">#知识管理</a>
+        <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" class="print-no-link">#效率工具</a>
       
-        <a href="/tags/markdown/" class="print-no-link">#markdown</a>
+        <a href="/tags/%E5%90%8C%E6%AD%A5/" class="print-no-link">#同步</a>
       
-        <a href="/tags/obsidian/" class="print-no-link">#obsidian</a>
-      
-        <a href="/tags/%E6%95%88%E7%8E%87/" class="print-no-link">#效率</a>
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/" class="print-no-link">#数据管理</a>
       
     </div>
   
@@ -355,8 +351,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>把大脑外置：我用 Markdown 搭了一座个人知识库</div>
-      <div>https://wumingmr.github.io/2026/08/17/把大脑外置：我用-Markdown-搭了一座个人知识库/</div>
+      <div>手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</div>
+      <div>https://wumingmr.github.io/2026/08/18/手机、电脑、NAS-三端同步指南：告别-U-盘来回拷/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +364,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月17日</div>
+          <div>2026年8月18日</div>
         </div>
       
       
@@ -400,18 +396,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/" title="手机、电脑、NAS 三端同步指南：告别 U 盘来回拷">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/14/%E5%8F%A3%E8%A2%8B%E9%87%8C%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%AB%99%EF%BC%9A%E6%88%91%E7%9A%84%E6%89%8B%E6%9C%BA%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95/" title="口袋里的工作站：我的手机生产力工具清单">
-                        <span class="hidden-mobile">口袋里的工作站：我的手机生产力工具清单</span>
+                      <a href="/2026/08/17/%E6%8A%8A%E5%A4%A7%E8%84%91%E5%A4%96%E7%BD%AE%EF%BC%9A%E6%88%91%E7%94%A8-Markdown-%E6%90%AD%E4%BA%86%E4%B8%80%E5%BA%A7%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/" title="把大脑外置：我用 Markdown 搭了一座个人知识库">
+                        <span class="hidden-mobile">把大脑外置：我用 Markdown 搭了一座个人知识库</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
