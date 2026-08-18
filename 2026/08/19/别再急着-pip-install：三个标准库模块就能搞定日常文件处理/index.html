@@ -19,25 +19,25 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="不用复杂工具，一个文件夹 + Markdown 文件，就能搭建属于自己的知识库。分享我的目录结构与工作流。">
+    <meta name="description" content="os、shutil、glob 三个 Python 标准库模块，足以覆盖日常八成以上的文件批处理需求，少装依赖，多干活。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="把大脑外置：我用 Markdown 搭了一座个人知识库">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/17/%E6%8A%8A%E5%A4%A7%E8%84%91%E5%A4%96%E7%BD%AE%EF%BC%9A%E6%88%91%E7%94%A8-Markdown-%E6%90%AD%E4%BA%86%E4%B8%80%E5%BA%A7%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/index.html">
+<meta property="og:title" content="别再急着 pip install：三个标准库模块就能搞定日常文件处理">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="不用复杂工具，一个文件夹 + Markdown 文件，就能搭建属于自己的知识库。分享我的目录结构与工作流。">
+<meta property="og:description" content="os、shutil、glob 三个 Python 标准库模块，足以覆盖日常八成以上的文件批处理需求，少装依赖，多干活。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-17T06:40:28.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:40:28.836Z">
+<meta property="article:published_time" content="2026-08-18T19:35:12.000Z">
+<meta property="article:modified_time" content="2026-08-18T19:35:12.854Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="markdown">
-<meta property="article:tag" content="obsidian">
+<meta property="article:tag" content="python">
 <meta property="article:tag" content="效率">
-<meta property="article:tag" content="知识管理">
+<meta property="article:tag" content="文件处理">
+<meta property="article:tag" content="标准库">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>把大脑外置：我用 Markdown 搭了一座个人知识库 - 无名小站</title>
+  <title>别再急着 pip install：三个标准库模块就能搞定日常文件处理 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="把大脑外置：我用 Markdown 搭了一座个人知识库"></span>
+            <span id="subtitle" data-typed-text="别再急着 pip install：三个标准库模块就能搞定日常文件处理"></span>
           
         </div>
 
@@ -219,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-17 14:40" pubdate>
-          2026年8月17日 下午
+        <time datetime="2026-08-19 03:35" pubdate>
+          2026年8月19日 凌晨
         </time>
       </span>
     
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          988 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          11 分钟
+          9 分钟
         
       </span>
     
@@ -279,31 +279,31 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">把大脑外置：我用 Markdown 搭了一座个人知识库</h1>
+            <h1 id="seo-header">别再急着 pip install：三个标准库模块就能搞定日常文件处理</h1>
             
             
               <div class="markdown-body">
                 
-                <p>你有没有过这样的经历：收藏夹里躺了几百篇文章，却从没再打开过；读了一本书，三个月后连核心观点都想不起来；写过的代码、踩过的坑，第二次遇到时又要重新查一遍。问题不在于信息不够多，而在于我们没有把信息变成自己的知识。这两年我把知识管理彻底迁移到了 Markdown 上，用最朴素的方式搭了一座”个人知识库”，今天把完整思路分享给你。</p>
-<h2 id="为什么是-Markdown"><a href="#为什么是-Markdown" class="headerlink" title="为什么是 Markdown"></a>为什么是 Markdown</h2><p>知识管理的工具有很多：Notion、印象笔记、Roam、语雀……它们各有优点，但对我来说有三个绕不开的痛点：一是数据不自由，笔记存在别人的服务器上，导出格式五花八门；二是编辑器臃肿，打开就要等半天，写个想法反而被工具绑架；三是组织方式死板，文件夹、标签、数据库结构定死之后，想改都难。</p>
-<p>Markdown 完美绕开了这些问题。它本质就是纯文本，一个 <code>.md</code> 文件在任何设备上都能打开，用记事本也行；Git 可以管理历史版本，写错了随时回退；语法简单到十分钟就能学会，<code>#</code> 是标题，<code>-</code> 是列表，<code>`</code> 是代码。更重要的是，<strong>纯文本永远不会过时</strong>——十年后你依然能读，而任何软件都可能在十年内停止维护。</p>
-<h2 id="目录结构：先搭骨架"><a href="#目录结构：先搭骨架" class="headerlink" title="目录结构：先搭骨架"></a>目录结构：先搭骨架</h2><p>知识库的目录我建议按”领域 + 类型”两层来组织，不要分得太细，否则维护成本会杀死这个习惯：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">notes<span class="hljs-symbol">/</span>                 <span class="hljs-comment"># 知识库根目录</span><br>├── inbox<span class="hljs-symbol">/</span>             <span class="hljs-comment"># 收件箱：临时想法、待整理的摘录</span><br>├── area<span class="hljs-symbol">/</span>              <span class="hljs-comment"># 领域：按主题划分的长期笔记</span><br>│   ├── termux.md<br>│   ├── python.md<br>│   └── android.md<br>├── project<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 项目：进行中的任务、复盘</span><br>├── resource<span class="hljs-symbol">/</span>          <span class="hljs-comment"># 资料：书摘、文章、工具清单</span><br>└── archive<span class="hljs-symbol">/</span>           <span class="hljs-comment"># 归档：已经过时但不想删除的内容</span><br></code></pre></td></tr></table></figure>
+                <p>很多人一写 Python 脚本处理文件，第一反应就是 <code>pip install</code> 某个第三方库。但在动手之前，不妨先看看标准库里已经躺着三件趁手的工具：<code>os</code>、<code>shutil</code>、<code>glob</code>。它们加起来不需要任何额外依赖，却足以覆盖日常文件处理里八成以上的场景。这篇文章就用实例走一遍，看看它们到底能干什么。</p>
+<h2 id="用-glob-一行代码批量找文件"><a href="#用-glob-一行代码批量找文件" class="headerlink" title="用 glob 一行代码批量找文件"></a>用 glob 一行代码批量找文件</h2><p><code>glob</code> 模块的作用是<strong>用通配符匹配文件路径</strong>，本质上是把 shell 里的 <code>*.txt</code> 搬进了 Python。它最大的价值是省去手写递归遍历的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> glob<br><br><span class="hljs-comment"># 找出当前目录下所有 md 文件</span><br>md_files = glob.glob(<span class="hljs-string">&quot;*.md&quot;</span>)<br><br><span class="hljs-comment"># 递归匹配：找出 _posts 目录下所有 .md，包括子目录</span><br>all_posts = glob.glob(<span class="hljs-string">&quot;hexo/source/_posts/**/*.md&quot;</span>, recursive=<span class="hljs-literal">True</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(all_posts))<br></code></pre></td></tr></table></figure>
 
-<p>核心原则只有一条：<strong>新想法先进 inbox，整理后才进入具体目录</strong>。收件箱是缓冲带，避免你在记录的同时还要纠结放哪里——那种纠结是笔记习惯夭折的头号杀手。</p>
-<h2 id="笔记的写法：少摘抄，多转述"><a href="#笔记的写法：少摘抄，多转述" class="headerlink" title="笔记的写法：少摘抄，多转述"></a>笔记的写法：少摘抄，多转述</h2><p>很多人记笔记就是把原文复制粘贴，这其实是在”搬砖”而不是在”学习”。真正有效的笔记应该经过自己的加工，我的模板是这样的：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 笔记标题</span><br><br><span class="hljs-section">## 一句话总结</span><br>用你自己的话，把这篇内容压缩成一句话。<br><br><span class="hljs-section">## 核心要点</span><br><span class="hljs-bullet">-</span> 要点一（用自己的话复述）<br><span class="hljs-bullet">-</span> 要点二<br><br><span class="hljs-section">## 我联想到的</span><br><span class="hljs-bullet">-</span> 和已有的哪篇笔记相关？<br><span class="hljs-bullet">-</span> 可以应用到哪些场景？<br><br><span class="hljs-section">## 行动项</span><br><span class="hljs-bullet">-</span> [ ] 下一步做什么<br></code></pre></td></tr></table></figure>
+<p><code>**</code> 配合 <code>recursive=True</code> 就能实现递归查找，比 <code>os.walk</code> 手写循环直观得多。如果要按多个条件筛选，<code>glob</code> 的返回结果本身就是普通列表，直接丢给列表推导式继续过滤即可，比如只要文件名里带”备份”的。</p>
+<h2 id="用-shutil-完成复制、移动和删除"><a href="#用-shutil-完成复制、移动和删除" class="headerlink" title="用 shutil 完成复制、移动和删除"></a>用 shutil 完成复制、移动和删除</h2><p><code>shutil</code> 是”高级文件操作”的集合，日常用的高频操作全在这里：<code>copy2</code> 复制并保留元数据、<code>move</code> 移动（跨盘时自动降级为复制+删除）、<code>rmtree</code> 递归删除目录。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> shutil<br><br><span class="hljs-comment"># 复制文件（保留修改时间等元数据）</span><br>shutil.copy2(<span class="hljs-string">&quot;report.pdf&quot;</span>, <span class="hljs-string">&quot;archive/report-2026.pdf&quot;</span>)<br><br><span class="hljs-comment"># 移动文件到归档目录（目标目录需已存在）</span><br>shutil.move(<span class="hljs-string">&quot;tmp/download.zip&quot;</span>, <span class="hljs-string">&quot;archive/&quot;</span>)<br><br><span class="hljs-comment"># 递归删除整个目录树</span><br>shutil.rmtree(<span class="hljs-string">&quot;old_backup&quot;</span>)<br></code></pre></td></tr></table></figure>
 
-<p>关键在于”<strong>我联想到的</strong>“和”<strong>行动项</strong>“两个小节。前者建立笔记之间的连接，让知识从孤立点连成网；后者推动行动，让知识真正改变你的行为。哪怕只写两三行，效果也远胜于复制一大段原文。</p>
-<h2 id="双向链接：让笔记连成网"><a href="#双向链接：让笔记连成网" class="headerlink" title="双向链接：让笔记连成网"></a>双向链接：让笔记连成网</h2><p>单一的知识库如果只有一堆文件，和散落的便签没有区别。要发挥威力，得让笔记之间互相引用。Markdown 里用 <code>[[双链]]</code> 语法（Obsidian、Logseq 等工具原生支持），或者最简单的方式——在”相关笔记”小节里放相对路径链接：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">## 相关笔记</span><br><span class="hljs-bullet">-</span> [[Termux 自动化任务完全指南]]<br><span class="hljs-bullet">-</span> [[用 Python 给手机写一个文件批量重命名工具]]<br></code></pre></td></tr></table></figure>
+<p>这里有个经常踩的坑：<code>shutil.move</code> 的目标<strong>目录</strong>如果不存在，它不是帮你创建，而是把源文件直接”重命名”成目标路径，导致文件跑到了意想不到的地方。所以移动前先 <code>os.makedirs(dst, exist_ok=True)</code> 才是稳妥写法。</p>
+<h2 id="用-os-遍历目录与批量改名"><a href="#用-os-遍历目录与批量改名" class="headerlink" title="用 os 遍历目录与批量改名"></a>用 os 遍历目录与批量改名</h2><p><code>os</code> 模块负责最底层的路径和目录操作。批量改名是它最常见的用途，配合 <code>os.rename</code> 和一点字符串处理，几行代码就能把一堆杂乱命名的文件整理整齐。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br>os.makedirs(<span class="hljs-string">&quot;sorted&quot;</span>, exist_ok=<span class="hljs-literal">True</span>)<br><br><span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> os.listdir(<span class="hljs-string">&quot;downloads&quot;</span>):<br>    <span class="hljs-keyword">if</span> name.endswith(<span class="hljs-string">&quot;.jpg&quot;</span>):<br>        new_name = <span class="hljs-string">&quot;IMG_&quot;</span> + name.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;_&quot;</span>).lower()<br>        os.rename(os.path.join(<span class="hljs-string">&quot;downloads&quot;</span>, name),<br>                  os.path.join(<span class="hljs-string">&quot;sorted&quot;</span>, new_name))<br></code></pre></td></tr></table></figure>
 
-<p>这样做的好处是：当你打开某篇笔记，侧边栏会显示所有引用过它的笔记，你顺着链接走，很容易发现自己从未意识到的知识关联。知识库就这样从”文件夹”变成了”知识图谱”。如果不用 Obsidian 这类工具，退而求其次，用一个 <code>index.md</code> 总索引文件手动维护链接也可以，成本低但依然有效。</p>
-<h2 id="同步与备份：知识不能丢"><a href="#同步与备份：知识不能丢" class="headerlink" title="同步与备份：知识不能丢"></a>同步与备份：知识不能丢</h2><p>知识库是多年积累，丢了损失巨大，所以同步和备份是底线。我的方案是三步走：Git 管理历史版本、云盘做异地同步、定期全量备份。在 Termux 上建一个自动化脚本，每天自动提交：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br><span class="hljs-built_in">cd</span> ~/notes<br>git add -A<br>git commit -m <span class="hljs-string">&quot;daily backup <span class="hljs-subst">$(date &#x27;+%Y-%m-%d %H:%M&#x27;)</span>&quot;</span> &gt;/dev/null 2&gt;&amp;1 || <span class="hljs-literal">true</span><br>git push origin master<br></code></pre></td></tr></table></figure>
+<p>需要逐级遍历目录时，<code>os.walk</code> 会依次产出 <code>(当前目录, 子目录列表, 文件列表)</code> 三元组，配合 <code>os.path.getsize</code> 可以统计目录体积、找超大文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> root, _, files <span class="hljs-keyword">in</span> os.walk(<span class="hljs-string">&quot;.&quot;</span>):<br>    <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> files:<br>        p = os.path.join(root, f)<br>        size = os.path.getsize(p)<br>        <span class="hljs-keyword">if</span> size &gt; <span class="hljs-number">100</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>:      <span class="hljs-comment"># 超过 100MB</span><br>            <span class="hljs-built_in">print</span>(p, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;size/<span class="hljs-number">1024</span>/<span class="hljs-number">1024</span>:<span class="hljs-number">.1</span>f&#125;</span> MB&quot;</span>)<br></code></pre></td></tr></table></figure>
 
-<p>配合 <code>cron</code> 或者 <code>termux-job-scheduler</code> 定时执行，知识库就实现了”无感备份”。手机上随手记，电脑上写长文，Markdown 文件让这一切无缝衔接——没有哪款笔记软件能做到如此自由。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>搭建知识库不需要复杂的工具，一个文件夹、一堆 Markdown 文件、一个顺手的编辑器，再加一条 Git 备份命令，就足够了。真正的门槛从来不是工具，而是”持续记录”这个习惯。从今天起，把新想法丢进 inbox，每周整理一次，用两个月时间回头看看——你会惊讶于这座知识库悄悄长成了什么样子。</p>
+<h2 id="综合案例：把散落的图片按月份归档"><a href="#综合案例：把散落的图片按月份归档" class="headerlink" title="综合案例：把散落的图片按月份归档"></a>综合案例：把散落的图片按月份归档</h2><p>把三件套组合起来，就是一个能直接用的归档脚本：扫描某目录下所有图片，按修改月份归入对应子目录。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> glob, os, shutil<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> glob.glob(<span class="hljs-string">&quot;downloads/**/*.jpg&quot;</span>, recursive=<span class="hljs-literal">True</span>):<br>    mtime = os.path.getmtime(p)<br>    month = datetime.fromtimestamp(mtime).strftime(<span class="hljs-string">&quot;%Y-%m&quot;</span>)<br>    dest = os.path.join(<span class="hljs-string">&quot;photos&quot;</span>, month)<br>    os.makedirs(dest, exist_ok=<span class="hljs-literal">True</span>)<br>    shutil.move(p, os.path.join(dest, os.path.basename(p)))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;归档完成&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>整个过程只用了标准库：<code>glob</code> 负责找文件，<code>os</code> 负责时间戳和建目录，<code>shutil</code> 负责移动。没有 <code>pip install</code>，没有虚拟环境，在任何有 Python 的机器上都能直接跑。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>glob</code> 让”找文件”变得一行搞定，<code>shutil</code> 把复制、移动、删除封装得安全可靠，<code>os</code> 提供了底层遍历和命名的全部能力。三者分工明确又互相配合，足以应付绝大多数日常文件批处理。下次动手写脚本前，先想想这三个老朋友，很可能根本不需要引入任何第三方依赖——少装一个包，就少一份版本冲突和安全隐患。</p>
 
                 
               </div>
@@ -322,7 +322,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
+  <a href="/categories/python/" class="category-chain-item">python</a>
   
   
 
@@ -337,13 +337,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/python/" class="print-no-link">#python</a>
+      
+        <a href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" class="print-no-link">#标准库</a>
+      
+        <a href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" class="print-no-link">#文件处理</a>
+      
         <a href="/tags/%E6%95%88%E7%8E%87/" class="print-no-link">#效率</a>
-      
-        <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" class="print-no-link">#知识管理</a>
-      
-        <a href="/tags/markdown/" class="print-no-link">#markdown</a>
-      
-        <a href="/tags/obsidian/" class="print-no-link">#obsidian</a>
       
     </div>
   
@@ -355,8 +355,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>把大脑外置：我用 Markdown 搭了一座个人知识库</div>
-      <div>https://wumingmr.github.io/2026/08/17/把大脑外置：我用-Markdown-搭了一座个人知识库/</div>
+      <div>别再急着 pip install：三个标准库模块就能搞定日常文件处理</div>
+      <div>https://wumingmr.github.io/2026/08/19/别再急着-pip-install：三个标准库模块就能搞定日常文件处理/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +368,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月17日</div>
+          <div>2026年8月19日</div>
         </div>
       
       
@@ -400,18 +400,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/" title="手机、电脑、NAS 三端同步指南：告别 U 盘来回拷">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/14/%E5%8F%A3%E8%A2%8B%E9%87%8C%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%AB%99%EF%BC%9A%E6%88%91%E7%9A%84%E6%89%8B%E6%9C%BA%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E6%B8%85%E5%8D%95/" title="口袋里的工作站：我的手机生产力工具清单">
-                        <span class="hidden-mobile">口袋里的工作站：我的手机生产力工具清单</span>
+                      <a href="/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/" title="手机、电脑、NAS 三端同步指南：告别 U 盘来回拷">
+                        <span class="hidden-mobile">手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

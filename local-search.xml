@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>别再急着 pip install：三个标准库模块就能搞定日常文件处理</title>
+    <link href="/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"/>
+    <url>/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<p>很多人一写 Python 脚本处理文件，第一反应就是 <code>pip install</code> 某个第三方库。但在动手之前，不妨先看看标准库里已经躺着三件趁手的工具：<code>os</code>、<code>shutil</code>、<code>glob</code>。它们加起来不需要任何额外依赖，却足以覆盖日常文件处理里八成以上的场景。这篇文章就用实例走一遍，看看它们到底能干什么。</p><h2 id="用-glob-一行代码批量找文件"><a href="#用-glob-一行代码批量找文件" class="headerlink" title="用 glob 一行代码批量找文件"></a>用 glob 一行代码批量找文件</h2><p><code>glob</code> 模块的作用是<strong>用通配符匹配文件路径</strong>，本质上是把 shell 里的 <code>*.txt</code> 搬进了 Python。它最大的价值是省去手写递归遍历的代码。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> glob<br><br><span class="hljs-comment"># 找出当前目录下所有 md 文件</span><br>md_files = glob.glob(<span class="hljs-string">&quot;*.md&quot;</span>)<br><br><span class="hljs-comment"># 递归匹配：找出 _posts 目录下所有 .md，包括子目录</span><br>all_posts = glob.glob(<span class="hljs-string">&quot;hexo/source/_posts/**/*.md&quot;</span>, recursive=<span class="hljs-literal">True</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(all_posts))<br></code></pre></td></tr></table></figure><p><code>**</code> 配合 <code>recursive=True</code> 就能实现递归查找，比 <code>os.walk</code> 手写循环直观得多。如果要按多个条件筛选，<code>glob</code> 的返回结果本身就是普通列表，直接丢给列表推导式继续过滤即可，比如只要文件名里带”备份”的。</p><h2 id="用-shutil-完成复制、移动和删除"><a href="#用-shutil-完成复制、移动和删除" class="headerlink" title="用 shutil 完成复制、移动和删除"></a>用 shutil 完成复制、移动和删除</h2><p><code>shutil</code> 是”高级文件操作”的集合，日常用的高频操作全在这里：<code>copy2</code> 复制并保留元数据、<code>move</code> 移动（跨盘时自动降级为复制+删除）、<code>rmtree</code> 递归删除目录。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> shutil<br><br><span class="hljs-comment"># 复制文件（保留修改时间等元数据）</span><br>shutil.copy2(<span class="hljs-string">&quot;report.pdf&quot;</span>, <span class="hljs-string">&quot;archive/report-2026.pdf&quot;</span>)<br><br><span class="hljs-comment"># 移动文件到归档目录（目标目录需已存在）</span><br>shutil.move(<span class="hljs-string">&quot;tmp/download.zip&quot;</span>, <span class="hljs-string">&quot;archive/&quot;</span>)<br><br><span class="hljs-comment"># 递归删除整个目录树</span><br>shutil.rmtree(<span class="hljs-string">&quot;old_backup&quot;</span>)<br></code></pre></td></tr></table></figure><p>这里有个经常踩的坑：<code>shutil.move</code> 的目标<strong>目录</strong>如果不存在，它不是帮你创建，而是把源文件直接”重命名”成目标路径，导致文件跑到了意想不到的地方。所以移动前先 <code>os.makedirs(dst, exist_ok=True)</code> 才是稳妥写法。</p><h2 id="用-os-遍历目录与批量改名"><a href="#用-os-遍历目录与批量改名" class="headerlink" title="用 os 遍历目录与批量改名"></a>用 os 遍历目录与批量改名</h2><p><code>os</code> 模块负责最底层的路径和目录操作。批量改名是它最常见的用途，配合 <code>os.rename</code> 和一点字符串处理，几行代码就能把一堆杂乱命名的文件整理整齐。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br>os.makedirs(<span class="hljs-string">&quot;sorted&quot;</span>, exist_ok=<span class="hljs-literal">True</span>)<br><br><span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> os.listdir(<span class="hljs-string">&quot;downloads&quot;</span>):<br>    <span class="hljs-keyword">if</span> name.endswith(<span class="hljs-string">&quot;.jpg&quot;</span>):<br>        new_name = <span class="hljs-string">&quot;IMG_&quot;</span> + name.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;_&quot;</span>).lower()<br>        os.rename(os.path.join(<span class="hljs-string">&quot;downloads&quot;</span>, name),<br>                  os.path.join(<span class="hljs-string">&quot;sorted&quot;</span>, new_name))<br></code></pre></td></tr></table></figure><p>需要逐级遍历目录时，<code>os.walk</code> 会依次产出 <code>(当前目录, 子目录列表, 文件列表)</code> 三元组，配合 <code>os.path.getsize</code> 可以统计目录体积、找超大文件：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> root, _, files <span class="hljs-keyword">in</span> os.walk(<span class="hljs-string">&quot;.&quot;</span>):<br>    <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> files:<br>        p = os.path.join(root, f)<br>        size = os.path.getsize(p)<br>        <span class="hljs-keyword">if</span> size &gt; <span class="hljs-number">100</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>:      <span class="hljs-comment"># 超过 100MB</span><br>            <span class="hljs-built_in">print</span>(p, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;size/<span class="hljs-number">1024</span>/<span class="hljs-number">1024</span>:<span class="hljs-number">.1</span>f&#125;</span> MB&quot;</span>)<br></code></pre></td></tr></table></figure><h2 id="综合案例：把散落的图片按月份归档"><a href="#综合案例：把散落的图片按月份归档" class="headerlink" title="综合案例：把散落的图片按月份归档"></a>综合案例：把散落的图片按月份归档</h2><p>把三件套组合起来，就是一个能直接用的归档脚本：扫描某目录下所有图片，按修改月份归入对应子目录。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> glob, os, shutil<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> glob.glob(<span class="hljs-string">&quot;downloads/**/*.jpg&quot;</span>, recursive=<span class="hljs-literal">True</span>):<br>    mtime = os.path.getmtime(p)<br>    month = datetime.fromtimestamp(mtime).strftime(<span class="hljs-string">&quot;%Y-%m&quot;</span>)<br>    dest = os.path.join(<span class="hljs-string">&quot;photos&quot;</span>, month)<br>    os.makedirs(dest, exist_ok=<span class="hljs-literal">True</span>)<br>    shutil.move(p, os.path.join(dest, os.path.basename(p)))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;归档完成&quot;</span>)<br></code></pre></td></tr></table></figure><p>整个过程只用了标准库：<code>glob</code> 负责找文件，<code>os</code> 负责时间戳和建目录，<code>shutil</code> 负责移动。没有 <code>pip install</code>，没有虚拟环境，在任何有 Python 的机器上都能直接跑。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>glob</code> 让”找文件”变得一行搞定，<code>shutil</code> 把复制、移动、删除封装得安全可靠，<code>os</code> 提供了底层遍历和命名的全部能力。三者分工明确又互相配合，足以应付绝大多数日常文件批处理。下次动手写脚本前，先想想这三个老朋友，很可能根本不需要引入任何第三方依赖——少装一个包，就少一份版本冲突和安全隐患。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>python</tag>
+      
+      <tag>标准库</tag>
+      
+      <tag>文件处理</tag>
+      
+      <tag>效率</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</title>
     <link href="/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/"/>
     <url>/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/</url>
@@ -49,13 +80,13 @@
     
     <tags>
       
+      <tag>效率</tag>
+      
       <tag>知识管理</tag>
       
       <tag>markdown</tag>
       
       <tag>obsidian</tag>
-      
-      <tag>效率</tag>
       
     </tags>
     
