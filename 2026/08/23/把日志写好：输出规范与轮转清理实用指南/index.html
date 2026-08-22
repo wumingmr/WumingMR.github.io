@@ -19,25 +19,24 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="os、shutil、glob 三个 Python 标准库模块，足以覆盖日常八成以上的文件批处理需求，少装依赖，多干活。">
+    <meta name="description" content="日志是程序的记忆。本文聊聊日志该记什么、怎么分级、如何轮转，并给出开箱即用的 logrotate 与脚本示例。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="别再急着 pip install：三个标准库模块就能搞定日常文件处理">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/index.html">
+<meta property="og:title" content="把日志写好：输出规范与轮转清理实用指南">
+<meta property="og:url" content="https://wumingmr.github.io/2026/08/23/%E6%8A%8A%E6%97%A5%E5%BF%97%E5%86%99%E5%A5%BD%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="os、shutil、glob 三个 Python 标准库模块，足以覆盖日常八成以上的文件批处理需求，少装依赖，多干活。">
+<meta property="og:description" content="日志是程序的记忆。本文聊聊日志该记什么、怎么分级、如何轮转，并给出开箱即用的 logrotate 与脚本示例。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-18T19:35:12.000Z">
-<meta property="article:modified_time" content="2026-08-18T19:35:12.854Z">
+<meta property="article:published_time" content="2026-08-22T18:54:54.000Z">
+<meta property="article:modified_time" content="2026-08-22T18:54:54.106Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="python">
-<meta property="article:tag" content="效率">
-<meta property="article:tag" content="文件处理">
-<meta property="article:tag" content="标准库">
+<meta property="article:tag" content="日志">
+<meta property="article:tag" content="终端">
+<meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>别再急着 pip install：三个标准库模块就能搞定日常文件处理 - 无名小站</title>
+  <title>把日志写好：输出规范与轮转清理实用指南 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="别再急着 pip install：三个标准库模块就能搞定日常文件处理"></span>
+            <span id="subtitle" data-typed-text="把日志写好：输出规范与轮转清理实用指南"></span>
           
         </div>
 
@@ -219,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-19 03:35" pubdate>
-          2026年8月19日 凌晨
+        <time datetime="2026-08-23 02:54" pubdate>
+          2026年8月23日 凌晨
         </time>
       </span>
     
@@ -231,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          988 字
+          1k 字
         
       </span>
     
@@ -279,31 +278,47 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">别再急着 pip install：三个标准库模块就能搞定日常文件处理</h1>
+            <h1 id="seo-header">把日志写好：输出规范与轮转清理实用指南</h1>
             
             
               <div class="markdown-body">
                 
-                <p>很多人一写 Python 脚本处理文件，第一反应就是 <code>pip install</code> 某个第三方库。但在动手之前，不妨先看看标准库里已经躺着三件趁手的工具：<code>os</code>、<code>shutil</code>、<code>glob</code>。它们加起来不需要任何额外依赖，却足以覆盖日常文件处理里八成以上的场景。这篇文章就用实例走一遍，看看它们到底能干什么。</p>
-<h2 id="用-glob-一行代码批量找文件"><a href="#用-glob-一行代码批量找文件" class="headerlink" title="用 glob 一行代码批量找文件"></a>用 glob 一行代码批量找文件</h2><p><code>glob</code> 模块的作用是<strong>用通配符匹配文件路径</strong>，本质上是把 shell 里的 <code>*.txt</code> 搬进了 Python。它最大的价值是省去手写递归遍历的代码。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> glob<br><br><span class="hljs-comment"># 找出当前目录下所有 md 文件</span><br>md_files = glob.glob(<span class="hljs-string">&quot;*.md&quot;</span>)<br><br><span class="hljs-comment"># 递归匹配：找出 _posts 目录下所有 .md，包括子目录</span><br>all_posts = glob.glob(<span class="hljs-string">&quot;hexo/source/_posts/**/*.md&quot;</span>, recursive=<span class="hljs-literal">True</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(all_posts))<br></code></pre></td></tr></table></figure>
+                <p>写代码时，我们常常只顾着把功能跑通，却忘了给程序留下一双”眼睛”——日志。等到线上出问题、脚本半夜崩了、cron 任务静默失败时，才后悔当初没有把日志写规范。本文结合我在 Termux 和服务器上的实际经验，聊聊日志的输出规范与轮转清理，让日志真正成为排查问题的利器，而不是又一处磁盘杀手。</p>
+<h2 id="日志应该记什么"><a href="#日志应该记什么" class="headerlink" title="日志应该记什么"></a>日志应该记什么</h2><p>一个常见的误区是”日志越多越好”。实际上，大量无意义的信息只会让真正的问题淹没在噪音里。好的日志至少应该包含四要素：</p>
+<ul>
+<li><strong>时间戳</strong>：精确到秒，最好带时区。跨时区排查问题时，没有时区的时间戳几乎等于没有。</li>
+<li><strong>级别</strong>：error、warning、info 等，方便快速过滤。</li>
+<li><strong>事件来源</strong>：是哪个模块、哪个函数产生的？多服务协作时，来源信息是定位的第一步。</li>
+<li><strong>上下文</strong>：本次操作的对象、关键参数、结果。比如”删除文件失败”远不如”删除 &#x2F;data&#x2F;tmp&#x2F;a.log 失败：Permission denied”有用。</li>
+</ul>
+<p>把这些要素写全，日志的价值就翻了几倍。</p>
+<h2 id="日志级别：什么时候用什么"><a href="#日志级别：什么时候用什么" class="headerlink" title="日志级别：什么时候用什么"></a>日志级别：什么时候用什么</h2><p>级别是日志的”红绿灯”，级别混乱的日志比没有日志更糟。我习惯这样约定：</p>
+<ul>
+<li><strong>error</strong>：程序无法继续执行、需要人工介入的错误。例如连接数据库失败、配置文件解析失败。</li>
+<li><strong>warning</strong>：不影响本次运行，但值得警惕的情况。例如磁盘剩余空间不足 10%、重试后成功。</li>
+<li><strong>info</strong>：关键流程的节点信息。任务开始、结束、耗时、处理了多少条数据。</li>
+<li><strong>debug</strong>：只有调试时才需要打开的细节，默认不输出。</li>
+</ul>
+<p>用 Python 内置的 logging 模块就能轻松实现分级输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> logging<br><br>logging.basicConfig(<br>    level=logging.INFO,<br>    <span class="hljs-built_in">format</span>=<span class="hljs-string">&quot;%(asctime)s [%(levelname)s] %(name)s: %(message)s&quot;</span>,<br>)<br>logging.info(<span class="hljs-string">&quot;开始同步 %s 条记录&quot;</span>, <span class="hljs-built_in">len</span>(items))<br>logging.warning(<span class="hljs-string">&quot;磁盘剩余空间不足 10%%&quot;</span>)<br>logging.error(<span class="hljs-string">&quot;读取配置失败: %s&quot;</span>, e)<br></code></pre></td></tr></table></figure>
 
-<p><code>**</code> 配合 <code>recursive=True</code> 就能实现递归查找，比 <code>os.walk</code> 手写循环直观得多。如果要按多个条件筛选，<code>glob</code> 的返回结果本身就是普通列表，直接丢给列表推导式继续过滤即可，比如只要文件名里带”备份”的。</p>
-<h2 id="用-shutil-完成复制、移动和删除"><a href="#用-shutil-完成复制、移动和删除" class="headerlink" title="用 shutil 完成复制、移动和删除"></a>用 shutil 完成复制、移动和删除</h2><p><code>shutil</code> 是”高级文件操作”的集合，日常用的高频操作全在这里：<code>copy2</code> 复制并保留元数据、<code>move</code> 移动（跨盘时自动降级为复制+删除）、<code>rmtree</code> 递归删除目录。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> shutil<br><br><span class="hljs-comment"># 复制文件（保留修改时间等元数据）</span><br>shutil.copy2(<span class="hljs-string">&quot;report.pdf&quot;</span>, <span class="hljs-string">&quot;archive/report-2026.pdf&quot;</span>)<br><br><span class="hljs-comment"># 移动文件到归档目录（目标目录需已存在）</span><br>shutil.move(<span class="hljs-string">&quot;tmp/download.zip&quot;</span>, <span class="hljs-string">&quot;archive/&quot;</span>)<br><br><span class="hljs-comment"># 递归删除整个目录树</span><br>shutil.rmtree(<span class="hljs-string">&quot;old_backup&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>生产环境把 level 设为 INFO，需要排查时临时切到 DEBUG，一套配置足矣。</p>
+<h2 id="日志轮转：让日志不无限膨胀"><a href="#日志轮转：让日志不无限膨胀" class="headerlink" title="日志轮转：让日志不无限膨胀"></a>日志轮转：让日志不无限膨胀</h2><p>日志如果不清理，最终会吃掉整个磁盘。这就是轮转（rotation）存在的意义：按大小或时间把日志切分成多个文件，旧的自动压缩或删除。日志轮转有两个经典做法：</p>
+<p><strong>一是按大小轮转</strong>。Python 的 <code>RotatingFileHandler</code> 可以控制在日志超过 1MB 时自动滚动，并保留最近 5 份：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> logging.handlers <span class="hljs-keyword">import</span> RotatingFileHandler<br><br>handler = RotatingFileHandler(<span class="hljs-string">&quot;app.log&quot;</span>, maxBytes=<span class="hljs-number">1_000_000</span>, backupCount=<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
 
-<p>这里有个经常踩的坑：<code>shutil.move</code> 的目标<strong>目录</strong>如果不存在，它不是帮你创建，而是把源文件直接”重命名”成目标路径，导致文件跑到了意想不到的地方。所以移动前先 <code>os.makedirs(dst, exist_ok=True)</code> 才是稳妥写法。</p>
-<h2 id="用-os-遍历目录与批量改名"><a href="#用-os-遍历目录与批量改名" class="headerlink" title="用 os 遍历目录与批量改名"></a>用 os 遍历目录与批量改名</h2><p><code>os</code> 模块负责最底层的路径和目录操作。批量改名是它最常见的用途，配合 <code>os.rename</code> 和一点字符串处理，几行代码就能把一堆杂乱命名的文件整理整齐。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br>os.makedirs(<span class="hljs-string">&quot;sorted&quot;</span>, exist_ok=<span class="hljs-literal">True</span>)<br><br><span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> os.listdir(<span class="hljs-string">&quot;downloads&quot;</span>):<br>    <span class="hljs-keyword">if</span> name.endswith(<span class="hljs-string">&quot;.jpg&quot;</span>):<br>        new_name = <span class="hljs-string">&quot;IMG_&quot;</span> + name.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;_&quot;</span>).lower()<br>        os.rename(os.path.join(<span class="hljs-string">&quot;downloads&quot;</span>, name),<br>                  os.path.join(<span class="hljs-string">&quot;sorted&quot;</span>, new_name))<br></code></pre></td></tr></table></figure>
+<p><strong>二是交给系统工具 logrotate</strong>。Linux 下几乎零成本，配置也直观：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stata">/data/logs/<span class="hljs-keyword">app</span>.<span class="hljs-keyword">log</span> &#123;<br>    daily<br>    <span class="hljs-keyword">rotate</span> 7<br>    <span class="hljs-keyword">compress</span><br>    missingok<br>    notifempty<br>    copytruncate<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>需要逐级遍历目录时，<code>os.walk</code> 会依次产出 <code>(当前目录, 子目录列表, 文件列表)</code> 三元组，配合 <code>os.path.getsize</code> 可以统计目录体积、找超大文件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> root, _, files <span class="hljs-keyword">in</span> os.walk(<span class="hljs-string">&quot;.&quot;</span>):<br>    <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> files:<br>        p = os.path.join(root, f)<br>        size = os.path.getsize(p)<br>        <span class="hljs-keyword">if</span> size &gt; <span class="hljs-number">100</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>:      <span class="hljs-comment"># 超过 100MB</span><br>            <span class="hljs-built_in">print</span>(p, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;size/<span class="hljs-number">1024</span>/<span class="hljs-number">1024</span>:<span class="hljs-number">.1</span>f&#125;</span> MB&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>这段配置表示每天轮转一次，保留 7 份历史，旧日志压缩存档，文件不存在或为空时跳过，并用 copytruncate 避免中断正在写入的进程。在 Termux 里如果没装 logrotate，也可以写一个 cron 脚本手动轮转，原理相同。</p>
+<h2 id="在-Termux-里落地"><a href="#在-Termux-里落地" class="headerlink" title="在 Termux 里落地"></a>在 Termux 里落地</h2><p>手机上跑的服务同样需要日志管理。我常用的做法是：所有脚本统一把日志写到 <code>~/logs/</code> 目录，文件名带日期，再配合一个简单的清理脚本，保留最近 30 天：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find ~/logs -name <span class="hljs-string">&quot;*.log&quot;</span> -mtime +30 -delete<br></code></pre></td></tr></table></figure>
 
-<h2 id="综合案例：把散落的图片按月份归档"><a href="#综合案例：把散落的图片按月份归档" class="headerlink" title="综合案例：把散落的图片按月份归档"></a>综合案例：把散落的图片按月份归档</h2><p>把三件套组合起来，就是一个能直接用的归档脚本：扫描某目录下所有图片，按修改月份归入对应子目录。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> glob, os, shutil<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> glob.glob(<span class="hljs-string">&quot;downloads/**/*.jpg&quot;</span>, recursive=<span class="hljs-literal">True</span>):<br>    mtime = os.path.getmtime(p)<br>    month = datetime.fromtimestamp(mtime).strftime(<span class="hljs-string">&quot;%Y-%m&quot;</span>)<br>    dest = os.path.join(<span class="hljs-string">&quot;photos&quot;</span>, month)<br>    os.makedirs(dest, exist_ok=<span class="hljs-literal">True</span>)<br>    shutil.move(p, os.path.join(dest, os.path.basename(p)))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;归档完成&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>把这一行写进 cron 定时执行，日志就不会无限膨胀。另外，跑长任务的脚本建议用 <code>nohup</code> 加 <code>&gt;&gt;</code> 重定向，避免日志和 stdout 混在一起：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">nohup</span> python3 my_task.py &gt;&gt; ~/logs/task-$(<span class="hljs-built_in">date</span> +%F).<span class="hljs-built_in">log</span> 2&gt;&amp;1 &amp;<br></code></pre></td></tr></table></figure>
 
-<p>整个过程只用了标准库：<code>glob</code> 负责找文件，<code>os</code> 负责时间戳和建目录，<code>shutil</code> 负责移动。没有 <code>pip install</code>，没有虚拟环境，在任何有 Python 的机器上都能直接跑。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>glob</code> 让”找文件”变得一行搞定，<code>shutil</code> 把复制、移动、删除封装得安全可靠，<code>os</code> 提供了底层遍历和命名的全部能力。三者分工明确又互相配合，足以应付绝大多数日常文件批处理。下次动手写脚本前，先想想这三个老朋友，很可能根本不需要引入任何第三方依赖——少装一个包，就少一份版本冲突和安全隐患。</p>
+<p>这样即使 Termux 被切到后台，任务日志也能完整保存。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>日志是程序的记忆，也是一份可以复盘的财富。规范输出、合理分级、及时轮转，这三件事花不了多少时间，却能让你的排查效率提升一个量级。趁现在，给手头的脚本补上时间戳、级别和上下文，再配一个轮转策略——下次故障来时，你会感谢今天的自己。</p>
 
                 
               </div>
@@ -322,7 +337,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/python/" class="category-chain-item">python</a>
+  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
   
   
 
@@ -337,13 +352,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%88%E7%8E%87/" class="print-no-link">#效率</a>
+        <a href="/tags/%E6%97%A5%E5%BF%97/" class="print-no-link">#日志</a>
       
-        <a href="/tags/python/" class="print-no-link">#python</a>
+        <a href="/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
       
-        <a href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" class="print-no-link">#标准库</a>
-      
-        <a href="/tags/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" class="print-no-link">#文件处理</a>
+        <a href="/tags/%E7%BB%88%E7%AB%AF/" class="print-no-link">#终端</a>
       
     </div>
   
@@ -355,8 +368,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>别再急着 pip install：三个标准库模块就能搞定日常文件处理</div>
-      <div>https://wumingmr.github.io/2026/08/19/别再急着-pip-install：三个标准库模块就能搞定日常文件处理/</div>
+      <div>把日志写好：输出规范与轮转清理实用指南</div>
+      <div>https://wumingmr.github.io/2026/08/23/把日志写好：输出规范与轮转清理实用指南/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +381,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月19日</div>
+          <div>2026年8月23日</div>
         </div>
       
       
@@ -400,18 +413,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/23/%E6%8A%8A%E6%97%A5%E5%BF%97%E5%86%99%E5%A5%BD%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/" title="把日志写好：输出规范与轮转清理实用指南">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">把日志写好：输出规范与轮转清理实用指南</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/18/%E6%89%8B%E6%9C%BA%E3%80%81%E7%94%B5%E8%84%91%E3%80%81NAS-%E4%B8%89%E7%AB%AF%E5%90%8C%E6%AD%A5%E6%8C%87%E5%8D%97%EF%BC%9A%E5%91%8A%E5%88%AB-U-%E7%9B%98%E6%9D%A5%E5%9B%9E%E6%8B%B7/" title="手机、电脑、NAS 三端同步指南：告别 U 盘来回拷">
-                        <span class="hidden-mobile">手机、电脑、NAS 三端同步指南：告别 U 盘来回拷</span>
+                      <a href="/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" title="别再急着 pip install：三个标准库模块就能搞定日常文件处理">
+                        <span class="hidden-mobile">别再急着 pip install：三个标准库模块就能搞定日常文件处理</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

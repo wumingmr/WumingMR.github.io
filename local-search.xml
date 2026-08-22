@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>把日志写好：输出规范与轮转清理实用指南</title>
+    <link href="/2026/08/23/%E6%8A%8A%E6%97%A5%E5%BF%97%E5%86%99%E5%A5%BD%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <url>/2026/08/23/%E6%8A%8A%E6%97%A5%E5%BF%97%E5%86%99%E5%A5%BD%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+    
+    <content type="html"><![CDATA[<p>写代码时，我们常常只顾着把功能跑通，却忘了给程序留下一双”眼睛”——日志。等到线上出问题、脚本半夜崩了、cron 任务静默失败时，才后悔当初没有把日志写规范。本文结合我在 Termux 和服务器上的实际经验，聊聊日志的输出规范与轮转清理，让日志真正成为排查问题的利器，而不是又一处磁盘杀手。</p><h2 id="日志应该记什么"><a href="#日志应该记什么" class="headerlink" title="日志应该记什么"></a>日志应该记什么</h2><p>一个常见的误区是”日志越多越好”。实际上，大量无意义的信息只会让真正的问题淹没在噪音里。好的日志至少应该包含四要素：</p><ul><li><strong>时间戳</strong>：精确到秒，最好带时区。跨时区排查问题时，没有时区的时间戳几乎等于没有。</li><li><strong>级别</strong>：error、warning、info 等，方便快速过滤。</li><li><strong>事件来源</strong>：是哪个模块、哪个函数产生的？多服务协作时，来源信息是定位的第一步。</li><li><strong>上下文</strong>：本次操作的对象、关键参数、结果。比如”删除文件失败”远不如”删除 &#x2F;data&#x2F;tmp&#x2F;a.log 失败：Permission denied”有用。</li></ul><p>把这些要素写全，日志的价值就翻了几倍。</p><h2 id="日志级别：什么时候用什么"><a href="#日志级别：什么时候用什么" class="headerlink" title="日志级别：什么时候用什么"></a>日志级别：什么时候用什么</h2><p>级别是日志的”红绿灯”，级别混乱的日志比没有日志更糟。我习惯这样约定：</p><ul><li><strong>error</strong>：程序无法继续执行、需要人工介入的错误。例如连接数据库失败、配置文件解析失败。</li><li><strong>warning</strong>：不影响本次运行，但值得警惕的情况。例如磁盘剩余空间不足 10%、重试后成功。</li><li><strong>info</strong>：关键流程的节点信息。任务开始、结束、耗时、处理了多少条数据。</li><li><strong>debug</strong>：只有调试时才需要打开的细节，默认不输出。</li></ul><p>用 Python 内置的 logging 模块就能轻松实现分级输出：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> logging<br><br>logging.basicConfig(<br>    level=logging.INFO,<br>    <span class="hljs-built_in">format</span>=<span class="hljs-string">&quot;%(asctime)s [%(levelname)s] %(name)s: %(message)s&quot;</span>,<br>)<br>logging.info(<span class="hljs-string">&quot;开始同步 %s 条记录&quot;</span>, <span class="hljs-built_in">len</span>(items))<br>logging.warning(<span class="hljs-string">&quot;磁盘剩余空间不足 10%%&quot;</span>)<br>logging.error(<span class="hljs-string">&quot;读取配置失败: %s&quot;</span>, e)<br></code></pre></td></tr></table></figure><p>生产环境把 level 设为 INFO，需要排查时临时切到 DEBUG，一套配置足矣。</p><h2 id="日志轮转：让日志不无限膨胀"><a href="#日志轮转：让日志不无限膨胀" class="headerlink" title="日志轮转：让日志不无限膨胀"></a>日志轮转：让日志不无限膨胀</h2><p>日志如果不清理，最终会吃掉整个磁盘。这就是轮转（rotation）存在的意义：按大小或时间把日志切分成多个文件，旧的自动压缩或删除。日志轮转有两个经典做法：</p><p><strong>一是按大小轮转</strong>。Python 的 <code>RotatingFileHandler</code> 可以控制在日志超过 1MB 时自动滚动，并保留最近 5 份：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> logging.handlers <span class="hljs-keyword">import</span> RotatingFileHandler<br><br>handler = RotatingFileHandler(<span class="hljs-string">&quot;app.log&quot;</span>, maxBytes=<span class="hljs-number">1_000_000</span>, backupCount=<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure><p><strong>二是交给系统工具 logrotate</strong>。Linux 下几乎零成本，配置也直观：</p><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stata">/data/logs/<span class="hljs-keyword">app</span>.<span class="hljs-keyword">log</span> &#123;<br>    daily<br>    <span class="hljs-keyword">rotate</span> 7<br>    <span class="hljs-keyword">compress</span><br>    missingok<br>    notifempty<br>    copytruncate<br>&#125;<br></code></pre></td></tr></table></figure><p>这段配置表示每天轮转一次，保留 7 份历史，旧日志压缩存档，文件不存在或为空时跳过，并用 copytruncate 避免中断正在写入的进程。在 Termux 里如果没装 logrotate，也可以写一个 cron 脚本手动轮转，原理相同。</p><h2 id="在-Termux-里落地"><a href="#在-Termux-里落地" class="headerlink" title="在 Termux 里落地"></a>在 Termux 里落地</h2><p>手机上跑的服务同样需要日志管理。我常用的做法是：所有脚本统一把日志写到 <code>~/logs/</code> 目录，文件名带日期，再配合一个简单的清理脚本，保留最近 30 天：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">find ~/logs -name <span class="hljs-string">&quot;*.log&quot;</span> -mtime +30 -delete<br></code></pre></td></tr></table></figure><p>把这一行写进 cron 定时执行，日志就不会无限膨胀。另外，跑长任务的脚本建议用 <code>nohup</code> 加 <code>&gt;&gt;</code> 重定向，避免日志和 stdout 混在一起：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">nohup</span> python3 my_task.py &gt;&gt; ~/logs/task-$(<span class="hljs-built_in">date</span> +%F).<span class="hljs-built_in">log</span> 2&gt;&amp;1 &amp;<br></code></pre></td></tr></table></figure><p>这样即使 Termux 被切到后台，任务日志也能完整保存。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>日志是程序的记忆，也是一份可以复盘的财富。规范输出、合理分级、及时轮转，这三件事花不了多少时间，却能让你的排查效率提升一个量级。趁现在，给手头的脚本补上时间戳、级别和上下文，再配一个轮转策略——下次故障来时，你会感谢今天的自己。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>效率</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>日志</tag>
+      
+      <tag>运维</tag>
+      
+      <tag>终端</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>别再急着 pip install：三个标准库模块就能搞定日常文件处理</title>
     <link href="/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/"/>
     <url>/2026/08/19/%E5%88%AB%E5%86%8D%E6%80%A5%E7%9D%80-pip-install%EF%BC%9A%E4%B8%89%E4%B8%AA%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E5%9D%97%E5%B0%B1%E8%83%BD%E6%90%9E%E5%AE%9A%E6%97%A5%E5%B8%B8%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</url>
@@ -20,13 +49,13 @@
     
     <tags>
       
+      <tag>效率</tag>
+      
       <tag>python</tag>
       
       <tag>标准库</tag>
       
       <tag>文件处理</tag>
-      
-      <tag>效率</tag>
       
     </tags>
     
@@ -80,13 +109,13 @@
     
     <tags>
       
-      <tag>效率</tag>
-      
       <tag>知识管理</tag>
       
       <tag>markdown</tag>
       
       <tag>obsidian</tag>
+      
+      <tag>效率</tag>
       
     </tags>
     
