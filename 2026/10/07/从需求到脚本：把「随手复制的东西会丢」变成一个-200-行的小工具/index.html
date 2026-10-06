@@ -19,23 +19,24 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Termux 是 Android 上的终端模拟器，配合各种包可以把它变成一台迷你 Linux 服务器。这里整理一些日常高频使用的技巧，从基础到进阶，帮你少踩坑。 1. 换源提速国内网络环境下，官方源经常很慢甚至超时。切换镜像源是第一步： 1termux-change-repo  在弹出的界面里选择 Mirror 列表，推荐 TUNA（清华） 或 USTC（中科大）。也可以直接编辑源文件： 12se">
+    <meta name="description" content="手机上复制一段验证码、转账金额、一段代码，转个聊天窗口就没了。这篇文章复盘我如何用三个脚本、一次特权降级排查，把这个反复出现的小需求做成常驻小工具。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Termux 实用技巧合集">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/09/Termux%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%90%88%E9%9B%86/index.html">
+<meta property="og:title" content="从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具">
+<meta property="og:url" content="https://wumingmr.github.io/2026/10/07/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E8%84%9A%E6%9C%AC%EF%BC%9A%E6%8A%8A%E3%80%8C%E9%9A%8F%E6%89%8B%E5%A4%8D%E5%88%B6%E7%9A%84%E4%B8%9C%E8%A5%BF%E4%BC%9A%E4%B8%A2%E3%80%8D%E5%8F%98%E6%88%90%E4%B8%80%E4%B8%AA-200-%E8%A1%8C%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="Termux 是 Android 上的终端模拟器，配合各种包可以把它变成一台迷你 Linux 服务器。这里整理一些日常高频使用的技巧，从基础到进阶，帮你少踩坑。 1. 换源提速国内网络环境下，官方源经常很慢甚至超时。切换镜像源是第一步： 1termux-change-repo  在弹出的界面里选择 Mirror 列表，推荐 TUNA（清华） 或 USTC（中科大）。也可以直接编辑源文件： 12se">
+<meta property="og:description" content="手机上复制一段验证码、转账金额、一段代码，转个聊天窗口就没了。这篇文章复盘我如何用三个脚本、一次特权降级排查，把这个反复出现的小需求做成常驻小工具。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-08T22:38:00.000Z">
-<meta property="article:modified_time" content="2026-08-08T22:39:08.000Z">
+<meta property="article:published_time" content="2026-10-06T17:38:34.000Z">
+<meta property="article:modified_time" content="2026-10-06T17:38:34.138Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="android">
-<meta property="article:tag" content="termux">
+<meta property="article:tag" content="shell">
+<meta property="article:tag" content="termux-api">
+<meta property="article:tag" content="自动化">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Termux 实用技巧合集 - 无名小站</title>
+  <title>从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Termux 实用技巧合集"></span>
+            <span id="subtitle" data-typed-text="从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具"></span>
           
         </div>
 
@@ -217,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-09 06:38" pubdate>
-          2026年8月9日 早上
+        <time datetime="2026-10-07 01:38" pubdate>
+          2026年10月7日 凌晨
         </time>
       </span>
     
@@ -229,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          698 字
+          1.6k 字
         
       </span>
     
@@ -240,7 +241,7 @@
         
         
         
-          6 分钟
+          14 分钟
         
       </span>
     
@@ -277,59 +278,50 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Termux 实用技巧合集</h1>
+            <h1 id="seo-header">从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Termux 是 Android 上的终端模拟器，配合各种包可以把它变成一台迷你 Linux 服务器。这里整理一些日常高频使用的技巧，从基础到进阶，帮你少踩坑。</p>
-<h2 id="1-换源提速"><a href="#1-换源提速" class="headerlink" title="1. 换源提速"></a>1. 换源提速</h2><p>国内网络环境下，官方源经常很慢甚至超时。切换镜像源是第一步：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">termux-change-repo<br></code></pre></td></tr></table></figure>
+                <p>Android 上有个很隐蔽的习惯性挫败感：你复制了一段东西，三分钟后想用，它没了。</p>
+<p>不是真的没了——是剪贴板只有一个槽位，下一次复制直接覆盖。验证码、临时密码、快递单号、刚查到的 API 返回片段，这些东西的保质期往往只有几分钟，偏偏人的记忆比想象中短。</p>
+<p>我试过各种”笔记 App 临时粘贴一下”，都觉得别扭：多一次切换、多一次输入框跳转，还可能把私密内容同步到云端。于是我决定干脆自己写一个。需求小得不能再小，过程却意外地能展开——这篇文章复盘整个过程，包括几个我一开始想错了的地方。</p>
+<h2 id="第一步：把需求写成一个-20-行的脚本"><a href="#第一步：把需求写成一个-20-行的脚本" class="headerlink" title="第一步：把需求写成一个 20 行的脚本"></a>第一步：把需求写成一个 20 行的脚本</h2><p>最朴素的版本长这样，保存为 <code>clip_save.sh</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br><span class="hljs-built_in">export</span> PATH=<span class="hljs-string">&quot;/data/data/com.termux/files/usr/bin:<span class="hljs-variable">$PATH</span>&quot;</span><br><br>OUT=<span class="hljs-string">&quot;/storage/emulated/0/剪切板.txt&quot;</span><br>CLIP=<span class="hljs-string">&quot;<span class="hljs-subst">$(termux-clipboard-get 2&gt;/dev/null)</span>&quot;</span><br>TS=<span class="hljs-string">&quot;<span class="hljs-subst">$(date +%Y-%m-%d-%H-%M-%S)</span>&quot;</span><br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;<span class="hljs-subst">$(printf &#x27;%s&#x27; <span class="hljs-string">&quot;<span class="hljs-variable">$CLIP</span>&quot;</span> | tr -d &#x27;[:space:]&#x27;)</span>&quot;</span> ]; <span class="hljs-keyword">then</span><br>  termux-toast <span class="hljs-string">&quot;剪贴板为空,未保存&quot;</span><br><span class="hljs-keyword">else</span><br>  &#123;<br>    <span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;%s\n&#x27;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$TS</span>&quot;</span><br>    <span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;%s\n&#x27;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$CLIP</span>&quot;</span><br>    <span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;\n&#x27;</span><br>  &#125; &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$OUT</span>&quot;</span><br>  termux-toast <span class="hljs-string">&quot;剪贴板已保存 (<span class="hljs-variable">$TS</span>)&quot;</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
 
-<p>在弹出的界面里选择 Mirror 列表，推荐 <strong>TUNA（清华）</strong> 或 <strong>USTC（中科大）</strong>。也可以直接编辑源文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sed -i <span class="hljs-string">&#x27;s@packages.termux.dev@mirrors.tuna.tsinghua.edu.cn/termux@g&#x27;</span> <span class="hljs-variable">$PREFIX</span>/etc/apt/sources.list<br>pkg update<br></code></pre></td></tr></table></figure>
+<p>三件事：读剪贴板、加时间戳、追加写入。文件格式刻意做成”时间戳 + 内容 + 空行”，肉眼可以直接 <code>cat</code>，用 <code>grep</code> 也能按时间检索。</p>
+<p>比脚本更重要的是它的<strong>触发方式</strong>。我不想每次去 Termux 里敲命令，于是用了 <code>termux-notification</code> 挂一条常驻通知，点一下通知就等于执行一次脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">termux-notification --ongoing --<span class="hljs-built_in">id</span> clip_saver \<br>    --title <span class="hljs-string">&quot;剪贴板保存器&quot;</span> \<br>    --content <span class="hljs-string">&quot;点击通知：将当前剪贴板追加保存到 剪切板.txt&quot;</span> \<br>    --action <span class="hljs-string">&quot;/data/data/com.termux/files/home/clip_save.sh&quot;</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="2-常用目录速查"><a href="#2-常用目录速查" class="headerlink" title="2. 常用目录速查"></a>2. 常用目录速查</h2><ul>
-<li><code>$PREFIX</code> &#x3D; <code>/data/data/com.termux/files/usr</code>：所有软件安装位置</li>
-<li><code>$HOME</code> &#x3D; <code>/data/data/com.termux/files/home</code>：用户主目录</li>
-<li><code>~/storage</code>：Android 共享存储（需要先执行 <code>termux-setup-storage</code>）</li>
+<p>到这里，”点一下通知就存下来”这件事已经成立了。<strong>先把最小可用版本落地，再谈自动化</strong>，这条经验比任何技巧都实用。</p>
+<h2 id="第二步：手动太啰嗦，改成自动"><a href="#第二步：手动太啰嗦，改成自动" class="headerlink" title="第二步：手动太啰嗦，改成自动"></a>第二步：手动太啰嗦，改成自动</h2><p>用了两天就嫌麻烦了——毕竟”手动点一下”和”复制完就走”之间，还差一个肌肉记忆。于是想改成：剪贴板一变，自动存。</p>
+<p>Android 10 之后，普通应用读剪贴板有系统弹窗、有频率限制，纯 Termux 侧轮询会被系统挡回去。这就是我遇到的第一道坎。解法有两条路：</p>
+<ul>
+<li>用 Shizuku（rish 通道）以 shell 身份执行，可以正常读剪贴板；</li>
+<li>部分机型有临时 root（<code>su</code>），更省事。</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 授权访问手机存储</span><br>termux-setup-storage<br><span class="hljs-comment"># 之后就可以这样访问</span><br><span class="hljs-built_in">ls</span> ~/storage/shared/Download<br></code></pre></td></tr></table></figure>
+<p>于是需要一个 Java 小程序，用 <code>app_process</code> 直接跑在系统里，纯反射去调 <code>android.content.ClipboardManager</code>。这一步我没写多少业务代码，真正花时间的是<strong>权限和生命周期</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 关键就这一行：以 shell uid 运行，剪贴板服务信任 shell</span><br>su 2000 -c <span class="hljs-string">&quot;app_process -Djava.class.path=<span class="hljs-variable">$DEX</span> /system/bin \</span><br><span class="hljs-string">    --nice-name=watcher ClipboardWatcher <span class="hljs-variable">$OUT</span> &gt;&gt; <span class="hljs-variable">$WATCH_LOG</span> 2&gt;&amp;1&quot;</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="3-后台常驻"><a href="#3-后台常驻" class="headerlink" title="3. 后台常驻"></a>3. 后台常驻</h2><p>Android 系统会回收后台进程，导致 Termux 服务被杀死。常用对策：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 持有唤醒锁，防止深度休眠</span><br>termux-wake-lock<br><br><span class="hljs-comment"># 安装 termux-services 管理后台服务</span><br>pkg install termux-services<br>sv-enable crond   <span class="hljs-comment"># 例如启用 cron</span><br></code></pre></td></tr></table></figure>
+<p><code>classes.dex</code> 我故意放在 SD 卡而不是系统临时目录——否则 Android 的清理机制会某天早上悄悄把它删掉，然后你就得到一个”昨天还好好的”工具突然失效。</p>
+<h2 id="第三步：脚本最难的部分是”活着”"><a href="#第三步：脚本最难的部分是”活着”" class="headerlink" title="第三步：脚本最难的部分是”活着”"></a>第三步：脚本最难的部分是”活着”</h2><p>写到这一步，功能已经能跑了，然后我立刻掉进了后台进程管理的坑。</p>
+<p>第一个坑是 toast 提示。watcher 是以 shell&#x2F;root 身份跑的进程，它调不动 Termux 私有的 <code>termux-toast</code>——UID 不一样。于是我写了一个 Termux 侧的”提示循环”，去 tail watcher 的日志文件，发现新增的保存行就弹一次 toast：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">total=$(<span class="hljs-built_in">wc</span> -l &lt; <span class="hljs-string">&quot;<span class="hljs-variable">$WATCH_LOG</span>&quot;</span> 2&gt;/dev/null || <span class="hljs-built_in">echo</span> 0)<br><span class="hljs-comment"># 日志被截断/轮转时 total 会小于上次 LAST, 若不重置会永远静默</span><br><span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$total</span>&quot;</span> -lt <span class="hljs-string">&quot;<span class="hljs-variable">$LAST</span>&quot;</span> ]; <span class="hljs-keyword">then</span><br>  LAST=<span class="hljs-variable">$total</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
 
-<p>同时在系统设置里把 Termux 的电池优化改为「不受限制」。</p>
-<h2 id="4-定时任务"><a href="#4-定时任务" class="headerlink" title="4. 定时任务"></a>4. 定时任务</h2><p>配合 cronie 实现定时执行脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install cronie<br>sv-enable crond<br>sv up crond<br>crontab -e<br></code></pre></td></tr></table></figure>
-
-<p>示例：每 20 分钟执行一次脚本并记录日志：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">*<span class="hljs-regexp">/20 * * * * bash $HOME/</span>.termux<span class="hljs-regexp">/tasker/</span>test.sh &gt;&gt; <span class="hljs-variable">$HOME</span><span class="hljs-regexp">/.termux/</span>tasker/test.log <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="5-快速打开编辑器"><a href="#5-快速打开编辑器" class="headerlink" title="5. 快速打开编辑器"></a>5. 快速打开编辑器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在文件管理器里打开当前目录</span><br>termux-open .<br><br><span class="hljs-comment"># 用默认应用打开文件（如 PDF、图片）</span><br>termux-open report.pdf<br></code></pre></td></tr></table></figure>
-
-<h2 id="6-剪贴板操作"><a href="#6-剪贴板操作" class="headerlink" title="6. 剪贴板操作"></a>6. 剪贴板操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制到剪贴板</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello&quot;</span> | termux-clipboard-set<br><br><span class="hljs-comment"># 从剪贴板读取</span><br>termux-clipboard-get<br></code></pre></td></tr></table></figure>
-
-<p>配合脚本可以轻松把命令输出复制到微信&#x2F;QQ 等 App。</p>
-<h2 id="7-电池与设备信息"><a href="#7-电池与设备信息" class="headerlink" title="7. 电池与设备信息"></a>7. 电池与设备信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 电池状态</span><br>termux-battery-status<br><br><span class="hljs-comment"># 设备与传感器信息</span><br>termux-info<br>termux-sensor -s accelerometer -n 5<br></code></pre></td></tr></table></figure>
-
-<h2 id="8-音量键当功能键"><a href="#8-音量键当功能键" class="headerlink" title="8. 音量键当功能键"></a>8. 音量键当功能键</h2><p>在 <code>~/.termux/termux.properties</code> 中取消注释：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">extra-keys</span> = <span class="hljs-string">[]</span><br></code></pre></td></tr></table></figure>
-
-<p>重启 Termux 后，底部会出现一排扩展按键（ESC、TAB、CTRL、ALT 等），编辑代码效率翻倍。更多按键可以自定义，例如：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">extra-keys</span> = <span class="hljs-string">[[&#x27;ESC&#x27;,&#x27;/&#x27;,&#x27;-&#x27;,&#x27;HOME&#x27;,&#x27;UP&#x27;,&#x27;END&#x27;,&#x27;PGUP&#x27;],[&#x27;TAB&#x27;,&#x27;CTRL&#x27;,&#x27;ALT&#x27;,&#x27;LEFT&#x27;,&#x27;DOWN&#x27;,&#x27;RIGHT&#x27;,&#x27;PGDN&#x27;]]</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="9-SSH-远程登录"><a href="#9-SSH-远程登录" class="headerlink" title="9. SSH 远程登录"></a>9. SSH 远程登录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install openssh<br>sshd   <span class="hljs-comment"># 启动 SSH 服务</span><br><span class="hljs-built_in">whoami</span> <span class="hljs-comment"># 查看用户名，密码用 passwd 设置</span><br></code></pre></td></tr></table></figure>
-
-<p>同一局域网内，从电脑连接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh 用户名@手机IP -p 8022<br></code></pre></td></tr></table></figure>
-
-<h2 id="10-安装-Linux-发行版"><a href="#10-安装-Linux-发行版" class="headerlink" title="10. 安装 Linux 发行版"></a>10. 安装 Linux 发行版</h2><p>Termux 可以 proot 方式运行完整 Linux（无需 root）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install proot-distro<br>proot-distro install debian<br>proot-distro login debian<br></code></pre></td></tr></table></figure>
-
-<p>这样就能在手机里跑 apt&#x2F;docker（部分受限）等工具，当作随身开发环境。</p>
-<hr>
-<p>以上就是我日常使用 Termux 的一些心得，欢迎补充交流。遇到问题可以先 <code>pkg update &amp;&amp; pkg upgrade</code>，再查日志，很多坑都是版本过旧导致的。</p>
+<p>那行注释就是我被这个 bug 教育出来的：文件被清空之后计数器不重置，提示会永久消失。这类”看起来能跑、其实已经死了”的静默失败，在后台脚本里几乎无法靠肉眼发现，只能靠这种注释提醒未来的自己。</p>
+<p>第二个坑是脱离进程组。通知按钮的 action 是由系统用 <code>dash -c</code> 拉起的，父进程一秒后就退出，如果 toast 循环挂在原进程组里，会跟着一起被清理。解法是 <code>setsid nohup</code> 完全脱离，并且<strong>由内层 bash 用 <code>$$</code> 写回真实 PID</strong>——因为 <code>nohup</code> 外层的 <code>$!</code> 和真正干活的 PID 并不一致，我曾经对着错误的 PID 杀进程，怎么杀都杀不掉。</p>
+<p>第三个坑是重复启动。要开监控时得先确认 watcher 是否还活着，<code>is_running</code> 里不能只 <code>kill -0</code>：Termux 侧根本看不到 shell uid 进程的 <code>/proc</code>（hidepid），必须经特权侧探测。清理残留进程时也不能图省事用 <code>pkill -f</code>，那会连自己一起杀掉；正确的做法是 <code>pgrep</code> 收集明确的 PID 列表再逐个 <code>kill</code>。</p>
+<h2 id="第四步：随手写下的几行，也是最重要的"><a href="#第四步：随手写下的几行，也是最重要的" class="headerlink" title="第四步：随手写下的几行，也是最重要的"></a>第四步：随手写下的几行，也是最重要的</h2><p>回头看，这工具一共就三个脚本：保存、监控、通知。真正花时间的不是逻辑，而是<strong>边界情况</strong>——权限掉线、进程被杀、日志轮转、PID 失配、dex 被清理。</p>
+<p>所以如果你也想动手写点自动化小工具，我总结成四句：</p>
+<ol>
+<li><strong>先写最小可用版本并真的用起来</strong>，别在写第一版时就追求完整架构。</li>
+<li><strong>触发方式比功能本身更重要</strong>。点一下通知能省的事，和敲一串命令省的事，是两个量级。</li>
+<li><strong>后台进程的敌人不是 CPU，是静默失败</strong>。加日志、写状态、留注释，比优化性能重要得多。</li>
+<li><strong>用现成通道，别跟系统硬碰</strong>。Shizuku &#x2F; 临时 root &#x2F; <code>app_process</code> 这些”绕后门”的思路，比逆向硬刚限制要省下几个晚上。</li>
+</ol>
+<p>脚本的全部代码在 <code>~/clip-saver/</code>，结构很简单：<code>bin/</code> 放三个脚本，<code>clipboard_helper/</code> 放 Java 源码和编译脚本，<code>compile.sh</code> 负责把 <code>.java</code> 打成 <code>classes.dex</code>。想改的话，只需要有 openjdk 和 d8，<code>pkg install openjdk-21 d8</code> 一条命令就够了。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>现在我的复制板历史是一个纯文本文件，每天自动累积几十条。某天需要找回三天前复制的那个 shell 命令，我 <code>grep</code> 了一下就找到了。</p>
+<p>这种”用几小时换来的确定性”——我认为是折腾 Termux 最值的部分。</p>
 
                 
               </div>
@@ -363,9 +355,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/termux/" class="print-no-link">#termux</a>
+        <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" class="print-no-link">#自动化</a>
       
-        <a href="/tags/android/" class="print-no-link">#android</a>
+        <a href="/tags/shell/" class="print-no-link">#shell</a>
+      
+        <a href="/tags/termux-api/" class="print-no-link">#termux-api</a>
       
     </div>
   
@@ -377,8 +371,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Termux 实用技巧合集</div>
-      <div>https://wumingmr.github.io/2026/08/09/Termux实用技巧合集/</div>
+      <div>从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具</div>
+      <div>https://wumingmr.github.io/2026/10/07/从需求到脚本：把「随手复制的东西会丢」变成一个-200-行的小工具/</div>
     </div>
     <div class="license-meta">
       
@@ -390,7 +384,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月9日</div>
+          <div>2026年10月7日</div>
         </div>
       
       
@@ -422,18 +416,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/09/%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BB%8E%E6%B7%B7%E4%B9%B1%E5%88%B0%E6%9C%89%E5%BA%8F%E7%9A%84%E4%BC%98%E9%9B%85%E6%96%B9%E6%A1%88/" title="多端同步实战：从混乱到有序的优雅方案">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">多端同步实战：从混乱到有序的优雅方案</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/11/%E5%A4%A7%E6%82%B2%E5%92%92/" title="大悲咒">
-                        <span class="hidden-mobile">大悲咒</span>
+                      <a href="/2026/08/23/%E6%8A%8A%E6%97%A5%E5%BF%97%E5%86%99%E5%A5%BD%EF%BC%9A%E8%BE%93%E5%87%BA%E8%A7%84%E8%8C%83%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/" title="把日志写好：输出规范与轮转清理实用指南">
+                        <span class="hidden-mobile">把日志写好：输出规范与轮转清理实用指南</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
