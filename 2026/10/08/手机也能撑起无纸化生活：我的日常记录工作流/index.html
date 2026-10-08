@@ -19,25 +19,25 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="手把手教你用 GitHub Actions 搭建免费自动化流水线，从核心概念到定时抓数据，边看边写，一个 commit 后全自动运行。">
+    <meta name="description" content="从随手记到归档检索，介绍一套以 Markdown 为核心、手机与电脑互通的无纸化日常记录工作流，以及踩过的坑和取舍。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线">
-<meta property="og:url" content="https://wumingmr.github.io/2026/08/11/GitHub-Actions-%E5%AE%9E%E6%88%98%EF%BC%9A%E4%BB%8E-0-%E5%88%B0-1-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%81%E6%B0%B4%E7%BA%BF/index.html">
+<meta property="og:title" content="手机也能撑起无纸化生活：我的日常记录工作流">
+<meta property="og:url" content="https://wumingmr.github.io/2026/10/08/%E6%89%8B%E6%9C%BA%E4%B9%9F%E8%83%BD%E6%92%91%E8%B5%B7%E6%97%A0%E7%BA%B8%E5%8C%96%E7%94%9F%E6%B4%BB%EF%BC%9A%E6%88%91%E7%9A%84%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%E5%B7%A5%E4%BD%9C%E6%B5%81/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="手把手教你用 GitHub Actions 搭建免费自动化流水线，从核心概念到定时抓数据，边看边写，一个 commit 后全自动运行。">
+<meta property="og:description" content="从随手记到归档检索，介绍一套以 Markdown 为核心、手机与电脑互通的无纸化日常记录工作流，以及踩过的坑和取舍。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-08-11T13:48:48.000Z">
-<meta property="article:modified_time" content="2026-08-11T13:48:48.000Z">
+<meta property="article:published_time" content="2026-10-08T01:04:41.000Z">
+<meta property="article:modified_time" content="2026-10-08T01:04:41.130Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="CI&#x2F;CD">
-<meta property="article:tag" content="GitHub Actions">
-<meta property="article:tag" content="效率工具">
-<meta property="article:tag" content="自动化">
+<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="termux">
+<meta property="article:tag" content="无纸化">
+<meta property="article:tag" content="知识管理">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线 - 无名小站</title>
+  <title>手机也能撑起无纸化生活：我的日常记录工作流 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线"></span>
+            <span id="subtitle" data-typed-text="手机也能撑起无纸化生活：我的日常记录工作流"></span>
           
         </div>
 
@@ -219,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-08-11 21:48" pubdate>
-          2026年8月11日 晚上
+        <time datetime="2026-10-08 09:04" pubdate>
+          2026年10月8日 上午
         </time>
       </span>
     
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.4k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          11 分钟
+          12 分钟
         
       </span>
     
@@ -279,53 +279,47 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线</h1>
+            <h1 id="seo-header">手机也能撑起无纸化生活：我的日常记录工作流</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>写作注释: 本文由 AI 生成, 主题「从零开始用 GitHub Actions 做自动化」, 内容仅供参考, 欢迎留言交流。</p>
+<p>写作注释: 本文由 AI 生成, 主题「日常记录: 我的无纸化工作流」, 内容仅供参考, 欢迎留言交流。</p>
 </blockquote>
-<h2 id="开头引入"><a href="#开头引入" class="headerlink" title="开头引入"></a>开头引入</h2><p>我手头有不少琐碎任务，比如定时抓取数据、自动编译博客、每隔几小时拉取一次接口。过去全靠服务器上的 crontab，配置繁琐且不易查看日志。直到我认真用了 GitHub Actions，才发现原来自动化可以这么简单：它免费、零运维、只需要一个 YAML 文件，而且每条运行记录都清晰可查。</p>
-<p>这篇文章会从零开始，不讲复杂理论，直接带你写出第一个能跑的工作流。全程只需要一个 GitHub 账号和一次 commit，之后，你的自动化就交给 GitHub 托管，真正实现“一劳永逸”。</p>
-<h2 id="GitHub-Actions-是什么？为什么值得学？"><a href="#GitHub-Actions-是什么？为什么值得学？" class="headerlink" title="GitHub Actions 是什么？为什么值得学？"></a>GitHub Actions 是什么？为什么值得学？</h2><p>GitHub Actions 是 GitHub 提供的持续集成与持续部署（CI&#x2F;CD）服务。它的核心运作方式是：当仓库发生某个事件时（push、PR、定时、手动触发），GitHub 会自动创建一个虚拟机环境，按你写好的步骤执行命令。</p>
-<p>选择它的理由很直接：</p>
-<ul>
-<li>免费额度充足：Public 仓库完全免费，私有仓库每月也有 2000 分钟免费额度；</li>
-<li>无需运维机器：虚拟机由 GitHub 托管，支持 Ubuntu、Windows、macOS；</li>
-<li>生态强大：Marketplace 里有大量现成 Action 可以复用，不必什么都自己写。</li>
+<h2 id="为什么选择无纸化"><a href="#为什么选择无纸化" class="headerlink" title="为什么选择无纸化"></a>为什么选择无纸化</h2><p>几年前我的桌上常年摊着三本笔记本：一本记待办，一本记想法，一本记读书摘抄。问题很快暴露出来——想找上个月记的那个接口参数时，三本本子翻一遍，往往还找不到。纸笔的优点是零门槛、无干扰，但缺点同样致命：不可检索、不可同步、容易丢。</p>
+<p>我最终选择无纸化，核心诉求只有三条：</p>
+<ol>
+<li><strong>一处记录</strong>：不管待办、灵感还是摘抄，先扔进同一个入口，不纠结分类；</li>
+<li><strong>随时可写</strong>：80% 的记录发生在通勤和排队时，手机是唯一随身设备；</li>
+<li><strong>长期可查</strong>：五年后还能用 grep 搜出今天写的只言片语。</li>
+</ol>
+<p>围绕这三条，我搭了一套以 Markdown 文件为核心的轻量工作流。它不依赖任何付费订阅，数据全部是纯文本，随时可以整体迁走。</p>
+<h2 id="核心结构：一个-Git-仓库装下所有记录"><a href="#核心结构：一个-Git-仓库装下所有记录" class="headerlink" title="核心结构：一个 Git 仓库装下所有记录"></a>核心结构：一个 Git 仓库装下所有记录</h2><p>我的记录仓库结构非常简单：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">notes/<br>├── inbox/          # 未整理的随手记<br>├── daily/          # 每日记录 2026-10-06.md<br>├── projects/       # 项目相关笔记<br>├── books/          # 读书摘抄<br>└── reference/      # 长期保存的资料<br></code></pre></td></tr></table></figure>
+
+<p>关键设计是 <strong>inbox 先行</strong>：任何新想法只写一行扔进 <code>inbox/</code>，不做任何分类判断。分类是负担，是无纸化失败的主要原因——一旦记录时要求自己”先想好放哪”，记录欲就会迅速衰减。整理环节每周日晚上做一次，大约二十分钟，把 inbox 清空，该归档的归档，该删除的删除。</p>
+<p>每日记录用日期命名文件，写法刻意随意：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 2026-10-06</span><br><span class="hljs-bullet">-</span> 上午：处理 XX 需求，卡在异步回调上<br><span class="hljs-bullet">-</span> 想法：是否可以用队列解耦？<br><span class="hljs-bullet">-</span> 摘抄：&quot;我们不是在记录生活，而是在为未来的自己留检索入口&quot;<br></code></pre></td></tr></table></figure>
+
+<h2 id="手机端：Termux-Git-让手机成为主记录设备"><a href="#手机端：Termux-Git-让手机成为主记录设备" class="headerlink" title="手机端：Termux + Git 让手机成为主记录设备"></a>手机端：Termux + Git 让手机成为主记录设备</h2><p>手机上写 Markdown 听起来麻烦，其实在 Termux 里只需要几行配置。我写了一个极简的 <code>note</code> 函数放进 <code>~/.bashrc</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-function"><span class="hljs-title">note</span></span>() &#123;<br>  <span class="hljs-built_in">local</span> f=~/notes/daily/$(<span class="hljs-built_in">date</span> +%F).md<br>  [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span> ] || <span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;# %s\n\n&#x27;</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(date +%F)</span>&quot;</span> &gt; <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span><br>  <span class="hljs-variable">$&#123;EDITOR:-vi&#125;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span><br>  <span class="hljs-built_in">cd</span> ~/notes &amp;&amp; git add -A &amp;&amp; git commit -m <span class="hljs-string">&quot;note: <span class="hljs-subst">$(date +%T)</span>&quot;</span> &amp;&amp; git pull --rebase &amp;&amp; git push<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>敲一条 <code>note</code>，当天的记录文件不存在就自动创建，编辑完立刻提交推送。这里用了 <code>git pull --rebase</code>，避免在多台设备交替提交时产生冲突——纯文本文件的 rebase 冲突几乎总能自动合并，偶尔手改一下也就几行。</p>
+<p>同步我选 Git 而不是网盘，理由是<strong>有版本历史</strong>。删错一段话、误操作覆盖文件，都能用 <code>git log -p</code> 找回来，这是纸笔时代完全不具备的能力。</p>
+<h2 id="电脑端检索：grep-一秒钟找回半年前的记录"><a href="#电脑端检索：grep-一秒钟找回半年前的记录" class="headerlink" title="电脑端检索：grep 一秒钟找回半年前的记录"></a>电脑端检索：grep 一秒钟找回半年前的记录</h2><p>记录的价值一半在写，另一半在查。纯文本最大的红利就是检索零成本。装了 ripgrep 之后，找东西变成一句话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 全库搜索关键词，忽略历史提交噪音</span><br>rg <span class="hljs-string">&quot;异步回调&quot;</span> ~/notes<br><br><span class="hljs-comment"># 只搜某个月的每日记录</span><br>rg <span class="hljs-string">&quot;想法&quot;</span> ~/notes/daily/2026-0*<br><br><span class="hljs-comment"># 统计某个标签出现次数</span><br>rg -c <span class="hljs-string">&quot;#读书&quot;</span> ~/notes/books<br></code></pre></td></tr></table></figure>
+
+<p>比在笔记 App 里等云端索引、点标签筛选快得多。我甚至写了个小脚本把搜索结果输出成 Markdown 列表，方便贴回当天记录里做回顾。</p>
+<p>唯一的取舍是<strong>放弃富媒体</strong>：图片、扫描件这类东西我不塞进记录库，统一放相册和网盘，笔记里只留一行链接指过去。这样仓库始终保持轻量，clone 和 push 都是秒级完成。</p>
+<h2 id="踩过的坑与经验"><a href="#踩过的坑与经验" class="headerlink" title="踩过的坑与经验"></a>踩过的坑与经验</h2><ul>
+<li><strong>不要追求完美分类</strong>。我最初设计过五级目录 + 十几个标签，两周就坚持不下去了。现在 inbox → 每周归档的粗颗粒结构，反而稳定运行了一年多。</li>
+<li><strong>同步冲突要随手解决</strong>。手机改完忘了推，电脑上又改了同一文件，会产生冲突。我的规则是：冲突当场解决，绝不”以后再说”。</li>
+<li><strong>备份要独立于同步</strong>。Git 仓库推到了远端，但我另外每天用脚本把整个目录 rsync 到家里的 NAS，遵循 3-2-1 原则——同步解决”随时可用”，备份解决”极端情况下还能找回”。</li>
+<li><strong>降低启动摩擦</strong>。手机桌面放一个 Termux 快捷方式，点开直接进 <code>note</code>，从点亮屏幕到开始打字不超过三秒。</li>
 </ul>
-<p>简单理解：GitHub Actions 就是一个“云端定时运行的脚本箱”，你在 <code>.github/workflows/</code> 目录下放一个 YAML 文件，剩下的都交给 GitHub。</p>
-<h2 id="核心概念：Workflow-Job-Step-Event"><a href="#核心概念：Workflow-Job-Step-Event" class="headerlink" title="核心概念：Workflow &#x2F; Job &#x2F; Step &#x2F; Event"></a>核心概念：Workflow &#x2F; Job &#x2F; Step &#x2F; Event</h2><p>动手写之前，先理清四个关键概念。</p>
-<ul>
-<li><strong>Workflow（工作流）</strong>：一次自动化的完整流程定义，对应一个 YAML 文件。</li>
-<li><strong>Job（任务）</strong>：工作流中的一个执行单元，可以包含多个 Step。</li>
-<li><strong>Step（步骤）</strong>：Job 内具体的命令或 Action，按顺序从上到下执行。</li>
-<li><strong>Event（事件）</strong>：触发工作流的条件，比如 <code>push</code>、<code>pull_request</code>、<code>schedule</code>（定时）、<code>workflow_dispatch</code>（手动）。</li>
-</ul>
-<p>下面是最小可运行的工作流：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">My</span> <span class="hljs-string">First</span> <span class="hljs-string">Workflow</span><br><br><span class="hljs-attr">on:</span> [<span class="hljs-string">push</span>]<br><br><span class="hljs-attr">jobs:</span><br>  <span class="hljs-attr">hello:</span><br>    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span><br>    <span class="hljs-attr">steps:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">echo</span> <span class="hljs-string">hello</span><br>        <span class="hljs-attr">run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Hello from GitHub Actions&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>把这个文件保存为 <code>.github/workflows/first.yml</code> 并 push 到仓库，片刻后就能在仓库的 Actions 标签页看到运行记录，每次提交都会自动跑一遍。</p>
-<h2 id="实战：写一个定时抓数据的自动化"><a href="#实战：写一个定时抓数据的自动化" class="headerlink" title="实战：写一个定时抓数据的自动化"></a>实战：写一个定时抓数据的自动化</h2><p>接下来写一个真正有用的场景：每天 UTC 时间 23:00（即北京时间早上 7 点）自动用 Python 抓取接口数据，并把结果提交回仓库。工作流如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Daily</span> <span class="hljs-string">Crawler</span><br><br><span class="hljs-attr">on:</span><br>  <span class="hljs-attr">schedule:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">cron:</span> <span class="hljs-string">&quot;0 23 * * *&quot;</span>   <span class="hljs-comment"># UTC 时间，注意换算时区</span><br>  <span class="hljs-attr">workflow_dispatch:</span>        <span class="hljs-comment"># 支持手动触发，方便测试</span><br><br><span class="hljs-attr">jobs:</span><br>  <span class="hljs-attr">fetch:</span><br>    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span><br>    <span class="hljs-attr">steps:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-python@v5</span><br>        <span class="hljs-attr">with:</span><br>          <span class="hljs-attr">python-version:</span> <span class="hljs-string">&quot;3.11&quot;</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Run</span> <span class="hljs-string">script</span><br>        <span class="hljs-attr">run:</span> <span class="hljs-string">python</span> <span class="hljs-string">scripts/fetch.py</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Commit</span> <span class="hljs-string">changes</span><br>        <span class="hljs-attr">run:</span> <span class="hljs-string">|</span><br><span class="hljs-string">          git config user.name &quot;github-actions[bot]&quot;</span><br><span class="hljs-string">          git config user.email &quot;github-actions[bot]@users.noreply.github.com&quot;</span><br><span class="hljs-string">          git add .</span><br><span class="hljs-string">          git commit -m &quot;chore: update data $(date)&quot; || echo &quot;No changes&quot;</span><br><span class="hljs-string">          git push</span><br></code></pre></td></tr></table></figure>
-
-<p>对应的 Python 脚本 <code>scripts/fetch.py</code>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> pathlib<br><br>data = requests.get(<span class="hljs-string">&quot;https://api.example.com/today&quot;</span>).json()<br>pathlib.Path(<span class="hljs-string">&quot;data.json&quot;</span>).write_text(json.dumps(data))<br></code></pre></td></tr></table></figure>
-
-<p>工作流里其实做了三件事：拉取最新代码、运行抓取脚本、把生成的文件提交回仓库。这几个步骤组合起来，你的仓库就变成了一个自动更新的数据存档，全程无需人工介入。注意，<code>schedule</code> 使用的 <code>cron</code> 表达式默认是 UTC 时间，中国用户记得自行换算，比如 <code>&quot;0 15 * * *&quot;</code> 对应北京时间 23:00。</p>
-<h2 id="进阶技巧：Secrets、缓存与排错"><a href="#进阶技巧：Secrets、缓存与排错" class="headerlink" title="进阶技巧：Secrets、缓存与排错"></a>进阶技巧：Secrets、缓存与排错</h2><p><strong>1. 敏感信息一律放入 Secrets</strong>。不要把 API Key 直接写在 YAML 或脚本中。请前往仓库 Settings → Secrets and variables → Actions 添加密钥，然后在 YAML 中引用：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">env:</span><br>  <span class="hljs-attr">API_KEY:</span> <span class="hljs-string">$&#123;&#123;</span> <span class="hljs-string">secrets.API_KEY</span> <span class="hljs-string">&#125;&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>2. 使用缓存加速依赖安装</strong>。如果每次执行都要 <code>pip install</code>，可以开启 setup-python 自带的 pip 缓存：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-python@v5</span><br>  <span class="hljs-attr">with:</span><br>    <span class="hljs-attr">python-version:</span> <span class="hljs-string">&quot;3.11&quot;</span><br>    <span class="hljs-attr">cache:</span> <span class="hljs-string">&quot;pip&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>3. 排查失败任务</strong>。Actions 页面点击失败的任务，即可看到每个 Step 的完整日志。常用技巧有：在脚本开头加 <code>set -x</code> 打印详细执行过程；或者临时在 YAML 中加一步 <code>run: env</code> 查看环境变量，快速定位问题。</p>
-<p><strong>4. 区分定时任务与手动触发</strong>。<code>schedule</code> 只会在指定时间自动运行，而 <code>workflow_dispatch</code> 允许你在网页端手动点击“Run workflow”，两种事件可以同时配置，互不冲突。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章从“为什么选 GitHub Actions”讲起，带你认识了 Workflow、Job、Step、Event 四个核心概念，并完成了一个定时抓取数据的自动化工作流，最后补充了 Secrets、缓存与排错技巧。</p>
-<p>我的建议是：不要停留在示例，而是从自己的真实需求出发去改造它。比如每天自动更新博客的 RSS 参考、每周备份数据库并推送到私有仓库、每次 push 自动构建并部署到服务器。</p>
-<p>这些场景的套路完全一致：定义触发事件 → 写好要执行的命令 → 推送到 <code>.github/workflows/</code> 目录。一次 commit，之后世界开始自动运转。尝试一下，你也会上瘾。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>回头看，无纸化成功的关键从来不是工具多高级，而是<strong>记录摩擦足够低、检索路径足够短</strong>。我的整套工作流只用了三样东西：Markdown 纯文本、Git 同步、ripgrep 检索，全部免费且可迁移。三年下来，最大的变化是再也不用担心本子丢在哪——所有的想法都安静地躺在一个可以被搜索的仓库里，等着未来的某一天被重新唤醒。</p>
+<p>如果你也想开始，不妨从今晚写第一条 inbox 记录做起：先记下来，分类的事，下周再说。</p>
 
                 
               </div>
@@ -359,13 +353,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" class="print-no-link">#自动化</a>
+        <a href="/tags/termux/" class="print-no-link">#termux</a>
       
-        <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" class="print-no-link">#效率工具</a>
+        <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" class="print-no-link">#知识管理</a>
       
-        <a href="/tags/GitHub-Actions/" class="print-no-link">#GitHub Actions</a>
+        <a href="/tags/markdown/" class="print-no-link">#markdown</a>
       
-        <a href="/tags/CI-CD/" class="print-no-link">#CI/CD</a>
+        <a href="/tags/%E6%97%A0%E7%BA%B8%E5%8C%96/" class="print-no-link">#无纸化</a>
       
     </div>
   
@@ -377,8 +371,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>GitHub Actions 实战：从 0 到 1 搭建个人自动化流水线</div>
-      <div>https://wumingmr.github.io/2026/08/11/GitHub-Actions-实战：从-0-到-1-搭建个人自动化流水线/</div>
+      <div>手机也能撑起无纸化生活：我的日常记录工作流</div>
+      <div>https://wumingmr.github.io/2026/10/08/手机也能撑起无纸化生活：我的日常记录工作流/</div>
     </div>
     <div class="license-meta">
       
@@ -390,7 +384,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年8月11日</div>
+          <div>2026年10月8日</div>
         </div>
       
       
@@ -422,18 +416,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/12/%E4%B8%80%E6%96%87%E7%90%86%E6%B8%85%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%E4%B8%8E%E8%BD%AE%E8%BD%AC%E6%B8%85%E7%90%86%EF%BC%9A%E4%BB%8E%E8%A7%84%E8%8C%83%E5%88%B0%E5%AE%9E%E8%B7%B5/" title="一文理清日志输出与轮转清理：从规范到实践">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">一文理清日志输出与轮转清理：从规范到实践</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/08/11/%E5%91%8A%E5%88%AB%E7%AC%94%E8%AE%B0%E7%A2%8E%E7%89%87%E5%8C%96%EF%BC%9A%E7%94%A8-Markdown-%E6%90%AD%E5%BB%BA%E9%95%BF%E6%9C%9F%E5%8F%AF%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93/" title="告别笔记碎片化：用 Markdown 搭建长期可用的知识库">
-                        <span class="hidden-mobile">告别笔记碎片化：用 Markdown 搭建长期可用的知识库</span>
+                      <a href="/2026/10/07/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E8%84%9A%E6%9C%AC%EF%BC%9A%E6%8A%8A%E3%80%8C%E9%9A%8F%E6%89%8B%E5%A4%8D%E5%88%B6%E7%9A%84%E4%B8%9C%E8%A5%BF%E4%BC%9A%E4%B8%A2%E3%80%8D%E5%8F%98%E6%88%90%E4%B8%80%E4%B8%AA-200-%E8%A1%8C%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/" title="从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具">
+                        <span class="hidden-mobile">从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

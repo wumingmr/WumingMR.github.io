@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>手机也能撑起无纸化生活：我的日常记录工作流</title>
+    <link href="/2026/10/08/%E6%89%8B%E6%9C%BA%E4%B9%9F%E8%83%BD%E6%92%91%E8%B5%B7%E6%97%A0%E7%BA%B8%E5%8C%96%E7%94%9F%E6%B4%BB%EF%BC%9A%E6%88%91%E7%9A%84%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%E5%B7%A5%E4%BD%9C%E6%B5%81/"/>
+    <url>/2026/10/08/%E6%89%8B%E6%9C%BA%E4%B9%9F%E8%83%BD%E6%92%91%E8%B5%B7%E6%97%A0%E7%BA%B8%E5%8C%96%E7%94%9F%E6%B4%BB%EF%BC%9A%E6%88%91%E7%9A%84%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%E5%B7%A5%E4%BD%9C%E6%B5%81/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>写作注释: 本文由 AI 生成, 主题「日常记录: 我的无纸化工作流」, 内容仅供参考, 欢迎留言交流。</p></blockquote><h2 id="为什么选择无纸化"><a href="#为什么选择无纸化" class="headerlink" title="为什么选择无纸化"></a>为什么选择无纸化</h2><p>几年前我的桌上常年摊着三本笔记本：一本记待办，一本记想法，一本记读书摘抄。问题很快暴露出来——想找上个月记的那个接口参数时，三本本子翻一遍，往往还找不到。纸笔的优点是零门槛、无干扰，但缺点同样致命：不可检索、不可同步、容易丢。</p><p>我最终选择无纸化，核心诉求只有三条：</p><ol><li><strong>一处记录</strong>：不管待办、灵感还是摘抄，先扔进同一个入口，不纠结分类；</li><li><strong>随时可写</strong>：80% 的记录发生在通勤和排队时，手机是唯一随身设备；</li><li><strong>长期可查</strong>：五年后还能用 grep 搜出今天写的只言片语。</li></ol><p>围绕这三条，我搭了一套以 Markdown 文件为核心的轻量工作流。它不依赖任何付费订阅，数据全部是纯文本，随时可以整体迁走。</p><h2 id="核心结构：一个-Git-仓库装下所有记录"><a href="#核心结构：一个-Git-仓库装下所有记录" class="headerlink" title="核心结构：一个 Git 仓库装下所有记录"></a>核心结构：一个 Git 仓库装下所有记录</h2><p>我的记录仓库结构非常简单：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">notes/<br>├── inbox/          # 未整理的随手记<br>├── daily/          # 每日记录 2026-10-06.md<br>├── projects/       # 项目相关笔记<br>├── books/          # 读书摘抄<br>└── reference/      # 长期保存的资料<br></code></pre></td></tr></table></figure><p>关键设计是 <strong>inbox 先行</strong>：任何新想法只写一行扔进 <code>inbox/</code>，不做任何分类判断。分类是负担，是无纸化失败的主要原因——一旦记录时要求自己”先想好放哪”，记录欲就会迅速衰减。整理环节每周日晚上做一次，大约二十分钟，把 inbox 清空，该归档的归档，该删除的删除。</p><p>每日记录用日期命名文件，写法刻意随意：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 2026-10-06</span><br><span class="hljs-bullet">-</span> 上午：处理 XX 需求，卡在异步回调上<br><span class="hljs-bullet">-</span> 想法：是否可以用队列解耦？<br><span class="hljs-bullet">-</span> 摘抄：&quot;我们不是在记录生活，而是在为未来的自己留检索入口&quot;<br></code></pre></td></tr></table></figure><h2 id="手机端：Termux-Git-让手机成为主记录设备"><a href="#手机端：Termux-Git-让手机成为主记录设备" class="headerlink" title="手机端：Termux + Git 让手机成为主记录设备"></a>手机端：Termux + Git 让手机成为主记录设备</h2><p>手机上写 Markdown 听起来麻烦，其实在 Termux 里只需要几行配置。我写了一个极简的 <code>note</code> 函数放进 <code>~/.bashrc</code>：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-function"><span class="hljs-title">note</span></span>() &#123;<br>  <span class="hljs-built_in">local</span> f=~/notes/daily/$(<span class="hljs-built_in">date</span> +%F).md<br>  [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span> ] || <span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;# %s\n\n&#x27;</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(date +%F)</span>&quot;</span> &gt; <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span><br>  <span class="hljs-variable">$&#123;EDITOR:-vi&#125;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span><br>  <span class="hljs-built_in">cd</span> ~/notes &amp;&amp; git add -A &amp;&amp; git commit -m <span class="hljs-string">&quot;note: <span class="hljs-subst">$(date +%T)</span>&quot;</span> &amp;&amp; git pull --rebase &amp;&amp; git push<br>&#125;<br></code></pre></td></tr></table></figure><p>敲一条 <code>note</code>，当天的记录文件不存在就自动创建，编辑完立刻提交推送。这里用了 <code>git pull --rebase</code>，避免在多台设备交替提交时产生冲突——纯文本文件的 rebase 冲突几乎总能自动合并，偶尔手改一下也就几行。</p><p>同步我选 Git 而不是网盘，理由是<strong>有版本历史</strong>。删错一段话、误操作覆盖文件，都能用 <code>git log -p</code> 找回来，这是纸笔时代完全不具备的能力。</p><h2 id="电脑端检索：grep-一秒钟找回半年前的记录"><a href="#电脑端检索：grep-一秒钟找回半年前的记录" class="headerlink" title="电脑端检索：grep 一秒钟找回半年前的记录"></a>电脑端检索：grep 一秒钟找回半年前的记录</h2><p>记录的价值一半在写，另一半在查。纯文本最大的红利就是检索零成本。装了 ripgrep 之后，找东西变成一句话：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 全库搜索关键词，忽略历史提交噪音</span><br>rg <span class="hljs-string">&quot;异步回调&quot;</span> ~/notes<br><br><span class="hljs-comment"># 只搜某个月的每日记录</span><br>rg <span class="hljs-string">&quot;想法&quot;</span> ~/notes/daily/2026-0*<br><br><span class="hljs-comment"># 统计某个标签出现次数</span><br>rg -c <span class="hljs-string">&quot;#读书&quot;</span> ~/notes/books<br></code></pre></td></tr></table></figure><p>比在笔记 App 里等云端索引、点标签筛选快得多。我甚至写了个小脚本把搜索结果输出成 Markdown 列表，方便贴回当天记录里做回顾。</p><p>唯一的取舍是<strong>放弃富媒体</strong>：图片、扫描件这类东西我不塞进记录库，统一放相册和网盘，笔记里只留一行链接指过去。这样仓库始终保持轻量，clone 和 push 都是秒级完成。</p><h2 id="踩过的坑与经验"><a href="#踩过的坑与经验" class="headerlink" title="踩过的坑与经验"></a>踩过的坑与经验</h2><ul><li><strong>不要追求完美分类</strong>。我最初设计过五级目录 + 十几个标签，两周就坚持不下去了。现在 inbox → 每周归档的粗颗粒结构，反而稳定运行了一年多。</li><li><strong>同步冲突要随手解决</strong>。手机改完忘了推，电脑上又改了同一文件，会产生冲突。我的规则是：冲突当场解决，绝不”以后再说”。</li><li><strong>备份要独立于同步</strong>。Git 仓库推到了远端，但我另外每天用脚本把整个目录 rsync 到家里的 NAS，遵循 3-2-1 原则——同步解决”随时可用”，备份解决”极端情况下还能找回”。</li><li><strong>降低启动摩擦</strong>。手机桌面放一个 Termux 快捷方式，点开直接进 <code>note</code>，从点亮屏幕到开始打字不超过三秒。</li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>回头看，无纸化成功的关键从来不是工具多高级，而是<strong>记录摩擦足够低、检索路径足够短</strong>。我的整套工作流只用了三样东西：Markdown 纯文本、Git 同步、ripgrep 检索，全部免费且可迁移。三年下来，最大的变化是再也不用担心本子丢在哪——所有的想法都安静地躺在一个可以被搜索的仓库里，等着未来的某一天被重新唤醒。</p><p>如果你也想开始，不妨从今晚写第一条 inbox 记录做起：先记下来，分类的事，下周再说。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>效率</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>termux</tag>
+      
+      <tag>知识管理</tag>
+      
+      <tag>markdown</tag>
+      
+      <tag>无纸化</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>从需求到脚本：把「随手复制的东西会丢」变成一个 200 行的小工具</title>
     <link href="/2026/10/07/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E8%84%9A%E6%9C%AC%EF%BC%9A%E6%8A%8A%E3%80%8C%E9%9A%8F%E6%89%8B%E5%A4%8D%E5%88%B6%E7%9A%84%E4%B8%9C%E8%A5%BF%E4%BC%9A%E4%B8%A2%E3%80%8D%E5%8F%98%E6%88%90%E4%B8%80%E4%B8%AA-200-%E8%A1%8C%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
     <url>/2026/10/07/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E8%84%9A%E6%9C%AC%EF%BC%9A%E6%8A%8A%E3%80%8C%E9%9A%8F%E6%89%8B%E5%A4%8D%E5%88%B6%E7%9A%84%E4%B8%9C%E8%A5%BF%E4%BC%9A%E4%B8%A2%E3%80%8D%E5%8F%98%E6%88%90%E4%B8%80%E4%B8%AA-200-%E8%A1%8C%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7/</url>
@@ -20,9 +51,9 @@
     
     <tags>
       
-      <tag>自动化</tag>
-      
       <tag>shell</tag>
+      
+      <tag>自动化</tag>
       
       <tag>termux-api</tag>
       
@@ -109,9 +140,9 @@
     
     <tags>
       
-      <tag>效率工具</tag>
-      
       <tag>同步</tag>
+      
+      <tag>效率工具</tag>
       
       <tag>数据管理</tag>
       
@@ -351,13 +382,13 @@
     
     <tags>
       
-      <tag>GitHub Actions</tag>
-      
       <tag>自动化</tag>
       
-      <tag>CI/CD</tag>
-      
       <tag>效率工具</tag>
+      
+      <tag>GitHub Actions</tag>
+      
+      <tag>CI/CD</tag>
       
     </tags>
     
