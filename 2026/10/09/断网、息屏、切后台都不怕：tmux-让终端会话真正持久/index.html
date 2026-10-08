@@ -19,25 +19,24 @@
   <meta name="author" content="无名">
   <meta name="keywords" content="">
   
-    <meta name="description" content="把经典的 3-2-1 备份原则搬到手机上，用 Termux 脚本实现照片、聊天记录和配置文件的多副本自动备份，并给出踩坑记录。">
+    <meta name="description" content="从会话&#x2F;窗口&#x2F;窗格三层模型讲清 tmux 的设计，配合手机端 Termux 的实际坑点与可复制的配置片段。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="手机数据也值得认真备份：3-2-1 原则的 Termux 实践">
-<meta property="og:url" content="https://wumingmr.github.io/2026/10/08/%E6%89%8B%E6%9C%BA%E6%95%B0%E6%8D%AE%E4%B9%9F%E5%80%BC%E5%BE%97%E8%AE%A4%E7%9C%9F%E5%A4%87%E4%BB%BD%EF%BC%9A3-2-1-%E5%8E%9F%E5%88%99%E7%9A%84-Termux-%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:title" content="断网、息屏、切后台都不怕：tmux 让终端会话真正持久">
+<meta property="og:url" content="https://wumingmr.github.io/2026/10/09/%E6%96%AD%E7%BD%91%E3%80%81%E6%81%AF%E5%B1%8F%E3%80%81%E5%88%87%E5%90%8E%E5%8F%B0%E9%83%BD%E4%B8%8D%E6%80%95%EF%BC%9Atmux-%E8%AE%A9%E7%BB%88%E7%AB%AF%E4%BC%9A%E8%AF%9D%E7%9C%9F%E6%AD%A3%E6%8C%81%E4%B9%85/index.html">
 <meta property="og:site_name" content="无名小站">
-<meta property="og:description" content="把经典的 3-2-1 备份原则搬到手机上，用 Termux 脚本实现照片、聊天记录和配置文件的多副本自动备份，并给出踩坑记录。">
+<meta property="og:description" content="从会话&#x2F;窗口&#x2F;窗格三层模型讲清 tmux 的设计，配合手机端 Termux 的实际坑点与可复制的配置片段。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-10-08T11:28:30.000Z">
-<meta property="article:modified_time" content="2026-10-08T11:28:30.409Z">
+<meta property="article:published_time" content="2026-10-08T22:29:31.000Z">
+<meta property="article:modified_time" content="2026-10-08T22:29:31.840Z">
 <meta property="article:author" content="无名">
-<meta property="article:tag" content="termux">
-<meta property="article:tag" content="备份">
-<meta property="article:tag" content="数据安全">
-<meta property="article:tag" content="自动化">
+<meta property="article:tag" content="Termux">
+<meta property="article:tag" content="tmux">
+<meta property="article:tag" content="终端">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>手机数据也值得认真备份：3-2-1 原则的 Termux 实践 - 无名小站</title>
+  <title>断网、息屏、切后台都不怕：tmux 让终端会话真正持久 - 无名小站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="手机数据也值得认真备份：3-2-1 原则的 Termux 实践"></span>
+            <span id="subtitle" data-typed-text="断网、息屏、切后台都不怕：tmux 让终端会话真正持久"></span>
           
         </div>
 
@@ -219,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-10-08 19:28" pubdate>
-          2026年10月8日 晚上
+        <time datetime="2026-10-09 06:29" pubdate>
+          2026年10月9日 早上
         </time>
       </span>
     
@@ -231,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.6k 字
         
       </span>
     
@@ -242,7 +241,7 @@
         
         
         
-          12 分钟
+          14 分钟
         
       </span>
     
@@ -279,38 +278,104 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">手机数据也值得认真备份：3-2-1 原则的 Termux 实践</h1>
+            <h1 id="seo-header">断网、息屏、切后台都不怕：tmux 让终端会话真正持久</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>写作注释: 本文由 AI 生成, 主题「数据备份的 3-2-1 原则在手机上的实践」, 内容仅供参考, 欢迎留言交流。</p>
+<p>写作注释: 本文由 AI 生成, 主题「tmux 入门: 断线不丢的终端会话」, 内容仅供参考, 欢迎留言交流。</p>
 </blockquote>
-<h2 id="什么是-3-2-1-原则，为什么手机也需要它"><a href="#什么是-3-2-1-原则，为什么手机也需要它" class="headerlink" title="什么是 3-2-1 原则，为什么手机也需要它"></a>什么是 3-2-1 原则，为什么手机也需要它</h2><p>3-2-1 备份原则是运维圈的老规矩：<strong>3 份数据副本、2 种不同介质、1 份存放在异地</strong>。它之所以流传几十年，是因为这条规则不依赖任何具体工具——不管你用磁带、移动硬盘还是网盘，只要满足这三个条件，数据在一次灾难中幸存的概率就非常高。</p>
-<p>很多人觉得这条原则是给服务器和电脑定的，手机有厂商云相册就够了。但实际情况是：云相册可能压缩画质、可能限速、可能因为账号风控突然锁死；聊天记录导出文件、备忘录、拍的证件照片、各种 App 的配置和密钥，这些散落在手机存储各处的数据，大部分并不在任何云同步的覆盖范围内。手机又是最容易丢、最容易坏、最容易被误恢复出厂设置的设备。所以给手机做一次认真的备份规划，性价比其实比电脑还高。</p>
-<p>在 Termux 里实践 3-2-1 有一个天然优势：<code>rsync</code>、<code>rclone</code>、<code>tar</code>、<code>cron</code> 这些经典工具全部可用，我们可以把机房里那套备份脚本几乎原样地搬到手机上。</p>
-<h2 id="第一份副本：本机完整归档（3-份中的第-1-份）"><a href="#第一份副本：本机完整归档（3-份中的第-1-份）" class="headerlink" title="第一份副本：本机完整归档（3 份中的第 1 份）"></a>第一份副本：本机完整归档（3 份中的第 1 份）</h2><p>第一份副本留在本机，但不能和原文件放在一起——否则误删一个目录，原数据和备份一起消失。常见做法是每天生成一个增量归档，放到独立的存储位置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br><span class="hljs-built_in">set</span> -euo pipefail<br><br>SRC=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/documents <span class="hljs-variable">$HOME</span>/hexo/source&quot;</span><br>DEST=<span class="hljs-string">&quot;/sdcard/Backups/termux-<span class="hljs-subst">$(date +%Y%m)</span>.tar.gz&quot;</span><br><br>tar -czf <span class="hljs-string">&quot;<span class="hljs-variable">$DEST</span>&quot;</span> --exclude=<span class="hljs-string">&#x27;*.tmp&#x27;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>&quot;</span> documents hexo/source<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(date &#x27;+%F %T&#x27;)</span> archived -&gt; <span class="hljs-variable">$DEST</span>&quot;</span> &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/backup.log&quot;</span><br></code></pre></td></tr></table></figure>
+<p>用 <code>nohup</code> 把任务丢到后台，是终端新手最常抄的作业。但它有个致命前提：进程必须活着。一旦手机息屏被系统回收、Termux 被切到后台后进程被杀，或者你只是随手关掉了终端窗口，那条命令就跟着消失了。</p>
+<p>tmux 解决的正是这个问题。它把「跑着的进程」和「看它的那个终端窗口」拆成两件独立的事：窗口可以随便关，进程活在 tmux 服务器里；下次重新连上，界面原样恢复。</p>
+<h2 id="一、先理解它的三层模型"><a href="#一、先理解它的三层模型" class="headerlink" title="一、先理解它的三层模型"></a>一、先理解它的三层模型</h2><p>tmux 的结构是嵌套的，这一点想通了，后面所有命令都是自然结果：</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs erlang"><span class="hljs-function"><span class="hljs-title">server</span> <span class="hljs-params">(一个后台守护进程)</span></span><br><span class="hljs-function">└── <span class="hljs-title">session</span> <span class="hljs-params">(一次工作，比如「服务器运维」)</span></span><br><span class="hljs-function">    ├── <span class="hljs-title">window</span> <span class="hljs-params">(一个标签页，比如「日志」「编辑器」)</span></span><br><span class="hljs-function">    │   └── <span class="hljs-title">pane</span> <span class="hljs-params">(一个窗格，窗口可以被切分)</span></span><br></code></pre></td></tr></table></figure>
 
-<p>两个踩过的坑要提醒：</p>
 <ul>
-<li><strong>Android 的路径权限</strong>：Termux 访问 <code>/sdcard</code> 走的是 FUSE，单个小文件很多、总文件数巨大时会非常慢，而且 <code>tar</code> 中途可能因为某些系统目录报 <code>Permission denied</code>。把归档写到 <code>/sdcard</code> 没问题，但 <code>SRC</code> 尽量只圈定你真正需要的目录，别试图备份整个 <code>/data/data</code>。</li>
-<li><strong>归档前先停掉写入中的服务</strong>：如果 <code>~/hexo</code> 正在 <code>generate</code>，边写边打包出来的归档可能损坏。脚本里加一行等待，或者用 <code>flock</code> 串行化。</li>
+<li><strong>server</strong>：真正跑进程的地方。你关掉所有终端窗口，server 依然在后台。</li>
+<li><strong>session</strong>：工作的组织单位，可以同时开多个，互不干扰。</li>
+<li><strong>window &#x2F; pane</strong>：纯粹是「怎么看」，切分、切换都不会影响任何进程。</li>
 </ul>
-<h2 id="第二份副本：另一种介质（2-种介质中的第-2-份）"><a href="#第二份副本：另一种介质（2-种介质中的第-2-份）" class="headerlink" title="第二份副本：另一种介质（2 种介质中的第 2 份）"></a>第二份副本：另一种介质（2 种介质中的第 2 份）</h2><p>只在手机内部存储里留两份，等于没有介质冗余——手机丢了或存储芯片损坏，两份一起没。第二份副本要放到不同的介质上，家庭场景里最顺手的两种是 <strong>NAS</strong> 和 <strong>U 盘&#x2F;读卡器</strong>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 推到局域网 NAS（smb 或 ssh 均可）</span><br>rsync -av --partial <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/backup.log&quot;</span> nas@192.168.1.10:/volume1/termux/<br><br><span class="hljs-comment"># 或者插上 OTG U 盘后直接同步</span><br>rsync -av --delete <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/documents/&quot;</span> /storage/XXXX-XXXX/documents/<br></code></pre></td></tr></table></figure>
+<p>记住一句话：<strong>窗口是视图，进程在 server 里</strong>。这就是持久化的全部秘密。</p>
+<p>常用命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">tmux                    <span class="hljs-comment"># 新建一个匿名会话并进入</span><br>tmux new -s work       <span class="hljs-comment"># 命名会话，-s 是 session 的缩写</span><br>tmux <span class="hljs-built_in">ls</span>                 <span class="hljs-comment"># 列出会话，* 标记当前所在</span><br>tmux attach -t work    <span class="hljs-comment"># 重新接入已有会话</span><br></code></pre></td></tr></table></figure>
 
-<p><code>rsync --partial</code> 值得常开：手机网络在 Wi-Fi 和数据之间切换时连接会断，它能让传输从断点续传，不用整个重来。<code>--delete</code> 则要小心，只在你确认”源是唯一权威”的目录上用，否则会把 NAS 上的旧文件也删掉。</p>
-<h2 id="第三份副本：异地（1-份异地的第-1-份）"><a href="#第三份副本：异地（1-份异地的第-1-份）" class="headerlink" title="第三份副本：异地（1 份异地的第 1 份）"></a>第三份副本：异地（1 份异地的第 1 份）</h2><p>异地副本解决的是”家里被盗&#x2F;火灾&#x2F;水泡”这种极端情况。手机上最省事的实现是 <code>rclone</code> 挂一个网盘后端：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install rclone<br>rclone config   <span class="hljs-comment"># 配置 s3 / webdav / 七牛等任一后端</span><br>rclone copy <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/backup.log&quot;</span> remote:termux-backup/ --transfers=4 -v<br></code></pre></td></tr></table></figure>
+<p>同一个终端里开第二个 tmux，用 <code>tmux new -s other</code>；切回去用 <code>tmux attach -t work</code>。</p>
+<h2 id="二、前缀键：所有操作的入口"><a href="#二、前缀键：所有操作的入口" class="headerlink" title="二、前缀键：所有操作的入口"></a>二、前缀键：所有操作的入口</h2><p>tmux 绝大多数操作都挂在<strong>前缀键</strong>后面，默认是 <code>Ctrl-b</code>。也就是说，你按下的其实是两个键的组合：<code>Ctrl-b</code>，松开，再按第二个键。这个「松开再按」的习惯是上手时最容易卡住的地方——很多新手以为要按住不放，结果发现毫无反应。</p>
+<p>几个最该先记住的：</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl-b</code> <code>d</code></td>
+<td>detach，脱离会话但进程继续跑（最常用）</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>s</code></td>
+<td>列出所有会话并切换</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>c</code></td>
+<td>新建窗口</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>n</code> &#x2F; <code>p</code></td>
+<td>切换到下一个 &#x2F; 上一个窗口</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>%</code></td>
+<td>垂直切分（左右）</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>&quot;</code></td>
+<td>水平切分（上下）</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> 方向键</td>
+<td>在窗格间移动</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>z</code></td>
+<td>把当前窗格全屏放大，再按一次还原</td>
+</tr>
+<tr>
+<td><code>Ctrl-b</code> <code>[</code></td>
+<td>进入复制模式，可翻页、回溯滚动的输出</td>
+</tr>
+</tbody></table>
+<p>最后一条是被严重低估的功能。很多时候程序报错刷屏，日志已经滚到几千行之前了。进入复制模式后可以用方向键和 <code>PageUp</code> 往回翻，找到那段输出后按 <code>q</code> 退出，<strong>而不需要重新跑一遍程序</strong>。很多人不知道 tmux 能回溯滚动历史，用了几年才发现，绕了很大的弯路。</p>
+<h2 id="三、一份能直接用的配置"><a href="#三、一份能直接用的配置" class="headerlink" title="三、一份能直接用的配置"></a>三、一份能直接用的配置</h2><p>配置文件在 <code>~/.tmux.conf</code>。下面这份偏保守，只改不改坏的地方：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs tmux"># 前缀键改成 Ctrl-a（如果你更习惯 emacs 手型）<br># 不改也行，这里保持默认 Ctrl-b<br># set -g prefix C-a<br># unbind C-b<br># bind C-a send-prefix<br><br># 开启真彩色与鼠标支持<br>set -g default-terminal &quot;tmux-256color&quot;<br>set -ga terminal-overrides &quot;,xterm-256color:Tc&quot;<br><br># 历史行数拉大，方便回溯<br>set -g history-limit 50000<br><br># 窗口/窗格切换带一点停顿，避免手速快时跳过<br>set -g escape-time 0<br><br># 窗口切换后自动重编号，配合下面两个 bind<br>bind -r w kill-window<br>bind -r n next-window<br>bind -r p previous-window<br><br># 鼠标：可直接用滚轮翻历史、用鼠标切窗格<br>set -g mouse on<br><br># 窗口关闭后序号自动补上<br>set -g renumber-windows on<br><br># 状态栏放到最下面并显示更实用的信息<br>set -g status-position bottom<br>set -g status-interval 5<br>set -g status-style &quot;bg=#23262e,fg=#d0d0d0&quot;<br>set -g status-left-length 40<br>set -g status-left &quot;#[fg=colour81]#S | #[fg=colour203]#W&quot;<br>set -g status-right &quot;#[fg=colour244]#H:%M %d-%m &quot;<br></code></pre></td></tr></table></figure>
 
-<p>对体积大的照片归档，可以加 <code>--bwlimit=2M</code> 限速，避免把家里的上行带宽吃满；对敏感文件，先 <code>tar</code> 再用 <code>gpg -c</code> 对称加密后上传，网盘服务商看不到内容。如果不想依赖第三方网盘，GitHub 私有仓库配合 Git LFS、或者朋友之间的互相 rclone 交叉备份，都是可行的”穷人异地方案”。</p>
-<h2 id="自动化：让备份不靠记忆"><a href="#自动化：让备份不靠记忆" class="headerlink" title="自动化：让备份不靠记忆"></a>自动化：让备份不靠记忆</h2><p>手工备份最大的问题是坚持不下来。Termux 里可以用 <code>cron</code> 让它自己跑：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install cronie<br>crond<br>crontab -e<br><span class="hljs-comment"># 每天凌晨 3 点本机归档，4 点推异地</span><br>0 3 * * * bash ~/bin/backup_local.sh<br>0 4 * * * rclone copy <span class="hljs-variable">$HOME</span>/Backups remote:termux-backups --transfers=4<br></code></pre></td></tr></table></figure>
+<p>改完让配置生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tmux <span class="hljs-built_in">source</span> ~/.tmux.conf<br></code></pre></td></tr></table></figure>
 
-<p>注意两个细节：一是手机在凌晨大概率处于深度休眠，<code>cron</code> 到点不执行，需要配合 <code>Termux:Boot</code> 插件在开机时拉起，或者用 <code>termux-wake-lock</code> 防止休眠；二是备份脚本一定要输出日志并检查退出码，静默失败的备份等于没有备份——我曾经有三个月的”备份”其实一直是空目录，就是因为 <code>rsync</code> 源路径写错没人发现。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>把 3-2-1 原则搬到手机上并不需要复杂的东西：<code>tar</code> 做本机归档解决误删，<code>rsync</code> 推 NAS 或 U 盘解决介质冗余，<code>rclone</code> 上传网盘解决异地问题，最后用 <code>cron</code> 和日志把整条链路自动化。真正难的从来不是技术，而是”定期检查备份是否真的可用”——每隔几个月挑一份归档实际还原一次，确认文件完好，这才算闭环。数据备份的终点不是”有备份”，而是”能恢复”。</p>
+<p>注意 <code>history-limit</code> 这条：它只对<strong>之后新开的窗格</strong>生效，已经在跑的那些仍受旧值限制。所以改了之后最好开一个新窗口再测试。</p>
+<p><code>renumber-windows on</code> 配合 <code>bind -r w kill-window</code> 是个小技巧：关掉中间的窗口后，后面的窗口序号会自动补上，不用出现「窗口 1、3、4」这种断层。</p>
+<h2 id="四、手机上（Termux）的实际情况"><a href="#四、手机上（Termux）的实际情况" class="headerlink" title="四、手机上（Termux）的实际情况"></a>四、手机上（Termux）的实际情况</h2><p>桌面上的 tmux 教程不会告诉你这些坑：</p>
+<ol>
+<li><strong>务必装 Termux:Boot 和 Termux:Tasker</strong>，并且在电池优化里把 Termux 排除掉。这是 session 能活过息屏的唯一前提。tmux 只是让进程脱离终端窗口存活，它不能对抗 Android 系统的杀进程策略——两者要配合使用。</li>
+<li><strong>从通知栏重新进入 Termux 后要 <code>tmux attach</code></strong>，不会自动接回上次的会话。养成习惯：进去第一件事就是 <code>tmux a -t 名字</code>。</li>
+<li><strong>tmux 的 socket 目录默认在 <code>$PREFIX/var/run</code></strong>，多个 Termux 用户的 UID 不同时要留意权限。可以用 <code>tmux -L socket名</code> 指定独立的 socket，避免多用户互相串会话。</li>
+<li><strong>剪贴板需要额外配置</strong>。tmux 自带的复制模式缓冲区不等于系统剪贴板，跨应用粘贴要装 <code>termux-clipboard-get</code> &#x2F; <code>termux-clipboard-set</code> 并在配置里绑定。这个功能比较折腾，实用度因人而异。</li>
+</ol>
+<p>一个实用的日常模式是：<strong>长任务（编译、下载、跑批处理）一律在 tmux 里跑</strong>，跑完 <code>Ctrl-b</code> <code>d</code> 脱离，剩下的时间随便用。回到 Termux 时 <code>tmux a</code> 回来，进度条还在那里跑。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p><strong>会话还在但界面很怪（乱码、宽度不对）</strong><br>多半是客户端和服务器的终端类型不一致。在配置里加上 <code>set -g default-terminal &quot;tmux-256color&quot;</code>，然后 detach 重新 attach。</p>
+<p><strong><code>tmux attach</code> 报 already running</strong><br>说明你已经在一个 tmux 里了。直接 <code>Ctrl-b</code> <code>s</code> 切换会话，或者先 <code>Ctrl-b</code> <code>d</code> 出来。</p>
+<p><strong>找不到某次 detach 之前的窗口</strong><br>用 <code>Ctrl-b</code> <code>s</code> 看全部会话。tmux 从不主动删除会话，除非你手动 <code>kill-session</code>，所以东西一般都在。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>tmux 的价值不在「多标签页」——那点它不如 GUI 终端。它真正的价值是<strong>把会话寿命和终端窗口寿命解耦</strong>，让你敢于随手关窗口、敢于让手机息屏。</p>
+<p>建议的使用顺序：</p>
+<ol>
+<li>装好 Termux:Boot + 排除电池优化（前提）</li>
+<li>习惯 <code>Ctrl-b</code> <code>d</code> 而不是直接关窗口</li>
+<li>学会 <code>Ctrl-b</code> <code>[</code> 回溯滚动（收益最大，也最被忽视）</li>
+<li>配上 <code>~/.tmux.conf</code> 里的鼠标和颜色支持</li>
+</ol>
+<p>前三步做完，你就已经能覆盖 90% 的使用场景了。</p>
 
                 
               </div>
@@ -329,7 +394,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/termux/" class="category-chain-item">termux</a>
+  <a href="/categories/%E6%95%88%E7%8E%87/" class="category-chain-item">效率</a>
   
   
 
@@ -344,13 +409,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" class="print-no-link">#自动化</a>
+        <a href="/tags/Termux/" class="print-no-link">#Termux</a>
       
-        <a href="/tags/termux/" class="print-no-link">#termux</a>
+        <a href="/tags/%E7%BB%88%E7%AB%AF/" class="print-no-link">#终端</a>
       
-        <a href="/tags/%E5%A4%87%E4%BB%BD/" class="print-no-link">#备份</a>
-      
-        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/" class="print-no-link">#数据安全</a>
+        <a href="/tags/tmux/" class="print-no-link">#tmux</a>
       
     </div>
   
@@ -362,8 +425,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>手机数据也值得认真备份：3-2-1 原则的 Termux 实践</div>
-      <div>https://wumingmr.github.io/2026/10/08/手机数据也值得认真备份：3-2-1-原则的-Termux-实践/</div>
+      <div>断网、息屏、切后台都不怕：tmux 让终端会话真正持久</div>
+      <div>https://wumingmr.github.io/2026/10/09/断网、息屏、切后台都不怕：tmux-让终端会话真正持久/</div>
     </div>
     <div class="license-meta">
       
@@ -375,7 +438,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年10月8日</div>
+          <div>2026年10月9日</div>
         </div>
       
       
@@ -407,18 +470,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/10/09/%E5%85%B3%E6%8E%89%E9%82%A3%E4%BA%9B%E3%80%8C%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E3%80%8D%E7%9A%84%E5%BC%80%E5%85%B3%EF%BC%9AAndroid-%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E7%9A%84%E8%90%BD%E5%9C%B0%E6%B8%85%E5%8D%95/" title="关掉那些「默认打开」的开关：Android 隐私保护的落地清单">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关掉那些「默认打开」的开关：Android 隐私保护的落地清单</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/10/08/%E6%89%8B%E6%9C%BA%E4%B9%9F%E8%83%BD%E6%92%91%E8%B5%B7%E6%97%A0%E7%BA%B8%E5%8C%96%E7%94%9F%E6%B4%BB%EF%BC%9A%E6%88%91%E7%9A%84%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="手机也能撑起无纸化生活：我的日常记录工作流">
-                        <span class="hidden-mobile">手机也能撑起无纸化生活：我的日常记录工作流</span>
+                      <a href="/2026/10/09/%E5%85%B3%E6%8E%89%E9%82%A3%E4%BA%9B%E3%80%8C%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E3%80%8D%E7%9A%84%E5%BC%80%E5%85%B3%EF%BC%9AAndroid-%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4%E7%9A%84%E8%90%BD%E5%9C%B0%E6%B8%85%E5%8D%95/" title="关掉那些「默认打开」的开关：Android 隐私保护的落地清单">
+                        <span class="hidden-mobile">关掉那些「默认打开」的开关：Android 隐私保护的落地清单</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
