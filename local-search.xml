@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>手机数据也值得认真备份：3-2-1 原则的 Termux 实践</title>
+    <link href="/2026/10/08/%E6%89%8B%E6%9C%BA%E6%95%B0%E6%8D%AE%E4%B9%9F%E5%80%BC%E5%BE%97%E8%AE%A4%E7%9C%9F%E5%A4%87%E4%BB%BD%EF%BC%9A3-2-1-%E5%8E%9F%E5%88%99%E7%9A%84-Termux-%E5%AE%9E%E8%B7%B5/"/>
+    <url>/2026/10/08/%E6%89%8B%E6%9C%BA%E6%95%B0%E6%8D%AE%E4%B9%9F%E5%80%BC%E5%BE%97%E8%AE%A4%E7%9C%9F%E5%A4%87%E4%BB%BD%EF%BC%9A3-2-1-%E5%8E%9F%E5%88%99%E7%9A%84-Termux-%E5%AE%9E%E8%B7%B5/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>写作注释: 本文由 AI 生成, 主题「数据备份的 3-2-1 原则在手机上的实践」, 内容仅供参考, 欢迎留言交流。</p></blockquote><h2 id="什么是-3-2-1-原则，为什么手机也需要它"><a href="#什么是-3-2-1-原则，为什么手机也需要它" class="headerlink" title="什么是 3-2-1 原则，为什么手机也需要它"></a>什么是 3-2-1 原则，为什么手机也需要它</h2><p>3-2-1 备份原则是运维圈的老规矩：<strong>3 份数据副本、2 种不同介质、1 份存放在异地</strong>。它之所以流传几十年，是因为这条规则不依赖任何具体工具——不管你用磁带、移动硬盘还是网盘，只要满足这三个条件，数据在一次灾难中幸存的概率就非常高。</p><p>很多人觉得这条原则是给服务器和电脑定的，手机有厂商云相册就够了。但实际情况是：云相册可能压缩画质、可能限速、可能因为账号风控突然锁死；聊天记录导出文件、备忘录、拍的证件照片、各种 App 的配置和密钥，这些散落在手机存储各处的数据，大部分并不在任何云同步的覆盖范围内。手机又是最容易丢、最容易坏、最容易被误恢复出厂设置的设备。所以给手机做一次认真的备份规划，性价比其实比电脑还高。</p><p>在 Termux 里实践 3-2-1 有一个天然优势：<code>rsync</code>、<code>rclone</code>、<code>tar</code>、<code>cron</code> 这些经典工具全部可用，我们可以把机房里那套备份脚本几乎原样地搬到手机上。</p><h2 id="第一份副本：本机完整归档（3-份中的第-1-份）"><a href="#第一份副本：本机完整归档（3-份中的第-1-份）" class="headerlink" title="第一份副本：本机完整归档（3 份中的第 1 份）"></a>第一份副本：本机完整归档（3 份中的第 1 份）</h2><p>第一份副本留在本机，但不能和原文件放在一起——否则误删一个目录，原数据和备份一起消失。常见做法是每天生成一个增量归档，放到独立的存储位置：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/data/data/com.termux/files/usr/bin/bash</span><br><span class="hljs-built_in">set</span> -euo pipefail<br><br>SRC=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/documents <span class="hljs-variable">$HOME</span>/hexo/source&quot;</span><br>DEST=<span class="hljs-string">&quot;/sdcard/Backups/termux-<span class="hljs-subst">$(date +%Y%m)</span>.tar.gz&quot;</span><br><br>tar -czf <span class="hljs-string">&quot;<span class="hljs-variable">$DEST</span>&quot;</span> --exclude=<span class="hljs-string">&#x27;*.tmp&#x27;</span> -C <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>&quot;</span> documents hexo/source<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(date &#x27;+%F %T&#x27;)</span> archived -&gt; <span class="hljs-variable">$DEST</span>&quot;</span> &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/backup.log&quot;</span><br></code></pre></td></tr></table></figure><p>两个踩过的坑要提醒：</p><ul><li><strong>Android 的路径权限</strong>：Termux 访问 <code>/sdcard</code> 走的是 FUSE，单个小文件很多、总文件数巨大时会非常慢，而且 <code>tar</code> 中途可能因为某些系统目录报 <code>Permission denied</code>。把归档写到 <code>/sdcard</code> 没问题，但 <code>SRC</code> 尽量只圈定你真正需要的目录，别试图备份整个 <code>/data/data</code>。</li><li><strong>归档前先停掉写入中的服务</strong>：如果 <code>~/hexo</code> 正在 <code>generate</code>，边写边打包出来的归档可能损坏。脚本里加一行等待，或者用 <code>flock</code> 串行化。</li></ul><h2 id="第二份副本：另一种介质（2-种介质中的第-2-份）"><a href="#第二份副本：另一种介质（2-种介质中的第-2-份）" class="headerlink" title="第二份副本：另一种介质（2 种介质中的第 2 份）"></a>第二份副本：另一种介质（2 种介质中的第 2 份）</h2><p>只在手机内部存储里留两份，等于没有介质冗余——手机丢了或存储芯片损坏，两份一起没。第二份副本要放到不同的介质上，家庭场景里最顺手的两种是 <strong>NAS</strong> 和 <strong>U 盘&#x2F;读卡器</strong>：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 推到局域网 NAS（smb 或 ssh 均可）</span><br>rsync -av --partial <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/backup.log&quot;</span> nas@192.168.1.10:/volume1/termux/<br><br><span class="hljs-comment"># 或者插上 OTG U 盘后直接同步</span><br>rsync -av --delete <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/documents/&quot;</span> /storage/XXXX-XXXX/documents/<br></code></pre></td></tr></table></figure><p><code>rsync --partial</code> 值得常开：手机网络在 Wi-Fi 和数据之间切换时连接会断，它能让传输从断点续传，不用整个重来。<code>--delete</code> 则要小心，只在你确认”源是唯一权威”的目录上用，否则会把 NAS 上的旧文件也删掉。</p><h2 id="第三份副本：异地（1-份异地的第-1-份）"><a href="#第三份副本：异地（1-份异地的第-1-份）" class="headerlink" title="第三份副本：异地（1 份异地的第 1 份）"></a>第三份副本：异地（1 份异地的第 1 份）</h2><p>异地副本解决的是”家里被盗&#x2F;火灾&#x2F;水泡”这种极端情况。手机上最省事的实现是 <code>rclone</code> 挂一个网盘后端：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install rclone<br>rclone config   <span class="hljs-comment"># 配置 s3 / webdav / 七牛等任一后端</span><br>rclone copy <span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/backup.log&quot;</span> remote:termux-backup/ --transfers=4 -v<br></code></pre></td></tr></table></figure><p>对体积大的照片归档，可以加 <code>--bwlimit=2M</code> 限速，避免把家里的上行带宽吃满；对敏感文件，先 <code>tar</code> 再用 <code>gpg -c</code> 对称加密后上传，网盘服务商看不到内容。如果不想依赖第三方网盘，GitHub 私有仓库配合 Git LFS、或者朋友之间的互相 rclone 交叉备份，都是可行的”穷人异地方案”。</p><h2 id="自动化：让备份不靠记忆"><a href="#自动化：让备份不靠记忆" class="headerlink" title="自动化：让备份不靠记忆"></a>自动化：让备份不靠记忆</h2><p>手工备份最大的问题是坚持不下来。Termux 里可以用 <code>cron</code> 让它自己跑：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install cronie<br>crond<br>crontab -e<br><span class="hljs-comment"># 每天凌晨 3 点本机归档，4 点推异地</span><br>0 3 * * * bash ~/bin/backup_local.sh<br>0 4 * * * rclone copy <span class="hljs-variable">$HOME</span>/Backups remote:termux-backups --transfers=4<br></code></pre></td></tr></table></figure><p>注意两个细节：一是手机在凌晨大概率处于深度休眠，<code>cron</code> 到点不执行，需要配合 <code>Termux:Boot</code> 插件在开机时拉起，或者用 <code>termux-wake-lock</code> 防止休眠；二是备份脚本一定要输出日志并检查退出码，静默失败的备份等于没有备份——我曾经有三个月的”备份”其实一直是空目录，就是因为 <code>rsync</code> 源路径写错没人发现。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>把 3-2-1 原则搬到手机上并不需要复杂的东西：<code>tar</code> 做本机归档解决误删，<code>rsync</code> 推 NAS 或 U 盘解决介质冗余，<code>rclone</code> 上传网盘解决异地问题，最后用 <code>cron</code> 和日志把整条链路自动化。真正难的从来不是技术，而是”定期检查备份是否真的可用”——每隔几个月挑一份归档实际还原一次，确认文件完好，这才算闭环。数据备份的终点不是”有备份”，而是”能恢复”。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>termux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>自动化</tag>
+      
+      <tag>termux</tag>
+      
+      <tag>备份</tag>
+      
+      <tag>数据安全</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>手机也能撑起无纸化生活：我的日常记录工作流</title>
     <link href="/2026/10/08/%E6%89%8B%E6%9C%BA%E4%B9%9F%E8%83%BD%E6%92%91%E8%B5%B7%E6%97%A0%E7%BA%B8%E5%8C%96%E7%94%9F%E6%B4%BB%EF%BC%9A%E6%88%91%E7%9A%84%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%E5%B7%A5%E4%BD%9C%E6%B5%81/"/>
     <url>/2026/10/08/%E6%89%8B%E6%9C%BA%E4%B9%9F%E8%83%BD%E6%92%91%E8%B5%B7%E6%97%A0%E7%BA%B8%E5%8C%96%E7%94%9F%E6%B4%BB%EF%BC%9A%E6%88%91%E7%9A%84%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95%E5%B7%A5%E4%BD%9C%E6%B5%81/</url>
@@ -24,9 +55,9 @@
       
       <tag>知识管理</tag>
       
-      <tag>markdown</tag>
-      
       <tag>无纸化</tag>
+      
+      <tag>markdown</tag>
       
     </tags>
     
@@ -51,9 +82,9 @@
     
     <tags>
       
-      <tag>shell</tag>
-      
       <tag>自动化</tag>
+      
+      <tag>shell</tag>
       
       <tag>termux-api</tag>
       
@@ -140,9 +171,9 @@
     
     <tags>
       
-      <tag>同步</tag>
-      
       <tag>效率工具</tag>
+      
+      <tag>同步</tag>
       
       <tag>数据管理</tag>
       
@@ -382,13 +413,13 @@
     
     <tags>
       
-      <tag>自动化</tag>
-      
-      <tag>效率工具</tag>
-      
       <tag>GitHub Actions</tag>
       
+      <tag>自动化</tag>
+      
       <tag>CI/CD</tag>
+      
+      <tag>效率工具</tag>
       
     </tags>
     
